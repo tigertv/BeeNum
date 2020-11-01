@@ -32,26 +32,15 @@ void BigInteger::addBinary(const std::vector<uint32_t>&bin) {
 	int j = 0;
 	for(; j < bin.size(); j++) {
 		number[j] += bin[j] + carry;
-		if (number[j] & 0x80000000) {
-			carry = true;
-			number[j] &= 0x7fffffff;
-		} else {
-			carry = false;
-		}
+		carry = takeCarry(number[j]);
 	}
 
 	if (carry) {
 		for(int i = j; i < number.size(); i++) {
 			number[i] += carry;	
-			if (number[i] & 0x80000000) {
-				carry = true;
-				number[i] &= 0x7fffffff;
-			} else {
-				carry = false;
-				break;
-			}
+			carry = takeCarry(number[i]);
+			if (!carry) break;
 		}
-
 
 		if (carry) {
 			number.push_back(1);
@@ -66,12 +55,7 @@ void BigInteger::shiftLeftBinary(std::vector<uint32_t>&bin, int places) {
 		for (int i=0; i < bin.size(); i++) {
 			bin[i] <<= 1;
 			bin[i] += carry;
-			if (bin[i] & 0x80000000) {
-				bin[i] &= 0x7fffffff;
-				carry = true;
-			} else {
-				carry = false;
-			}
+			carry = takeCarry(bin[i]);
 		}
 		if (carry) {
 			bin.push_back(1);
@@ -139,3 +123,11 @@ BigInteger& BigInteger::addition(BigInteger& a) {
 	this->addBinary(a.number);
 }
 
+
+bool BigInteger::takeCarry(uint32_t& num) {
+	if (num & 0x80000000) {
+		num &= 0x7fffffff;
+		return true;
+	}
+	return false;
+}

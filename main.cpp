@@ -24,8 +24,8 @@ int main() {
 	std::cout << bigI2.toString() << std::endl;
 	std::cout << std::endl;
 
-	bigI.addition(bigI2);
+	bigI2.addition(bigI);
 	std::cout << s << std::endl;
-	std::cout << bigI.toString() << std::endl;
+	std::cout << bigI2.toString() << std::endl;
 	std::cout << std::endl;
 }
