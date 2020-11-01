@@ -16,4 +16,16 @@ int main() {
 	std::cout << s << std::endl;
 	std::cout << bigI.toString() << std::endl;
 	std::cout << std::endl;
+
+	BigInteger bigI2;
+	s = "1";
+	bigI2.setDecimal(s);
+	std::cout << s << std::endl;
+	std::cout << bigI2.toString() << std::endl;
+	std::cout << std::endl;
+
+	bigI.addition(bigI2);
+	std::cout << s << std::endl;
+	std::cout << bigI.toString() << std::endl;
+	std::cout << std::endl;
 }

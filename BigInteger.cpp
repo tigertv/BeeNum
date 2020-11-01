@@ -1,12 +1,34 @@
+ /*
+ * This file is part of the big-integer (https://github.com/tigertv/big-integer).
+ * Copyright (c) 2020 Max Vetrov(tigertv).
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <iostream>
-#include <string>
-#include <vector>
 #include <bits/stdc++.h>
 #include "BigInteger.h"
 
 void BigInteger::addBinary(const std::vector<uint32_t>&bin) {
-	// in our case number is longer than bin
 	bool carry = false;
+
+	if (number.size() < bin.size()) {
+		int diff = bin.size() - number.size();
+		for(int i = 0; i < diff; i++) {
+			number.push_back(0);
+		}
+	}
+
 	int j = 0;
 	for(; j < bin.size(); j++) {
 		number[j] += bin[j] + carry;
@@ -29,6 +51,7 @@ void BigInteger::addBinary(const std::vector<uint32_t>&bin) {
 				break;
 			}
 		}
+
 
 		if (carry) {
 			number.push_back(1);
@@ -97,14 +120,14 @@ std::string BigInteger::toString() {
 	for(; j < number.size()-1; j++) {
 		current = number[j];
 		for (int i = 0; i < 31; i++){
-			s += (current & 1) ? "1" : "0";
+			s += (current & 1) + 0x30;
 			current >>= 1;
 		}
 	}
 
 	current = number[j];
 	while(current){
-		s += (current & 1) ? "1" : "0";
+		s += (current & 1) + 0x30;
 		current >>= 1;
 	}
 
@@ -113,6 +136,6 @@ std::string BigInteger::toString() {
 }
 
 BigInteger& BigInteger::addition(BigInteger& a) {
-	//this->addBinary()
+	this->addBinary(a.number);
 }
 
