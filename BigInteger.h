@@ -33,9 +33,10 @@ private:
 
 public:
 	BigInteger();
-	void setDecimal(std::string& s);
+	void setDecimal(const std::string& s);
+	BigInteger& operator += (const BigInteger& a);
+	operator std::string();
 	std::string toString();
-	BigInteger& addition(BigInteger& a);
 };
 
 #endif

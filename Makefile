@@ -8,8 +8,8 @@ OBJ=$(SRC:.cpp=.o)
 all: main
 
 main: $(OBJ) 
-	$(CXX) $(FLAGS) $(OBJ) -o main
+	$(CXX) $(OPTS) $(OBJ) -o main
 %.o: %.cpp
-	$(CXX) $(FLAGS) -c $< -o $@ 
+	$(CXX) $(OPTS) -c $< -o $@ 
 clean: 
 	rm -rf main *.o

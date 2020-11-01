@@ -85,7 +85,7 @@ BigInteger::BigInteger() {
 	number.push_back(0);
 }
 
-void BigInteger::setDecimal(std::string& s) {
+void BigInteger::setDecimal(const std::string& s) {
 
 	number.clear();
 	number.push_back(0);
@@ -97,6 +97,7 @@ void BigInteger::setDecimal(std::string& s) {
 }
 
 std::string BigInteger::toString() {
+	// binary number output, '0' and '1'
 	std::string s = "";
 	uint32_t current;
 
@@ -119,10 +120,9 @@ std::string BigInteger::toString() {
 	return s;
 }
 
-BigInteger& BigInteger::addition(BigInteger& a) {
+BigInteger& BigInteger::operator += (const BigInteger& a) {
 	this->addBinary(a.number);
 }
-
 
 bool BigInteger::takeCarry(uint32_t& num) {
 	if (num & 0x80000000) {
@@ -130,4 +130,8 @@ bool BigInteger::takeCarry(uint32_t& num) {
 		return true;
 	}
 	return false;
+}
+
+BigInteger::operator std::string() {
+	return this->toString();
 }
