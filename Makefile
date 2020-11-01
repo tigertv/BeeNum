@@ -1,9 +1,15 @@
-CC = g++
-OPTS = -std=c++17 -Wall -Wextra -masm=intel
+.PHONY: clean
 
-all: main.o 
-	$(CC) $(OPTS) main.o -o main
-main.o: main.cpp
-	$(CC) $(OPTS) -c main.cpp -o main.o
-clean:
-	rm -f main *.o 
+CXX = g++ 
+OPTS = -std=c++17 -Wall -Wextra -masm=intel
+SRC = $(wildcard *.cpp) 
+OBJ=$(SRC:.cpp=.o)
+
+all: main
+
+main: $(OBJ) 
+	$(CXX) $(FLAGS) $(OBJ) -o main
+%.o: %.cpp
+	$(CXX) $(FLAGS) -c $< -o $@ 
+clean: 
+	rm -rf main *.o
