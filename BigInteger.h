@@ -26,7 +26,7 @@ class BigInteger {
 private:
 	std::vector<uint32_t> number;
 	void addBinary(const std::vector<uint32_t>&bin); 
-	void shiftLeftBinary(std::vector<uint32_t>&bin, int places);
+	void shiftLeft(std::vector<uint32_t>&bin, int places);
 	void mult10();
 	void addDigit(char c);
 	bool takeCarry(uint32_t& num);
@@ -36,6 +36,7 @@ public:
 	void setDecimal(const std::string& s);
 	BigInteger& operator += (const BigInteger& a);
 	operator std::string();
+	std::string toBinString();
 	std::string toString();
 };
 

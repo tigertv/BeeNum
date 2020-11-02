@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include <bits/stdc++.h>
+#include <cstdlib>
 #include "BigInteger.h"
 
 void BigInteger::addBinary(const std::vector<uint32_t>&bin) {
@@ -49,7 +50,7 @@ void BigInteger::addBinary(const std::vector<uint32_t>&bin) {
 
 }
 
-void BigInteger::shiftLeftBinary(std::vector<uint32_t>&bin, int places) {
+void BigInteger::shiftLeft(std::vector<uint32_t>&bin, int places) {
 	bool carry = false;
 	for (int j=0; j < places; j++) {
 		for (int i=0; i < bin.size(); i++) {
@@ -67,8 +68,8 @@ void BigInteger::shiftLeftBinary(std::vector<uint32_t>&bin, int places) {
 
 void BigInteger::mult10() {
 	std::vector<uint32_t> m = number;
-	shiftLeftBinary(number, 3);
-	shiftLeftBinary(m, 1);
+	shiftLeft(number, 3);
+	shiftLeft(m, 1);
 	addBinary(m);
 }
 
@@ -96,7 +97,7 @@ void BigInteger::setDecimal(const std::string& s) {
 	}
 }
 
-std::string BigInteger::toString() {
+std::string BigInteger::toBinString() {
 	// binary number output, '0' and '1'
 	std::string s = "";
 	uint32_t current;
@@ -122,6 +123,7 @@ std::string BigInteger::toString() {
 
 BigInteger& BigInteger::operator += (const BigInteger& a) {
 	this->addBinary(a.number);
+	return *this;
 }
 
 bool BigInteger::takeCarry(uint32_t& num) {
@@ -134,4 +136,40 @@ bool BigInteger::takeCarry(uint32_t& num) {
 
 BigInteger::operator std::string() {
 	return this->toString();
+}
+
+std::string BigInteger::toString() {
+	// decimal output
+	std::string s = "";
+	uint64_t rmd = 0;
+	uint32_t base = 10;
+	std::vector<uint32_t>current = number;
+
+	while(current[0] || (current.size() > 1)) {
+		std::vector<uint32_t>res;
+		bool notFirst = false;
+		rmd = 0;
+
+		for(int j = current.size() - 1; j >= 0; j--) {
+			uint64_t c = ((uint64_t)current[j]) + (rmd << 31);
+			auto d = std::lldiv(c, base);	
+			rmd = d.rem;
+			if (d.quot) {
+				notFirst = true;
+			}
+			if (notFirst) {
+				res.push_back(d.quot);
+			}
+		}
+
+		if (res.size() == 0) res.push_back(0);
+
+		s += '0'+(char)rmd;
+		current.clear();
+		std::reverse(res.begin(), res.end());
+		current = res;
+	}
+
+	std::reverse(s.begin(), s.end());
+	return s;
 }
