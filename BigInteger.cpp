@@ -121,8 +121,24 @@ std::string BigInteger::toBinString() {
 	return s;
 }
 
+BigInteger BigInteger::add(const BigInteger& a, const BigInteger& b) {
+	BigInteger res;
+	res.addBinary(a.number);
+	res.addBinary(b.number);
+	return res;
+}
+
+BigInteger BigInteger::operator + (const BigInteger& a) {
+	return add(*this, a);
+}
+
 BigInteger& BigInteger::operator += (const BigInteger& a) {
 	this->addBinary(a.number);
+	return *this;
+}
+
+BigInteger& BigInteger::operator &= (const BigInteger& a) {
+	//this->addBinary(a.number);
 	return *this;
 }
 
@@ -141,14 +157,13 @@ BigInteger::operator std::string() {
 std::string BigInteger::toString() {
 	// decimal output
 	std::string s = "";
-	uint64_t rmd = 0;
-	uint32_t base = 10;
+	const uint32_t base = 10;
 	std::vector<uint32_t>current = number;
 
 	while(current[0] || (current.size() > 1)) {
 		std::vector<uint32_t>res;
 		bool notFirst = false;
-		rmd = 0;
+		uint64_t rmd = 0;
 
 		for(int j = current.size() - 1; j >= 0; j--) {
 			uint64_t c = ((uint64_t)current[j]) + (rmd << 31);

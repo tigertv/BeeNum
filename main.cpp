@@ -11,7 +11,7 @@ int main() {
 	std::cout << bigI.toBinString() << std::endl;
 	std::cout << std::endl;
 
-	s = "2";
+	s = "200000000000000000000000000000000000000000000000000000000000000000000000000";
 	bigI.setDecimal(s);
 	std::cout << s << std::endl;
 	std::cout << bigI.toBinString() << std::endl;
@@ -29,5 +29,9 @@ int main() {
 	std::cout << (std::string)bigI2 << std::endl;
 	std::cout << bigI2.toBinString() << std::endl;
 	std::cout << bigI2.toString() << std::endl;
+	std::cout << std::endl;
+
+	BigInteger big3 = bigI2 + bigI2;
+	std::cout << big3.toString() << std::endl;
 	std::cout << std::endl;
 }
