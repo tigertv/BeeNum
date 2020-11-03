@@ -20,36 +20,6 @@
 #include <cstdlib>
 #include "BigInteger.h"
 
-void BigInteger::addBinary(const std::vector<uint32_t>&bin) {
-	bool carry = false;
-
-	if (number.size() < bin.size()) {
-		int diff = bin.size() - number.size();
-		for(int i = 0; i < diff; i++) {
-			number.push_back(0);
-		}
-	}
-
-	int j = 0;
-	for(; j < bin.size(); j++) {
-		number[j] += bin[j] + carry;
-		carry = takeCarry(number[j]);
-	}
-
-	if (carry) {
-		for(int i = j; i < number.size(); i++) {
-			number[i] += carry;	
-			carry = takeCarry(number[i]);
-			if (!carry) break;
-		}
-
-		if (carry) {
-			number.push_back(1);
-		}
-	}
-
-}
-
 void BigInteger::shiftLeft(std::vector<uint32_t>&bin, int places) {
 	bool carry = false;
 	for (int j=0; j < places; j++) {
@@ -67,10 +37,10 @@ void BigInteger::shiftLeft(std::vector<uint32_t>&bin, int places) {
 }
 
 void BigInteger::mult10() {
-	std::vector<uint32_t> m = number;
+	BigInteger k = *this;
 	shiftLeft(number, 3);
-	shiftLeft(m, 1);
-	addBinary(m);
+	shiftLeft(k.number, 1);
+	(*this) += k;
 }
 
 void BigInteger::addDigit(char c) {
@@ -78,8 +48,9 @@ void BigInteger::addDigit(char c) {
 	uint32_t i = (int32_t)c;
 	if (i > 9) i = 0;
 
-	std::vector<uint32_t>v = {i};
-	addBinary(v);
+	BigInteger b;
+	b.number[0] = i;
+	*this += b;
 }
 
 BigInteger::BigInteger() {
@@ -123,8 +94,8 @@ std::string BigInteger::toBinString() {
 
 BigInteger BigInteger::add(const BigInteger& a, const BigInteger& b) {
 	BigInteger res;
-	res.addBinary(a.number);
-	res.addBinary(b.number);
+	res = a;
+	res += b;
 	return res;
 }
 
@@ -138,19 +109,45 @@ BigInteger BigInteger::operator + (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator += (const BigInteger& a) {
-	this->addBinary(a.number);
+	bool carry = false;
+
+	const std::vector<uint32_t>& bin = a.number;
+
+	if (number.size() < bin.size()) {
+		int diff = bin.size() - number.size();
+		for(int i = 0; i < diff; i++) {
+			number.push_back(0);
+		}
+	}
+
+	int j = 0;
+	for(; j < bin.size(); j++) {
+		number[j] += bin[j] + carry;
+		carry = takeCarry(number[j]);
+	}
+
+	if (carry) {
+		for(int i = j; i < number.size(); i++) {
+			number[i] += carry;	
+			carry = takeCarry(number[i]);
+			if (!carry) break;
+		}
+
+		if (carry) {
+			number.push_back(1);
+		}
+	}
+
 	return *this;
 }
 
 BigInteger BigInteger::operator & (const BigInteger& a) {
-	BigInteger b;
-	b.addBinary(a.number);
+	BigInteger b = a;
 	b &= *this;
 	return b;
 }
 
 BigInteger& BigInteger::operator &= (const BigInteger& a) {
-	bool carry = false;
 	const std::vector<uint32_t>& bin = a.number;
 	if (number.size() < bin.size()) {
 		int diff = bin.size() - number.size();

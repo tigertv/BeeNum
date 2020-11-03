@@ -25,7 +25,6 @@
 class BigInteger {
 private:
 	std::vector<uint32_t> number;
-	void addBinary(const std::vector<uint32_t>&bin); 
 	BigInteger add(const BigInteger& a, const BigInteger& b); 
 	BigInteger andOp(const BigInteger& a, const BigInteger& b); 
 	void shiftLeft(std::vector<uint32_t>&bin, int places);
