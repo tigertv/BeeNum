@@ -128,6 +128,11 @@ BigInteger BigInteger::add(const BigInteger& a, const BigInteger& b) {
 	return res;
 }
 
+BigInteger BigInteger::andOp(const BigInteger& a, const BigInteger& b) {
+	BigInteger res;
+	return res;
+}
+
 BigInteger BigInteger::operator + (const BigInteger& a) {
 	return add(*this, a);
 }
@@ -137,8 +142,27 @@ BigInteger& BigInteger::operator += (const BigInteger& a) {
 	return *this;
 }
 
+BigInteger BigInteger::operator & (const BigInteger& a) {
+	BigInteger b;
+	b.addBinary(a.number);
+	b &= *this;
+	return b;
+}
+
 BigInteger& BigInteger::operator &= (const BigInteger& a) {
-	//this->addBinary(a.number);
+	bool carry = false;
+	const std::vector<uint32_t>& bin = a.number;
+	if (number.size() < bin.size()) {
+		int diff = bin.size() - number.size();
+		for(int i = 0; i < diff; i++) {
+			number.push_back(0);
+		}
+	}
+
+	for(int j = 0; j < bin.size(); j++) {
+		number[j] &= bin[j];
+	}
+
 	return *this;
 }
 

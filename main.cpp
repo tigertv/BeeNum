@@ -34,4 +34,20 @@ int main() {
 	BigInteger big3 = bigI2 + bigI2;
 	std::cout << big3.toString() << std::endl;
 	std::cout << std::endl;
+
+	BigInteger big4;
+	s = "51"; 
+	big4.setDecimal(s);
+	std::cout << big4.toBinString() << std::endl;
+
+	BigInteger big5;
+	s = "57"; 
+	big5.setDecimal(s);
+	std::cout << big5.toBinString() << std::endl;
+
+	BigInteger big6 = big4 & big5;
+	std::cout << big6.toBinString() << std::endl;
+	std::cout << big6.toString() << std::endl;
+	std::cout << std::endl;
+
 }
