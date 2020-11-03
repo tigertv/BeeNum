@@ -27,7 +27,6 @@ private:
 	std::vector<uint32_t> number;
 	BigInteger add(const BigInteger& a, const BigInteger& b); 
 	BigInteger andOp(const BigInteger& a, const BigInteger& b); 
-	void shiftLeft(std::vector<uint32_t>&bin, int places);
 	void mult10();
 	void addDigit(char c);
 	bool takeCarry(uint32_t& num);
@@ -39,6 +38,8 @@ public:
 	BigInteger& operator += (const BigInteger& a);
 	BigInteger operator & (const BigInteger& a);
 	BigInteger& operator &= (const BigInteger& a);
+	BigInteger operator << (const int shift);
+	BigInteger& operator <<= (const int shift);
 	operator std::string();
 	std::string toBinString();
 	std::string toString();

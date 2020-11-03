@@ -20,26 +20,11 @@
 #include <cstdlib>
 #include "BigInteger.h"
 
-void BigInteger::shiftLeft(std::vector<uint32_t>&bin, int places) {
-	bool carry = false;
-	for (int j=0; j < places; j++) {
-		for (int i=0; i < bin.size(); i++) {
-			bin[i] <<= 1;
-			bin[i] += carry;
-			carry = takeCarry(bin[i]);
-		}
-		if (carry) {
-			bin.push_back(1);
-			carry = false;
-		}
-	}
-	
-}
 
 void BigInteger::mult10() {
 	BigInteger k = *this;
-	shiftLeft(number, 3);
-	shiftLeft(k.number, 1);
+	*this <<= 3;
+	k <<= 1;
 	(*this) += k;
 }
 
@@ -160,6 +145,28 @@ BigInteger& BigInteger::operator &= (const BigInteger& a) {
 		number[j] &= bin[j];
 	}
 
+	return *this;
+}
+
+BigInteger BigInteger::operator << (const int shift) {
+	BigInteger b = *this;
+	b <<= shift;
+	return b;
+}
+
+BigInteger& BigInteger::operator <<= (const int shift) {
+	bool carry = false;
+	for (int j=0; j < shift; j++) {
+		for (int i=0; i < number.size(); i++) {
+			number[i] <<= 1;
+			number[i] += carry;
+			carry = takeCarry(number[i]);
+		}
+		if (carry) {
+			number.push_back(1);
+			carry = false;
+		}
+	}
 	return *this;
 }
 
