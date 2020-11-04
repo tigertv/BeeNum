@@ -223,7 +223,9 @@ BigInteger& BigInteger::operator *= (const BigInteger& a) {
 			uint32_t opL = bin[j];	
 			mult(opH, opL);
 			b.number[i+j] = opL;
-			b.number.push_back(opH);
+			if (opH) {
+				b.number.push_back(opH);
+			}
 
 			c += b;
 		}
