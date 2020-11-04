@@ -26,7 +26,6 @@
 class BigInteger {
 private:
 	std::vector<uint32_t> number;
-	BigInteger add(const BigInteger& a, const BigInteger& b); 
 	BigInteger andOp(const BigInteger& a, const BigInteger& b); 
 	void mult10();
 	void addDigit(char c);
