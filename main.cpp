@@ -38,13 +38,13 @@ int main() {
 	std::cout << std::endl;
 
 	BigInteger big4;
-	s = "5100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; 
+	s = "5100000000000000000000000000000000000000000002345553334887600000000000000000000000000000000000000000000000000003346721"; 
 	big4.setDecimal(s);
 	std::cout << big4.toString() << std::endl;
 	std::cout << big4.toBinString() << std::endl;
 
 	BigInteger big5;
-	s = "5100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; 
+	s = "5100000000000000000000000000000000000088848754000555550000000000000000000000000000000000000000000000000000000000000000000043288420181"; 
 	big5.setDecimal(s);
 	std::cout << big5.toString() << std::endl;
 	std::cout << big5.toBinString() << std::endl;
@@ -59,6 +59,11 @@ int main() {
 	BigInteger big7 = big4 * big5;
 	std::cout << "BIG7 = " << big7.toBinString() << std::endl;
 	std::cout << "BIG7 = " << big7.toString() << std::endl;
+	std::cout << std::endl;
+
+	BigInteger big8 = big7++;
+	std::cout << "BIG7 = " << big7.toString() << std::endl;
+	std::cout << "BIG8 = " << big8.toString() << std::endl;
 	std::cout << std::endl;
 
 }

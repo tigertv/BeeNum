@@ -287,3 +287,18 @@ void BigInteger::mult(uint32_t& operand1ResHigh, uint32_t& operand2ResLow) {
 	operand1ResHigh = resH;
 	operand2ResLow = resL;
 }
+
+BigInteger& BigInteger::operator ++ () { // prefix
+	BigInteger c;
+	c.number[0] = 1;
+	*this += c;
+	return *this;
+}
+
+BigInteger BigInteger::operator ++ (int) { // postfix
+	BigInteger b = *this; 
+	BigInteger c;
+	c.number[0] = 1;
+	*this += c;
+	return b;
+}
