@@ -29,7 +29,8 @@ private:
 	BigInteger andOp(const BigInteger& a, const BigInteger& b); 
 	void mult10();
 	void addDigit(char c);
-	bool takeCarry(uint32_t& num);
+	void addUintWithCarry(uint32_t& operand1res, const uint32_t& operand2, bool& carry);
+	void mult(uint32_t& operand1High, uint32_t& operand2Low);
 
 public:
 	BigInteger();
@@ -40,6 +41,8 @@ public:
 	BigInteger& operator &= (const BigInteger& a);
 	BigInteger operator << (const int shift);
 	BigInteger& operator <<= (const int shift);
+	BigInteger operator * (const BigInteger& a);
+	BigInteger& operator *= (const BigInteger& a);
 	operator std::string();
 	std::string toBinString();
 	std::string toString();

@@ -11,10 +11,12 @@ int main() {
 	std::cout << bigI.toBinString() << std::endl;
 	std::cout << std::endl;
 
-	s = "200000000000000000000000000000000000000000000000000000000000000000000000000";
+	s = "20103020999011";
+	s = "555234000000000000000000000000000000000056789012345";
 	bigI.setDecimal(s);
 	std::cout << s << std::endl;
 	std::cout << bigI.toBinString() << std::endl;
+	std::cout << bigI.toString() << std::endl;
 	std::cout << std::endl;
 
 	BigInteger bigI2;
@@ -36,18 +38,27 @@ int main() {
 	std::cout << std::endl;
 
 	BigInteger big4;
-	s = "51"; 
+	s = "5100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; 
 	big4.setDecimal(s);
+	std::cout << big4.toString() << std::endl;
 	std::cout << big4.toBinString() << std::endl;
 
 	BigInteger big5;
-	s = "57"; 
+	s = "5100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; 
 	big5.setDecimal(s);
+	std::cout << big5.toString() << std::endl;
 	std::cout << big5.toBinString() << std::endl;
 
 	BigInteger big6 = big4 & big5;
 	std::cout << big6.toBinString() << std::endl;
 	std::cout << big6.toString() << std::endl;
+	std::cout << std::endl;
+
+	std::cout << big4.toString() << std::endl;
+	std::cout << big5.toString() << std::endl;
+	BigInteger big7 = big4 * big5;
+	std::cout << "BIG7 = " << big7.toBinString() << std::endl;
+	std::cout << "BIG7 = " << big7.toString() << std::endl;
 	std::cout << std::endl;
 
 }

@@ -30,7 +30,7 @@ void BigInteger::mult10() {
 
 void BigInteger::addDigit(char c) {
 	c = c & 0xf;
-	uint32_t i = (int32_t)c;
+	uint32_t i = (uint32_t)c;
 	if (i > 9) i = 0;
 
 	BigInteger b;
@@ -61,7 +61,7 @@ std::string BigInteger::toBinString() {
 	int j = 0;
 	for(; j < number.size()-1; j++) {
 		current = number[j];
-		for (int i = 0; i < 31; i++){
+		for (int i = 0; i < 32; i++){
 			s += (current & 1) + 0x30;
 			current >>= 1;
 		}
@@ -94,7 +94,6 @@ BigInteger BigInteger::operator + (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator += (const BigInteger& a) {
-	bool carry = false;
 
 	const std::vector<uint32_t>& bin = a.number;
 
@@ -106,15 +105,15 @@ BigInteger& BigInteger::operator += (const BigInteger& a) {
 	}
 
 	int j = 0;
+	bool carry = false;
+
 	for(; j < bin.size(); j++) {
-		number[j] += bin[j] + carry;
-		carry = takeCarry(number[j]);
+		addUintWithCarry(number[j], bin[j], carry);
 	}
 
 	if (carry) {
 		for(int i = j; i < number.size(); i++) {
-			number[i] += carry;	
-			carry = takeCarry(number[i]);
+			addUintWithCarry(number[i], 0, carry);
 			if (!carry) break;
 		}
 
@@ -158,9 +157,12 @@ BigInteger& BigInteger::operator <<= (const int shift) {
 	bool carry = false;
 	for (int j=0; j < shift; j++) {
 		for (int i=0; i < number.size(); i++) {
+			uint32_t num = number[i] & 0x80000000;
+			number[i] &= 0x7fffffff;
 			number[i] <<= 1;
 			number[i] += carry;
-			carry = takeCarry(number[i]);
+			carry = false;
+			if (num) carry = true;
 		}
 		if (carry) {
 			number.push_back(1);
@@ -170,12 +172,13 @@ BigInteger& BigInteger::operator <<= (const int shift) {
 	return *this;
 }
 
-bool BigInteger::takeCarry(uint32_t& num) {
-	if (num & 0x80000000) {
-		num &= 0x7fffffff;
-		return true;
-	}
-	return false;
+void BigInteger::addUintWithCarry(uint32_t& operand1res, const uint32_t& operand2, bool& carry) {
+	uint32_t result = (operand1res & 0x7fffffff) + (operand2 & 0x7fffffff) + carry;
+	uint32_t s = ((operand1res & 0x80000000) >> 31) + ((operand2 & 0x80000000) >> 31) + ((result & 0x80000000) >> 31);
+	result &= 0x7fffffff;
+	result |= ((s & 0x1) << 31);
+	carry = (s & 0b10) >> 1;
+	operand1res = result;
 }
 
 BigInteger::operator std::string() {
@@ -194,7 +197,7 @@ std::string BigInteger::toString() {
 		uint64_t rmd = 0;
 
 		for(int j = current.size() - 1; j >= 0; j--) {
-			uint64_t c = ((uint64_t)current[j]) + (rmd << 31);
+			uint64_t c = ((uint64_t)current[j]) + (rmd << 32);
 			auto d = std::lldiv(c, base);	
 			rmd = d.rem;
 			if (d.quot) {
@@ -215,4 +218,72 @@ std::string BigInteger::toString() {
 
 	std::reverse(s.begin(), s.end());
 	return s;
+}
+
+BigInteger BigInteger::operator * (const BigInteger& a) {
+	BigInteger b = *this;
+	b *= a;
+	return b;
+}
+
+BigInteger& BigInteger::operator *= (const BigInteger& a) {
+
+	const std::vector<uint32_t>& bin = a.number;
+
+	BigInteger c;
+
+	for(int j = 0; j < bin.size(); j++) {
+		for (int i = 0; i < number.size(); i++) {
+			BigInteger b;
+			// add zeros
+			for (int k = 0; k < i+j; k++) {
+				b.number.push_back(0);
+			}
+
+			uint32_t opH = number[i];	
+			uint32_t opL = bin[j];	
+			mult(opH, opL);
+			b.number[i+j] = opL;
+			b.number.push_back(opH);
+
+			c += b;
+		}
+
+	}
+	
+	this->number = c.number;
+	return (*this);
+}
+
+void BigInteger::mult(uint32_t& operand1ResHigh, uint32_t& operand2ResLow) {
+	uint32_t low1 = 0x0000ffff & operand1ResHigh;	
+	uint32_t high1 = (0xffff0000 & operand1ResHigh) >> 16;	
+	uint32_t low2 = 0x0000ffff & operand2ResLow;	
+	uint32_t high2 = (0xffff0000 & operand2ResLow) >> 16;	
+
+	uint32_t ll = low1 * low2;
+	uint32_t hh = high1 * high2;
+
+	uint32_t lh = low1 * high2;
+	uint32_t hl = high1 * low2;
+
+	uint32_t lhh = (lh & 0xffff0000) >> 16;
+	uint32_t lhl = (lh & 0x0000ffff) << 16;
+
+	uint32_t hlh = (hl & 0xffff0000) >> 16;
+	uint32_t hll = (hl & 0x0000ffff) << 16;
+
+	uint32_t resL = lhl;
+	uint32_t resH = lhh;
+	resH += hlh;
+	bool carry = false;
+	addUintWithCarry(resL, hll, carry);
+	if (carry) {
+		resH++;
+		carry = false;
+	}
+	addUintWithCarry(resL, ll, carry);
+	addUintWithCarry(resH, hh, carry);
+	operand1ResHigh = resH;
+	operand2ResLow = resL;
 }
