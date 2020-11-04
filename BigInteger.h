@@ -21,6 +21,7 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 class BigInteger {
 private:
@@ -35,19 +36,28 @@ private:
 public:
 	BigInteger();
 	void setDecimal(const std::string& s);
+	std::string toBinString();
+	std::string toString();
+
+	BigInteger operator & (const BigInteger& a);
+	BigInteger& operator &= (const BigInteger& a);
+	BigInteger operator | (const BigInteger& a);
+	BigInteger& operator |= (const BigInteger& a);
+	BigInteger operator ^ (const BigInteger& a);
+	BigInteger& operator ^= (const BigInteger& a);
+
 	BigInteger operator + (const BigInteger& a);
 	BigInteger& operator += (const BigInteger& a);
 	BigInteger operator ++ (int); // postfix
 	BigInteger& operator ++ (); // prefix
-	BigInteger operator & (const BigInteger& a);
-	BigInteger& operator &= (const BigInteger& a);
-	BigInteger operator << (const int shift);
-	BigInteger& operator <<= (const int shift);
 	BigInteger operator * (const BigInteger& a);
 	BigInteger& operator *= (const BigInteger& a);
+
+	BigInteger operator << (const int shift);
+	BigInteger& operator <<= (const int shift);
+
 	operator std::string();
-	std::string toBinString();
-	std::string toString();
+	BigInteger& bitOperation(const BigInteger& a, std::function<uint32_t(uint32_t& a,const uint32_t& b)>& lambda);
 };
 
 #endif

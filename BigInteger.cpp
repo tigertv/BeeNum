@@ -125,27 +125,6 @@ BigInteger& BigInteger::operator += (const BigInteger& a) {
 	return *this;
 }
 
-BigInteger BigInteger::operator & (const BigInteger& a) {
-	BigInteger b = a;
-	b &= *this;
-	return b;
-}
-
-BigInteger& BigInteger::operator &= (const BigInteger& a) {
-	const std::vector<uint32_t>& bin = a.number;
-	if (number.size() < bin.size()) {
-		int diff = bin.size() - number.size();
-		for(int i = 0; i < diff; i++) {
-			number.push_back(0);
-		}
-	}
-
-	for(int j = 0; j < bin.size(); j++) {
-		number[j] &= bin[j];
-	}
-
-	return *this;
-}
 
 BigInteger BigInteger::operator << (const int shift) {
 	BigInteger b = *this;
@@ -301,4 +280,53 @@ BigInteger BigInteger::operator ++ (int) { // postfix
 	c.number[0] = 1;
 	*this += c;
 	return b;
+}
+
+BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint32_t(uint32_t&,const uint32_t&)>& lambda) {
+	const std::vector<uint32_t>& bin = a.number;
+	if (number.size() < bin.size()) {
+		int diff = bin.size() - number.size();
+		for(int i = 0; i < diff; i++) {
+			number.push_back(0);
+		}
+	}
+
+	for(int j = 0; j < bin.size(); j++) {
+		number[j] = lambda(number[j], bin[j]);
+	}
+
+	return *this;
+}
+
+BigInteger BigInteger::operator | (const BigInteger& a) {
+	BigInteger b = a;
+	b |= *this;
+	return b;
+}
+
+BigInteger& BigInteger::operator |= (const BigInteger& a) {
+	std::function<uint32_t(uint32_t& a, const uint32_t& b)> s = [](uint32_t& a, const uint32_t& b) -> uint32_t { return a | b; };
+	return bitOperation(a, s);
+}
+
+BigInteger BigInteger::operator & (const BigInteger& a) {
+	BigInteger b = a;
+	b &= *this;
+	return b;
+}
+
+BigInteger& BigInteger::operator &= (const BigInteger& a) {
+	std::function<uint32_t(uint32_t& a, const uint32_t& b)> s = [](uint32_t& a, const uint32_t& b) -> uint32_t { return a & b; };
+	return bitOperation(a, s);
+}
+
+BigInteger BigInteger::operator ^ (const BigInteger& a) {
+	BigInteger b = a;
+	b |= *this;
+	return b;
+}
+
+BigInteger& BigInteger::operator ^= (const BigInteger& a) {
+	std::function<uint32_t(uint32_t& a, const uint32_t& b)> s = [](uint32_t& a, const uint32_t& b) -> uint32_t { return a ^ b; };
+	return bitOperation(a, s);
 }
