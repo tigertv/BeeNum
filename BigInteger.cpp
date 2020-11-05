@@ -360,3 +360,18 @@ BigInteger& BigInteger::operator -= (const BigInteger& a) {
 std::ostream& operator << (std::ostream &strm, BigInteger &a) {
 	return strm << a.toString(); 
 }
+
+BigInteger& BigInteger::operator -- () { // prefix
+	BigInteger c;
+	c.number[0] = 1;
+	*this -= c;
+	return *this;
+}
+
+BigInteger BigInteger::operator -- (int) { // postfix
+	BigInteger b = *this; 
+	BigInteger c;
+	c.number[0] = 1;
+	*this -= c;
+	return b;
+}

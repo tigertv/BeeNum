@@ -71,6 +71,7 @@ int main() {
 	std::cout << "BIG8 = " << big8 << std::endl;
 	std::cout << std::endl;
 
+	--big8;
 	std::cout << "BIG8 = " << big8 << std::endl;
 
 }

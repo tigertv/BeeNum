@@ -52,6 +52,8 @@ public:
 	BigInteger& operator ++ (); // prefix
 	BigInteger operator - (const BigInteger& a);
 	BigInteger& operator -= (const BigInteger& a);
+	BigInteger operator -- (int); // postfix
+	BigInteger& operator -- (); // prefix
 	BigInteger operator * (const BigInteger& a);
 	BigInteger& operator *= (const BigInteger& a);
 
