@@ -76,11 +76,6 @@ std::string BigInteger::toBinString() {
 	return s;
 }
 
-BigInteger BigInteger::andOp(const BigInteger& a, const BigInteger& b) {
-	BigInteger res;
-	return res;
-}
-
 BigInteger BigInteger::operator + (const BigInteger& a) {
 	BigInteger b = *this;
 	b += a;

@@ -27,7 +27,6 @@
 class BigInteger {
 private:
 	std::vector<uint64_t> number;
-	BigInteger andOp(const BigInteger& a, const BigInteger& b); // unwanted
 	void mult10();
 	void addDigit(char c);
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry);
