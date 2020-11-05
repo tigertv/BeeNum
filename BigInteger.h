@@ -26,7 +26,7 @@
 class BigInteger {
 private:
 	std::vector<uint32_t> number;
-	BigInteger andOp(const BigInteger& a, const BigInteger& b); 
+	BigInteger andOp(const BigInteger& a, const BigInteger& b); // unwanted
 	void mult10();
 	void addDigit(char c);
 	void addUintWithCarry(uint32_t& operand1res, const uint32_t& operand2, bool& carry);
@@ -49,6 +49,8 @@ public:
 	BigInteger& operator += (const BigInteger& a);
 	BigInteger operator ++ (int); // postfix
 	BigInteger& operator ++ (); // prefix
+	BigInteger operator - (const BigInteger& a);
+	BigInteger& operator -= (const BigInteger& a);
 	BigInteger operator * (const BigInteger& a);
 	BigInteger& operator *= (const BigInteger& a);
 
