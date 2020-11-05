@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <ostream>
 
 class BigInteger {
 private:
@@ -59,6 +60,8 @@ public:
 
 	operator std::string();
 	BigInteger& bitOperation(const BigInteger& a, std::function<uint32_t(uint32_t& a,const uint32_t& b)>& lambda);
+
+	friend std::ostream& operator << (std::ostream &strm, BigInteger &a);
 };
 
 #endif

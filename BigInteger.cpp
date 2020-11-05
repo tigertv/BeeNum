@@ -356,3 +356,7 @@ BigInteger& BigInteger::operator -= (const BigInteger& a) {
 
 	return *this;
 }
+
+std::ostream& operator << (std::ostream &strm, BigInteger &a) {
+	return strm << a.toString(); 
+}
