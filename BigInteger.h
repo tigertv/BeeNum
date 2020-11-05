@@ -26,12 +26,13 @@
 
 class BigInteger {
 private:
-	std::vector<uint32_t> number;
+	std::vector<uint64_t> number;
 	BigInteger andOp(const BigInteger& a, const BigInteger& b); // unwanted
 	void mult10();
 	void addDigit(char c);
-	void addUintWithCarry(uint32_t& operand1res, const uint32_t& operand2, bool& carry);
-	void mult(uint32_t& operand1High, uint32_t& operand2Low);
+	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry);
+	void mult(uint64_t& operand1High, uint64_t& operand2Low);
+	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd);
 
 public:
 	BigInteger();
@@ -61,7 +62,7 @@ public:
 	BigInteger& operator <<= (const int shift);
 
 	operator std::string();
-	BigInteger& bitOperation(const BigInteger& a, std::function<uint32_t(uint32_t& a,const uint32_t& b)>& lambda);
+	BigInteger& bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>& lambda);
 
 	friend std::ostream& operator << (std::ostream &strm, BigInteger &a);
 	friend std::istream& operator >> (std::istream& strm, BigInteger& a); 

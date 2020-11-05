@@ -29,7 +29,7 @@ void BigInteger::mult10() {
 
 void BigInteger::addDigit(char c) {
 	c = c & 0xf;
-	uint32_t i = (uint32_t)c;
+	uint64_t i = (uint64_t)c;
 	if (i > 9) i = 0;
 
 	BigInteger b;
@@ -55,12 +55,12 @@ void BigInteger::setDecimal(const std::string& s) {
 std::string BigInteger::toBinString() {
 	// binary number output, '0' and '1'
 	std::string s = "";
-	uint32_t current;
+	uint64_t current;
 
 	int j = 0;
 	for(; j < number.size()-1; j++) {
 		current = number[j];
-		for (int i = 0; i < 32; i++){
+		for (int i = 0; i < 64; i++){
 			s += (current & 1) + 0x30;
 			current >>= 1;
 		}
@@ -89,7 +89,7 @@ BigInteger BigInteger::operator + (const BigInteger& a) {
 
 BigInteger& BigInteger::operator += (const BigInteger& a) {
 
-	const std::vector<uint32_t>& bin = a.number;
+	const std::vector<uint64_t>& bin = a.number;
 
 	if (number.size() < bin.size()) {
 		int diff = bin.size() - number.size();
@@ -130,8 +130,8 @@ BigInteger& BigInteger::operator <<= (const int shift) {
 	bool carry = false;
 	for (int j=0; j < shift; j++) {
 		for (int i=0; i < number.size(); i++) {
-			uint32_t num = number[i] & 0x80000000;
-			number[i] &= 0x7fffffff;
+			uint64_t num = number[i] & 0x8000000000000000;
+			number[i] &= 0x7fffffffffffffff;
 			number[i] <<= 1;
 			number[i] += carry;
 			carry = false;
@@ -145,11 +145,11 @@ BigInteger& BigInteger::operator <<= (const int shift) {
 	return *this;
 }
 
-void BigInteger::addUintWithCarry(uint32_t& operand1res, const uint32_t& operand2, bool& carry) {
-	uint32_t result = (operand1res & 0x7fffffff) + (operand2 & 0x7fffffff) + carry;
-	uint32_t s = ((operand1res & 0x80000000) >> 31) + ((operand2 & 0x80000000) >> 31) + ((result & 0x80000000) >> 31);
-	result &= 0x7fffffff;
-	result |= ((s & 0x1) << 31);
+void BigInteger::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) {
+	uint64_t result = (operand1res & 0x7fffffffffffffff) + (operand2 & 0x7fffffffffffffff) + carry;
+	uint64_t s = ((operand1res & 0x8000000000000000) >> 63) + ((operand2 & 0x8000000000000000) >> 63) + ((result & 0x8000000000000000) >> 63);
+	result &= 0x7fffffffffffffff;
+	result |= ((s & 0x1) << 63);
 	carry = (s & 0b10) >> 1;
 	operand1res = result;
 }
@@ -161,15 +161,26 @@ BigInteger::operator std::string() {
 std::string BigInteger::toString() {
 	// decimal output
 	std::string s = "";
-	const uint32_t base = 10;
-	std::vector<uint32_t>current = number;
+	uint64_t base = 10;
+	std::vector<uint64_t>current = number;
 
 	while(current[0] || (current.size() > 1)) {
-		std::vector<uint32_t>res;
+		std::vector<uint64_t>res;
 		bool notFirst = false;
 		uint64_t rmd = 0;
 
 		for(int j = current.size() - 1; j >= 0; j--) {
+			//std::cout << "before curr="<<current[j] << " rmd=" << rmd << std::endl;
+			uint64_t quot = div(current[j], base, rmd);
+			//std::cout << "quot="<<quot << std::endl;
+			//std::cout << "after curr="<<current[j] << " rmd=" << rmd << std::endl;
+			if (quot) {
+				notFirst = true;
+			}
+			if (notFirst) {
+				res.push_back(quot);
+			}
+			/*
 			uint64_t c = ((uint64_t)current[j]) + (rmd << 32);
 			auto d = std::lldiv(c, base);	
 			rmd = d.rem;
@@ -179,6 +190,7 @@ std::string BigInteger::toString() {
 			if (notFirst) {
 				res.push_back(d.quot);
 			}
+			//*/
 		}
 
 		if (res.size() == 0) res.push_back(0);
@@ -201,7 +213,7 @@ BigInteger BigInteger::operator * (const BigInteger& a) {
 
 BigInteger& BigInteger::operator *= (const BigInteger& a) {
 
-	const std::vector<uint32_t>& bin = a.number;
+	const std::vector<uint64_t>& bin = a.number;
 
 	BigInteger c;
 
@@ -213,8 +225,8 @@ BigInteger& BigInteger::operator *= (const BigInteger& a) {
 				b.number.push_back(0);
 			}
 
-			uint32_t opH = number[i];	
-			uint32_t opL = bin[j];	
+			uint64_t opH = number[i];	
+			uint64_t opL = bin[j];	
 			mult(opH, opL);
 			b.number[i+j] = opL;
 			if (opH) {
@@ -230,26 +242,26 @@ BigInteger& BigInteger::operator *= (const BigInteger& a) {
 	return (*this);
 }
 
-void BigInteger::mult(uint32_t& operand1ResHigh, uint32_t& operand2ResLow) {
-	uint32_t low1 = 0x0000ffff & operand1ResHigh;	
-	uint32_t high1 = (0xffff0000 & operand1ResHigh) >> 16;	
-	uint32_t low2 = 0x0000ffff & operand2ResLow;	
-	uint32_t high2 = (0xffff0000 & operand2ResLow) >> 16;	
+void BigInteger::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) {
+	uint64_t low1 = 0x00000000ffffffff & operand1ResHigh;	
+	uint64_t high1 = (0xffffffff00000000 & operand1ResHigh) >> 32;	
+	uint64_t low2 = 0x00000000ffffffff & operand2ResLow;	
+	uint64_t high2 = (0xffffffff00000000 & operand2ResLow) >> 32;	
 
-	uint32_t ll = low1 * low2;
-	uint32_t hh = high1 * high2;
+	uint64_t ll = low1 * low2;
+	uint64_t hh = high1 * high2;
 
-	uint32_t lh = low1 * high2;
-	uint32_t hl = high1 * low2;
+	uint64_t lh = low1 * high2;
+	uint64_t hl = high1 * low2;
 
-	uint32_t lhh = (lh & 0xffff0000) >> 16;
-	uint32_t lhl = (lh & 0x0000ffff) << 16;
+	uint64_t lhh = (lh & 0xffffffff00000000) >> 32;
+	uint64_t lhl = (lh & 0x00000000ffffffff) << 32;
 
-	uint32_t hlh = (hl & 0xffff0000) >> 16;
-	uint32_t hll = (hl & 0x0000ffff) << 16;
+	uint64_t hlh = (hl & 0xffffffff00000000) >> 32;
+	uint64_t hll = (hl & 0x00000000ffffffff) << 32;
 
-	uint32_t resL = lhl;
-	uint32_t resH = lhh;
+	uint64_t resL = lhl;
+	uint64_t resH = lhh;
 	resH += hlh;
 	bool carry = false;
 	addUintWithCarry(resL, hll, carry);
@@ -278,8 +290,8 @@ BigInteger BigInteger::operator ++ (int) { // postfix
 	return b;
 }
 
-BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint32_t(uint32_t&,const uint32_t&)>& lambda) {
-	const std::vector<uint32_t>& bin = a.number;
+BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t&,const uint64_t&)>& lambda) {
+	const std::vector<uint64_t>& bin = a.number;
 	if (number.size() < bin.size()) {
 		int diff = bin.size() - number.size();
 		for(int i = 0; i < diff; i++) {
@@ -301,7 +313,7 @@ BigInteger BigInteger::operator | (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator |= (const BigInteger& a) {
-	std::function<uint32_t(uint32_t& a, const uint32_t& b)> s = [](uint32_t& a, const uint32_t& b) -> uint32_t { return a | b; };
+	std::function<uint64_t(uint64_t& a, const uint64_t& b)> s = [](uint64_t& a, const uint64_t& b) -> uint64_t { return a | b; };
 	return bitOperation(a, s);
 }
 
@@ -312,7 +324,7 @@ BigInteger BigInteger::operator & (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator &= (const BigInteger& a) {
-	std::function<uint32_t(uint32_t& a, const uint32_t& b)> s = [](uint32_t& a, const uint32_t& b) -> uint32_t { return a & b; };
+	std::function<uint64_t(uint64_t& a, const uint64_t& b)> s = [](uint64_t& a, const uint64_t& b) -> uint64_t { return a & b; };
 	return bitOperation(a, s);
 }
 
@@ -323,7 +335,7 @@ BigInteger BigInteger::operator ^ (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator ^= (const BigInteger& a) {
-	std::function<uint32_t(uint32_t& a, const uint32_t& b)> s = [](uint32_t& a, const uint32_t& b) -> uint32_t { return a ^ b; };
+	std::function<uint64_t(uint64_t& a, const uint64_t& b)> s = [](uint64_t& a, const uint64_t& b) -> uint64_t { return a ^ b; };
 	return bitOperation(a, s);
 }
 
@@ -335,7 +347,7 @@ BigInteger BigInteger::operator - (const BigInteger& a) {
 
 BigInteger& BigInteger::operator -= (const BigInteger& a) {
 
-	const std::vector<uint32_t>& bin = a.number;
+	const std::vector<uint64_t>& bin = a.number;
 
 	if (bin.size() > number.size()) {
 		int diff = bin.size() - number.size();
@@ -348,7 +360,7 @@ BigInteger& BigInteger::operator -= (const BigInteger& a) {
 	bool borrow = false;
 
 	for(; j < bin.size(); j++) {
-		uint32_t t = bin[j] + borrow;
+		uint64_t t = bin[j] + borrow;
 		borrow = number[j] < t;
 		number[j] -= t;
 	}
@@ -382,4 +394,44 @@ std::istream& operator >> (std::istream& strm, BigInteger& a) {
 	b.setDecimal(s);
     a = b; 
     return strm;
+}
+
+uint64_t BigInteger::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) {
+	// count prevRmd
+	auto t = std::lldiv(0x7fffffffffffffff, divisor);
+	uint64_t quot = t.quot;
+	uint64_t rmd = t.rem + 1;
+	uint64_t bit64signQuot = quot;
+	uint64_t bit64signRmd = rmd;
+
+	quot <<= 1;
+	rmd <<= 1;
+	if (rmd >= divisor) {
+		++quot;
+		rmd -= divisor;
+	}
+
+	quot *= prevRmd;
+	rmd *= prevRmd;
+	t = std::lldiv(rmd, divisor);
+	quot += t.quot;
+	rmd = t.rem;
+
+	// division of dividend and divisor	
+	uint64_t divd = dividend;
+	if (divd & 0x8000000000000000) {
+		divd &= 0x7fffffffffffffff;
+		quot += bit64signQuot;
+		rmd += bit64signRmd;
+	}
+	t = std::lldiv(divd, divisor);
+	quot += t.quot;
+	rmd += t.rem;
+
+	t = std::lldiv(rmd, divisor);
+	quot += t.quot;
+	rmd = t.rem;
+
+	prevRmd = rmd;
+	return quot;
 }
