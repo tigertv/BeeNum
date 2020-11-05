@@ -52,30 +52,6 @@ void BigInteger::setDecimal(const std::string& s) {
 	}
 }
 
-std::string BigInteger::toBinString() {
-	// binary number output, '0' and '1'
-	std::string s = "";
-	uint64_t current;
-
-	int j = 0;
-	for(; j < number.size()-1; j++) {
-		current = number[j];
-		for (int i = 0; i < 64; i++){
-			s += (current & 1) + 0x30;
-			current >>= 1;
-		}
-	}
-
-	current = number[j];
-	while(current){
-		s += (current & 1) + 0x30;
-		current >>= 1;
-	}
-
-	std::reverse(s.begin(), s.end());
-	return s;
-}
-
 BigInteger BigInteger::operator + (const BigInteger& a) {
 	BigInteger b = *this;
 	b += a;
@@ -153,10 +129,44 @@ BigInteger::operator std::string() {
 	return this->toString();
 }
 
-std::string BigInteger::toString() {
-	// decimal output
+std::string BigInteger::toBinString() {
+	//return toBaseString(2);
+	//*
+	// binary number output, '0' and '1'
 	std::string s = "";
-	uint64_t base = 10;
+	uint64_t current;
+
+	int j = 0;
+	for(; j < number.size()-1; j++) {
+		current = number[j];
+		for (int i = 0; i < 64; i++){
+			s += (current & 1) + 0x30;
+			current >>= 1;
+		}
+	}
+
+	current = number[j];
+	while(current){
+		s += (current & 1) + 0x30;
+		current >>= 1;
+	}
+
+	std::reverse(s.begin(), s.end());
+	return s;
+	//*/
+}
+
+std::string BigInteger::toString() {
+	return toBaseString(10);
+}
+
+std::string BigInteger::toHexString() {
+	return toBaseString(16);
+}
+
+std::string BigInteger::toBaseString(uint64_t base) {
+
+	std::string s = "";
 	std::vector<uint64_t>current = number;
 
 	while(current[0] || (current.size() > 1)) {
@@ -165,32 +175,23 @@ std::string BigInteger::toString() {
 		uint64_t rmd = 0;
 
 		for(int j = current.size() - 1; j >= 0; j--) {
-			//std::cout << "before curr="<<current[j] << " rmd=" << rmd << std::endl;
 			uint64_t quot = div(current[j], base, rmd);
-			//std::cout << "quot="<<quot << std::endl;
-			//std::cout << "after curr="<<current[j] << " rmd=" << rmd << std::endl;
 			if (quot) {
 				notFirst = true;
 			}
 			if (notFirst) {
 				res.push_back(quot);
 			}
-			/*
-			uint64_t c = ((uint64_t)current[j]) + (rmd << 32);
-			auto d = std::lldiv(c, base);	
-			rmd = d.rem;
-			if (d.quot) {
-				notFirst = true;
-			}
-			if (notFirst) {
-				res.push_back(d.quot);
-			}
-			//*/
 		}
 
 		if (res.size() == 0) res.push_back(0);
 
-		s += '0'+(char)rmd;
+		if (rmd < 10) {
+			s += '0'+(char)rmd;
+		} else {
+			s += 'a'+(char)(rmd-10);
+		}
+
 		current.clear();
 		std::reverse(res.begin(), res.end());
 		current = res;

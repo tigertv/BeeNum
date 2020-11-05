@@ -35,6 +35,7 @@ int main() {
 
 	BigInteger big3 = bigI2 + bigI2;
 	std::cout << big3 << std::endl;
+	std::cout << big3.toHexString() << std::endl;
 	std::cout << std::endl;
 
 	BigInteger big4;
@@ -73,6 +74,7 @@ int main() {
 
 	--big8;
 	std::cout << "BIG8 = " << big8 << std::endl;
+	std::cout << "BIG8 = " << big8.toHexString() << std::endl;
 	/*
 	std::cin >> big8;
 	std::cout << "BIG8 = " << big8 << std::endl;
