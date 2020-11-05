@@ -46,9 +46,9 @@ void BigInteger::setDecimal(const std::string& s) {
 	number.clear();
 	number.push_back(0);
 
-	for(int i = 0;i < s.size(); i++) {
+	for(const char& c : s) {
 		this->mult10();
-		this->addDigit(s[i]);
+		this->addDigit(c);
 	}
 }
 
@@ -72,12 +72,12 @@ BigInteger& BigInteger::operator += (const BigInteger& a) {
 	int j = 0;
 	bool carry = false;
 
-	for(; j < bin.size(); j++) {
+	for(; j < (int)bin.size(); j++) {
 		addUintWithCarry(number[j], bin[j], carry);
 	}
 
 	if (carry) {
-		for(int i = j; i < number.size(); i++) {
+		for(int i = j; i < (int)number.size(); i++) {
 			addUintWithCarry(number[i], 0, carry);
 			if (!carry) break;
 		}
@@ -100,11 +100,11 @@ BigInteger BigInteger::operator << (const int shift) {
 BigInteger& BigInteger::operator <<= (const int shift) {
 	bool carry = false;
 	for (int j=0; j < shift; j++) {
-		for (int i=0; i < number.size(); i++) {
-			uint64_t num = number[i] & 0x8000000000000000;
-			number[i] &= 0x7fffffffffffffff;
-			number[i] <<= 1;
-			number[i] += carry;
+		for (uint64_t& n : number) {
+			uint64_t num = n & 0x8000000000000000;
+			n &= 0x7fffffffffffffff;
+			n <<= 1;
+			n += carry;
 			carry = false;
 			if (num) carry = true;
 		}
@@ -137,7 +137,7 @@ std::string BigInteger::toBinString() {
 	uint64_t current;
 
 	int j = 0;
-	for(; j < number.size()-1; j++) {
+	for(; j < (int)number.size() - 1; j++) {
 		current = number[j];
 		for (int i = 0; i < 64; i++){
 			s += (current & 1) + 0x30;
@@ -213,8 +213,8 @@ BigInteger& BigInteger::operator *= (const BigInteger& a) {
 
 	BigInteger c;
 
-	for(int j = 0; j < bin.size(); j++) {
-		for (int i = 0; i < number.size(); i++) {
+	for(int j = 0; j < (int)bin.size(); j++) {
+		for (int i = 0; i < (int)number.size(); i++) {
 			BigInteger b;
 			// add zeros
 			for (int k = 0; k < i+j; k++) {
@@ -295,7 +295,7 @@ BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint64_t
 		}
 	}
 
-	for(int j = 0; j < bin.size(); j++) {
+	for(int j = 0; j < (int)bin.size(); j++) {
 		number[j] = lambda(number[j], bin[j]);
 	}
 
@@ -355,7 +355,7 @@ BigInteger& BigInteger::operator -= (const BigInteger& a) {
 	int j = 0;
 	bool borrow = false;
 
-	for(; j < bin.size(); j++) {
+	for(; j < (int)bin.size(); j++) {
 		uint64_t t = bin[j] + borrow;
 		borrow = number[j] < t;
 		number[j] -= t;
