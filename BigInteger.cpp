@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
 #include <bits/stdc++.h>
 #include <cstdlib>
 #include "BigInteger.h"
@@ -374,4 +373,13 @@ BigInteger BigInteger::operator -- (int) { // postfix
 	c.number[0] = 1;
 	*this -= c;
 	return b;
+}
+
+std::istream& operator >> (std::istream& strm, BigInteger& a) {
+    std::string s;
+    strm >> s;
+	BigInteger b;
+	b.setDecimal(s);
+    a = b; 
+    return strm;
 }

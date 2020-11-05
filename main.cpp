@@ -73,5 +73,7 @@ int main() {
 
 	--big8;
 	std::cout << "BIG8 = " << big8 << std::endl;
+	std::cin >> big8;
+	std::cout << "BIG8 = " << big8 << std::endl;
 
 }
