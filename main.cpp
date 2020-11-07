@@ -75,9 +75,21 @@ int main() {
 	--big8;
 	std::cout << "BIG8 = " << big8 << std::endl;
 	std::cout << "BIG8 = " << big8.toHexString() << std::endl;
+	std::cout << std::endl;
 	/*
 	std::cin >> big8;
 	std::cout << "BIG8 = " << big8 << std::endl;
 	//*/
+
+	BigInteger big9;
+	big9.setDecimal("34534535646786745963567567");
+	std::cout << "BIG9 = " << big9 << std::endl;
+	big9 >>= 1;
+	std::cout << "BIG9 = " << big9 << std::endl;
+	big9 >>= 4;
+	std::cout << "BIG9 = " << big9 << std::endl;
+	big9 >>= 68;
+	std::cout << "BIG9 = " << big9 << std::endl;
+	std::cout << std::endl;
 
 }

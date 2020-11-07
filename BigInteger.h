@@ -63,6 +63,8 @@ public:
 
 	BigInteger operator << (const int shift);
 	BigInteger& operator <<= (const int shift);
+	BigInteger operator >> (const int shift);
+	BigInteger& operator >>= (const int shift);
 
 	friend std::ostream& operator << (std::ostream &strm, BigInteger &a);
 	friend std::istream& operator >> (std::istream& strm, BigInteger& a); 

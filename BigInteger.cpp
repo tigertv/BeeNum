@@ -419,3 +419,32 @@ uint64_t BigInteger::div(const uint64_t& dividend, const uint64_t& divisor, uint
 	prevRmd = rmd;
 	return quot;
 }
+
+BigInteger BigInteger::operator >> (const int shift) {
+	BigInteger b = *this;
+	b >>= shift;
+	return b;
+}
+
+BigInteger& BigInteger::operator >>= (const int shift) {
+	for (int j = 0; j < shift; j++) {
+		bool carry = false;
+		for (int i = number.size() - 1; i >= 0; i--) {
+			bool nextCarry = number[i] & 1;
+			number[i] >>= 1;
+			if (carry) {
+				number[i] |= 0x8000000000000000;
+			}
+			carry = nextCarry;
+		}
+	}
+
+	for (int i = number.size() - 1; i > 0; i--) {
+		if (number[i] == 0) {
+			number.erase(number.end()-1);
+			break;
+		}
+	}
+
+	return *this;
+}
