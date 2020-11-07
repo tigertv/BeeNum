@@ -286,7 +286,7 @@ BigInteger BigInteger::operator ++ (int) { // postfix
 	return b;
 }
 
-BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t&,const uint64_t&)>& lambda) {
+BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
 	const std::vector<uint64_t>& bin = a.number;
 	if (number.size() < bin.size()) {
 		int diff = bin.size() - number.size();
@@ -309,8 +309,7 @@ BigInteger BigInteger::operator | (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator |= (const BigInteger& a) {
-	std::function<uint64_t(uint64_t& a, const uint64_t& b)> s = [](uint64_t& a, const uint64_t& b) -> uint64_t { return a | b; };
-	return bitOperation(a, s);
+	return bitOperation(a, [](auto a, auto b) { return a | b; });
 }
 
 BigInteger BigInteger::operator & (const BigInteger& a) {
@@ -320,8 +319,7 @@ BigInteger BigInteger::operator & (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator &= (const BigInteger& a) {
-	std::function<uint64_t(uint64_t& a, const uint64_t& b)> s = [](uint64_t& a, const uint64_t& b) -> uint64_t { return a & b; };
-	return bitOperation(a, s);
+	return bitOperation(a, [](auto a, auto b) { return a & b; });
 }
 
 BigInteger BigInteger::operator ^ (const BigInteger& a) {
@@ -331,8 +329,7 @@ BigInteger BigInteger::operator ^ (const BigInteger& a) {
 }
 
 BigInteger& BigInteger::operator ^= (const BigInteger& a) {
-	std::function<uint64_t(uint64_t& a, const uint64_t& b)> s = [](uint64_t& a, const uint64_t& b) -> uint64_t { return a ^ b; };
-	return bitOperation(a, s);
+	return bitOperation(a, [](auto a, auto b) { return a ^ b; });
 }
 
 BigInteger BigInteger::operator - (const BigInteger& a) {
@@ -450,36 +447,30 @@ BigInteger& BigInteger::operator >>= (const int shift) {
 }
 
 bool BigInteger::operator < (const BigInteger& a) {
-	std::function<bool(const uint64_t& a, const uint64_t& b)> f = [](const uint64_t& a, const uint64_t& b) -> bool { return a < b; };
-	return compare(a, true, false, f);
+	return compare(a, true, false, [](auto a, auto b) { return a < b; });
 }
 
 bool BigInteger::operator <= (const BigInteger& a) {
-	std::function<bool(const uint64_t& a, const uint64_t& b)> f = [](const uint64_t& a, const uint64_t& b) -> bool { return a <= b; };
-	return compare(a, true, false, f);
+	return compare(a, true, false, [](auto a, auto b) { return a <= b; });
 }
 
 bool BigInteger::operator > (const BigInteger& a) {
-	std::function<bool(const uint64_t& a, const uint64_t& b)> f = [](const uint64_t& a, const uint64_t& b) -> bool { return a > b; };
-	return compare(a, false, true, f);
+	return compare(a, false, true, [](auto a, auto b) { return a > b; });
 }
 
 bool BigInteger::operator >= (const BigInteger& a) {
-	std::function<bool(const uint64_t& a, const uint64_t& b)> f = [](const uint64_t& a, const uint64_t& b) -> bool { return a >= b; };
-	return compare(a, false, true, f);
+	return compare(a, false, true, [](auto a, auto b) { return a >= b; });
 }
 
 bool BigInteger::operator == (const BigInteger& a) {
-	std::function<bool(const uint64_t& a, const uint64_t& b)> f = [](const uint64_t& a, const uint64_t& b) -> bool { return a == b; };
-	return compare(a, false, false, f);
+	return compare(a, false, false, [](auto a, auto b) { return a == b; });
 }
 
 bool BigInteger::operator != (const BigInteger& a) {
-	std::function<bool(const uint64_t& a, const uint64_t& b)> f = [](const uint64_t& a, const uint64_t& b) -> bool { return a != b; };
-	return compare(a, true, true, f);
+	return compare(a, true, true, [](auto a, auto b) { return a != b; });
 }
 
-bool BigInteger::compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t& d,const uint64_t& e)>& lambda) {
+bool BigInteger::compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t&,const uint64_t&)>&& lambda) {
 	const std::vector<uint64_t>& n = a.number;
 	if (number.size() < n.size()) return b;
 	if (number.size() > n.size()) return c;

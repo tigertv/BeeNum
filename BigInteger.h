@@ -33,8 +33,8 @@ private:
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry);
 	void mult(uint64_t& operand1High, uint64_t& operand2Low);
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd);
-	BigInteger& bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>& lambda);
-	bool compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t& d,const uint64_t& e)>& lambda);
+	BigInteger& bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
+	bool compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda);
 
 public:
 	BigInteger();
