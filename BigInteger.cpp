@@ -393,40 +393,28 @@ std::istream& operator >> (std::istream& strm, BigInteger& a) {
 }
 
 uint64_t BigInteger::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) {
+	uint64_t quot = 0;
+	uint64_t rmd = 0;
+
 	// count prevRmd
-	auto t = std::lldiv(0x7fffffffffffffff, divisor);
-	uint64_t quot = t.quot;
-	uint64_t rmd = t.rem + 1;
-	uint64_t bit64signQuot = quot;
-	uint64_t bit64signRmd = rmd;
+	if (prevRmd) {
+		quot = (uint64_t)-1 / divisor;
+		rmd = (uint64_t)-1 % divisor + 1;
+		if (rmd == divisor) {
+			++quot;
+			rmd = 0;
+		}
 
-	quot <<= 1;
-	rmd <<= 1;
-	if (rmd >= divisor) {
-		++quot;
-		rmd -= divisor;
+		quot *= prevRmd;
+		rmd *= prevRmd;
 	}
-
-	quot *= prevRmd;
-	rmd *= prevRmd;
-	t = std::lldiv(rmd, divisor);
-	quot += t.quot;
-	rmd = t.rem;
 
 	// division of dividend and divisor	
-	uint64_t divd = dividend;
-	if (divd & 0x8000000000000000) {
-		divd &= 0x7fffffffffffffff;
-		quot += bit64signQuot;
-		rmd += bit64signRmd;
-	}
-	t = std::lldiv(divd, divisor);
-	quot += t.quot;
-	rmd += t.rem;
+	quot += dividend / divisor;
+	rmd += dividend % divisor;
 
-	t = std::lldiv(rmd, divisor);
-	quot += t.quot;
-	rmd = t.rem;
+	quot += rmd / divisor;
+	rmd %= divisor;
 
 	prevRmd = rmd;
 	return quot;
