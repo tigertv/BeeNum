@@ -91,5 +91,35 @@ int main() {
 	big9 >>= 68;
 	std::cout << "BIG9 = " << big9 << std::endl;
 	std::cout << std::endl;
+	BigInteger big0;
+	big0.setDecimal("64534");
+	std::cout << "BIG0 = " << big0 << std::endl;
+
+	if (big0 > big9) {
+		std::cout << "BIG0 is bigger than BIG9" << std::endl;
+	} else {
+		std::cout << "BIG0 isn't bigger than BIG9" << std::endl;
+	} 
+	
+	if (big0 < big9) {
+		std::cout << "BIG0 is lesser than BIG9" << std::endl;
+	} else {
+		std::cout << "BIG0 isn't lesser than BIG9" << std::endl;
+	}
+
+	BigInteger big10 = big0;
+	std::cout << "BIG10 = " << big10 << std::endl;
+	if (big0 == big10) {
+		std::cout << "BIG0 is equal to BIG10" << std::endl;
+	} else {
+		std::cout << "BIG0 isn't equal to BIG10" << std::endl;
+	}
+
+	if (big0 != big10) {
+		std::cout << "BIG0 isn't equal to BIG10" << std::endl;
+	} else {
+		std::cout << "BIG0 is equal to BIG10" << std::endl;
+	}
+
 
 }

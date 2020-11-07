@@ -27,22 +27,26 @@
 class BigInteger {
 private:
 	std::vector<uint64_t> number;
+
 	void mult10();
 	void addDigit(char c);
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry);
 	void mult(uint64_t& operand1High, uint64_t& operand2Low);
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd);
 	BigInteger& bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>& lambda);
+	bool compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t& d,const uint64_t& e)>& lambda);
 
 public:
 	BigInteger();
 	void setDecimal(const std::string& s);
+
 	std::string toBinString();
 	std::string toHexString();
 	std::string toString();
 	std::string toBaseString(uint64_t base);
 	operator std::string();
 
+	// Bit
 	BigInteger operator & (const BigInteger& a);
 	BigInteger& operator &= (const BigInteger& a);
 	BigInteger operator | (const BigInteger& a);
@@ -50,6 +54,7 @@ public:
 	BigInteger operator ^ (const BigInteger& a);
 	BigInteger& operator ^= (const BigInteger& a);
 
+	// Arithmetic
 	BigInteger operator + (const BigInteger& a);
 	BigInteger& operator += (const BigInteger& a);
 	BigInteger operator ++ (int); // postfix
@@ -61,11 +66,21 @@ public:
 	BigInteger operator * (const BigInteger& a);
 	BigInteger& operator *= (const BigInteger& a);
 
+	// Shifts
 	BigInteger operator << (const int shift);
 	BigInteger& operator <<= (const int shift);
 	BigInteger operator >> (const int shift);
 	BigInteger& operator >>= (const int shift);
 
+	// Comparison
+	bool operator < (const BigInteger& a);
+	bool operator <= (const BigInteger& a);
+	bool operator > (const BigInteger& a);
+	bool operator >= (const BigInteger& a);
+	bool operator == (const BigInteger& a);
+	bool operator != (const BigInteger& a);
+
+	// Input-output
 	friend std::ostream& operator << (std::ostream &strm, BigInteger &a);
 	friend std::istream& operator >> (std::istream& strm, BigInteger& a); 
 };
