@@ -54,6 +54,7 @@ public:
 	BigInteger& operator |= (const BigInteger& a);
 	BigInteger operator ^ (const BigInteger& a);
 	BigInteger& operator ^= (const BigInteger& a);
+	BigInteger& operator ~ ();
 
 	// Arithmetic
 	BigInteger operator + (const BigInteger& a);

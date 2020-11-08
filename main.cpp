@@ -149,5 +149,9 @@ int main() {
 	std::cout << "BIG13 = " << big13 << std::endl;
 	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
+	big13 = ~big13;
+	std::cout << "BIG13 = " << big13 << std::endl;
+	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
+	std::cout << std::endl;
 
 }

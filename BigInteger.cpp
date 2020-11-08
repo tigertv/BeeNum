@@ -467,7 +467,8 @@ BigInteger& BigInteger::operator <<= (const int shift) {
 	}
 
 	if (carry) {
-		number.push_back(carry >> maskShift);
+		carry >>= maskShift;
+		number.push_back(carry);
 	}
 
 	if (q) {
@@ -668,4 +669,11 @@ void BigInteger::eraseLeadingZeros() {
 		if (number.back() != 0) break;
 		number.erase(number.end()-1);
 	}
+}
+
+BigInteger& BigInteger::operator ~ () {
+	for(auto& item : number) {
+		item = ~item;
+	}
+	return *this;
 }
