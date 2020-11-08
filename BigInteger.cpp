@@ -117,11 +117,11 @@ BigInteger& BigInteger::operator <<= (const int shift) {
 }
 
 void BigInteger::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) {
-	uint64_t result = (operand1res & 0x7fffffffffffffff) + (operand2 & 0x7fffffffffffffff) + carry;
-	uint64_t s = ((operand1res & 0x8000000000000000) >> 63) + ((operand2 & 0x8000000000000000) >> 63) + ((result & 0x8000000000000000) >> 63);
-	result &= 0x7fffffffffffffff;
-	result |= ((s & 0x1) << 63);
-	carry = (s & 0b10) >> 1;
+	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;
+	uint64_t result = (operand1res >> 1) + (operand2 >> 1) + (bigCarry >> 1);
+	carry = (bool)(result & 0x8000000000000000);
+	result <<= 1;
+	result |= (bigCarry & 1);
 	operand1res = result;
 }
 
@@ -609,7 +609,7 @@ BigInteger BigInteger::operator % (const BigInteger& a) {
 BigInteger& BigInteger::operator %= (const BigInteger& a) {
 
 	BigInteger c = *this;
-	BigInteger res;
+	//BigInteger res;
 	BigInteger b = a;
 	std::vector<uint64_t>& bin = b.number;
 
@@ -629,17 +629,17 @@ BigInteger& BigInteger::operator %= (const BigInteger& a) {
 	}
 
 	while(b != a) {
-		res <<= 1;
+		//res <<= 1;
 		if (b <= c) {
-			res.number[0] |= 1;
+			//res.number[0] |= 1;
 			c -= b;
 		} 
 		b >>= 1;
 	}
 
-	res <<= 1;
+	//res <<= 1;
 	if (c >= b) {
-		res.number[0] |= 1;
+		//res.number[0] |= 1;
 		c -= b;
 	}
 
