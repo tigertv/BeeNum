@@ -91,30 +91,6 @@ BigInteger& BigInteger::operator += (const BigInteger& a) {
 }
 
 
-BigInteger BigInteger::operator << (const int shift) {
-	BigInteger b = *this;
-	b <<= shift;
-	return b;
-}
-
-BigInteger& BigInteger::operator <<= (const int shift) {
-	bool carry = false;
-	for (int j=0; j < shift; j++) {
-		for (uint64_t& n : number) {
-			uint64_t num = n & 0x8000000000000000;
-			n &= 0x7fffffffffffffff;
-			n <<= 1;
-			n += carry;
-			carry = false;
-			if (num) carry = true;
-		}
-		if (carry) {
-			number.push_back(1);
-			carry = false;
-		}
-	}
-	return *this;
-}
 
 void BigInteger::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) {
 	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;
@@ -369,10 +345,7 @@ BigInteger& BigInteger::operator -= (const BigInteger& a) {
 		}
 	}
 
-	for(int i = number.size() - 1; i > 0; --i) {
-		if (number[i] != 0) break;
-		number.erase(number.end()-1);
-	}
+	eraseLeadingZeros();
 
 	return *this;
 }
@@ -440,23 +413,66 @@ BigInteger BigInteger::operator >> (const int shift) {
 }
 
 BigInteger& BigInteger::operator >>= (const int shift) {
-	for (int j = 0; j < shift; j++) {
-		bool carry = false;
-		for (int i = number.size() - 1; i >= 0; i--) {
-			bool nextCarry = number[i] & 1;
-			number[i] >>= 1;
-			if (carry) {
-				number[i] |= 0x8000000000000000;
-			}
-			carry = nextCarry;
-		}
+	int sh = shift;
+	if (sh > 63) {
+		int q = sh / 64;
+		sh %= 64;
+		number.erase(number.begin(), number.begin() + q);
 	}
 
-	for (int i = number.size() - 1; i > 0; i--) {
-		if (number.back() == 0) {
-			number.erase(number.end()-1);
-			break;
+	uint64_t mask = (1 << sh) - 1;
+	int maskShift = 64 - sh;
+	uint64_t carry = 0;
+
+	for (int i = number.size() - 1; i >= 0; --i) {
+		uint64_t nextCarry = number[i] & mask;
+		number[i] >>= sh;
+		if (carry) {
+			carry <<= maskShift;
+			number[i] |= carry;
 		}
+		carry = nextCarry;
+	}
+
+	eraseLeadingZeros();
+	return *this;
+}
+
+BigInteger BigInteger::operator << (const int shift) {
+	BigInteger b = *this;
+	b <<= shift;
+	return b;
+}
+
+BigInteger& BigInteger::operator <<= (const int shift) {
+	int sh = shift;
+	int q = 0;
+	if (sh > 63) {
+		q = sh / 64;
+		sh %= 64;
+	}
+
+	uint64_t mask = ~(((uint64_t)-1) >> sh);
+	int maskShift = 64 - sh;
+	uint64_t carry = 0;
+
+	for (uint64_t& n : number) {
+		uint64_t nextCarry = n & mask;
+		n <<= sh ;
+		if (carry) {
+			carry >>= maskShift;
+			n |= carry;
+		}
+		carry = nextCarry;
+	}
+
+	if (carry) {
+		number.push_back(carry >> maskShift);
+	}
+
+	if (q) {
+		std::vector<uint64_t> a(q, 0);
+		number.insert(number.begin(), a.begin(), a.end());
 	}
 
 	return *this;
@@ -645,4 +661,11 @@ BigInteger& BigInteger::operator %= (const BigInteger& a) {
 
 	this->number = c.number;
 	return (*this);
+}
+
+void BigInteger::eraseLeadingZeros() {
+	for (int i = number.size() - 1; i > 0; i--) {
+		if (number.back() != 0) break;
+		number.erase(number.end()-1);
+	}
 }

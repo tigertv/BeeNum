@@ -35,6 +35,7 @@ private:
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd);
 	BigInteger& bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
 	bool compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda);
+	void eraseLeadingZeros();
 
 public:
 	BigInteger();
