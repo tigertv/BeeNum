@@ -358,6 +358,22 @@ BigInteger& BigInteger::operator -= (const BigInteger& a) {
 		number[j] -= t;
 	}
 
+	if (borrow) {
+		for(; j < (int)number.size(); j++) {
+			if (number[j] == 0) {
+				number[j] -= 1;
+			} else {
+				number[j] -= 1;
+				break;
+			}
+		}
+	}
+
+	for(int i = number.size() - 1; i > 0; --i) {
+		if (number[i] != 0) break;
+		number.erase(number.end()-1);
+	}
+
 	return *this;
 }
 
@@ -437,7 +453,7 @@ BigInteger& BigInteger::operator >>= (const int shift) {
 	}
 
 	for (int i = number.size() - 1; i > 0; i--) {
-		if (number[i] == 0) {
+		if (number.back() == 0) {
 			number.erase(number.end()-1);
 			break;
 		}
@@ -447,19 +463,63 @@ BigInteger& BigInteger::operator >>= (const int shift) {
 }
 
 bool BigInteger::operator < (const BigInteger& a) {
-	return compare(a, true, false, [](auto a, auto b) { return a < b; });
+	const std::vector<uint64_t>& n = a.number;
+	if (number.size() < n.size()) return true;
+	if (number.size() > n.size()) return false;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] < n[i]) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool BigInteger::operator <= (const BigInteger& a) {
-	return compare(a, true, false, [](auto a, auto b) { return a <= b; });
+	const std::vector<uint64_t>& n = a.number;
+	if (number.size() < n.size()) return true;
+	if (number.size() > n.size()) return false;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] < n[i]) {
+			return true;
+		} else if(number[i] != n[i]) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool BigInteger::operator > (const BigInteger& a) {
-	return compare(a, false, true, [](auto a, auto b) { return a > b; });
+	const std::vector<uint64_t>& n = a.number;
+	if (number.size() < n.size()) return false;
+	if (number.size() > n.size()) return true;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] > n[i]) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool BigInteger::operator >= (const BigInteger& a) {
-	return compare(a, false, true, [](auto a, auto b) { return a >= b; });
+	const std::vector<uint64_t>& n = a.number;
+	if (number.size() < n.size()) return false;
+	if (number.size() > n.size()) return true;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] > n[i]) {
+			return true;
+		} else if(number[i] != n[i]) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool BigInteger::operator == (const BigInteger& a) {
@@ -467,7 +527,17 @@ bool BigInteger::operator == (const BigInteger& a) {
 }
 
 bool BigInteger::operator != (const BigInteger& a) {
-	return compare(a, true, true, [](auto a, auto b) { return a != b; });
+	const std::vector<uint64_t>& n = a.number;
+	if (number.size() < n.size()) return true;
+	if (number.size() > n.size()) return true;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] != n[i]) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool BigInteger::compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t&,const uint64_t&)>&& lambda) {
@@ -476,8 +546,56 @@ bool BigInteger::compare(const BigInteger& a, bool b, bool c, std::function<bool
 	if (number.size() > n.size()) return c;
 
 	for(int i = n.size() - 1; i >= 0; i--) {
-		if(!lambda(number[i], n[i])) return false;
+		if(!lambda(number[i], n[i])) {
+			return false;
+		}
 	}
 
 	return true;
+}
+
+BigInteger BigInteger::operator / (const BigInteger& a) {
+	BigInteger b = *this;
+	b *= a;
+	return b;
+}
+
+BigInteger& BigInteger::operator /= (const BigInteger& a) {
+
+	BigInteger c = *this;
+	BigInteger res;
+	BigInteger b = a;
+	std::vector<uint64_t>& bin = b.number;
+
+	for(int i = number.size() - bin.size(); i > 0; --i) {
+		bin.insert(bin.begin(), 0);
+	}
+
+	if (b < c) {
+		while(b < c) {
+			b <<= 1;
+		}
+		b >>= 1;
+	} else {
+		while(b > c) {
+			b >>= 1;
+		}
+	}
+
+	while(b != a) {
+		res <<= 1;
+		if (b <= c) {
+			res.number[0] |= 1;
+			c -= b;
+		} 
+		b >>= 1;
+	}
+
+	res <<= 1;
+	if (c >= b) {
+		res.number[0] |= 1;
+	}
+
+	this->number = res.number;
+	return (*this);
 }

@@ -3,6 +3,7 @@
 #include "BigInteger.h"
 
 int main() {
+	/*
 	std::string s = "2218";
 	BigInteger bigI;
 
@@ -76,11 +77,14 @@ int main() {
 	std::cout << "BIG8 = " << big8 << std::endl;
 	std::cout << "BIG8 = " << big8.toHexString() << std::endl;
 	std::cout << std::endl;
+	//*/
+
 	/*
 	std::cin >> big8;
 	std::cout << "BIG8 = " << big8 << std::endl;
 	//*/
 
+	/*
 	BigInteger big9;
 	big9.setDecimal("34534535646786745963567567");
 	std::cout << "BIG9 = " << big9 << std::endl;
@@ -88,11 +92,12 @@ int main() {
 	std::cout << "BIG9 = " << big9 << std::endl;
 	big9 >>= 4;
 	std::cout << "BIG9 = " << big9 << std::endl;
-	big9 >>= 68;
-	std::cout << "BIG9 = " << big9 << std::endl;
+	//big9 >>= 68;
+	//std::cout << "BIG9 = " << big9 << std::endl;
 	std::cout << std::endl;
+
 	BigInteger big0;
-	big0.setDecimal("64534");
+	big0.setDecimal("64534000000000000000000000000");
 	std::cout << "BIG0 = " << big0 << std::endl;
 
 	if (big0 > big9) {
@@ -108,18 +113,37 @@ int main() {
 	}
 
 	BigInteger big10 = big0;
+	big10 *= big9;
+	big10 *= big9;
+
 	std::cout << "BIG10 = " << big10 << std::endl;
-	if (big0 == big10) {
-		std::cout << "BIG0 is equal to BIG10" << std::endl;
+	if (big9 == big10) {
+		std::cout << "BIG9 is equal to BIG10" << std::endl;
 	} else {
-		std::cout << "BIG0 isn't equal to BIG10" << std::endl;
+		std::cout << "BIG9 isn't equal to BIG10" << std::endl;
 	}
 
-	if (big0 != big10) {
-		std::cout << "BIG0 isn't equal to BIG10" << std::endl;
+	if (big9 != big10) {
+		std::cout << "BIG9 isn't equal to BIG10" << std::endl;
 	} else {
-		std::cout << "BIG0 is equal to BIG10" << std::endl;
+		std::cout << "BIG9 is equal to BIG10" << std::endl;
 	}
+	std::cout << std::endl;
 
+	//*/
+	
+	BigInteger big11;
+	big11.setDecimal("600000000000000645645600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+	BigInteger big12;
+	big12.setDecimal("2000000000000000000000000000000000000004444400000000000000000");
+	//big12.setDecimal("36893488147419103232");
+	std::cout << "BIG11 = " << big11 << std::endl;
+	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
+	std::cout << "BIG12 = " << big12 << std::endl;
+	std::cout << "BIG12 = " << big12.toBinString() << std::endl;
+	big11 /= big12;
+	std::cout << "BIG11 = " << big11 << std::endl;
+	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
+	std::cout << std::endl;
 
 }
