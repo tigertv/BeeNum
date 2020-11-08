@@ -67,6 +67,8 @@ public:
 	BigInteger& operator *= (const BigInteger& a);
 	BigInteger operator / (const BigInteger& a);
 	BigInteger& operator /= (const BigInteger& a);
+	BigInteger operator % (const BigInteger& a);
+	BigInteger& operator %= (const BigInteger& a);
 
 	// Shifts
 	BigInteger operator << (const int shift);

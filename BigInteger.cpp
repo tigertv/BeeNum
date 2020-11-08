@@ -556,7 +556,7 @@ bool BigInteger::compare(const BigInteger& a, bool b, bool c, std::function<bool
 
 BigInteger BigInteger::operator / (const BigInteger& a) {
 	BigInteger b = *this;
-	b *= a;
+	b /= a;
 	return b;
 }
 
@@ -597,5 +597,52 @@ BigInteger& BigInteger::operator /= (const BigInteger& a) {
 	}
 
 	this->number = res.number;
+	return (*this);
+}
+
+BigInteger BigInteger::operator % (const BigInteger& a) {
+	BigInteger b = *this;
+	b %= a;
+	return b;
+}
+
+BigInteger& BigInteger::operator %= (const BigInteger& a) {
+
+	BigInteger c = *this;
+	BigInteger res;
+	BigInteger b = a;
+	std::vector<uint64_t>& bin = b.number;
+
+	for(int i = number.size() - bin.size(); i > 0; --i) {
+		bin.insert(bin.begin(), 0);
+	}
+
+	if (b < c) {
+		while(b < c) {
+			b <<= 1;
+		}
+		b >>= 1;
+	} else {
+		while(b > c) {
+			b >>= 1;
+		}
+	}
+
+	while(b != a) {
+		res <<= 1;
+		if (b <= c) {
+			res.number[0] |= 1;
+			c -= b;
+		} 
+		b >>= 1;
+	}
+
+	res <<= 1;
+	if (c >= b) {
+		res.number[0] |= 1;
+		c -= b;
+	}
+
+	this->number = c.number;
 	return (*this);
 }

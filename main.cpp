@@ -141,7 +141,7 @@ int main() {
 	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
 	std::cout << "BIG12 = " << big12 << std::endl;
 	std::cout << "BIG12 = " << big12.toBinString() << std::endl;
-	big11 /= big12;
+	big11 %= big12;
 	std::cout << "BIG11 = " << big11 << std::endl;
 	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
 	std::cout << std::endl;
