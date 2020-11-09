@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "BigInteger.h"
+#include "Bint.h"
 
 using namespace TigerTV;
 
@@ -8,7 +8,7 @@ using namespace TigerTV;
 int main() {
 	/*
 	std::string s = "2218";
-	BigInteger bigI;
+	Bint bigI;
 
 	bigI.setDecimal(s);
 	std::cout << s << std::endl;
@@ -23,7 +23,7 @@ int main() {
 	std::cout << bigI << std::endl;
 	std::cout << std::endl;
 
-	BigInteger bigI2;
+	Bint bigI2;
 	s = "50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"; 
 	bigI2.setDecimal(s);
 	std::cout << s << std::endl;
@@ -37,36 +37,36 @@ int main() {
 	std::cout << bigI2 << std::endl;
 	std::cout << std::endl;
 
-	BigInteger big3 = bigI2 + bigI2;
+	Bint big3 = bigI2 + bigI2;
 	std::cout << big3 << std::endl;
 	std::cout << big3.toHexString() << std::endl;
 	std::cout << std::endl;
 
-	BigInteger big4;
+	Bint big4;
 	s = "5112345"; 
 	big4.setDecimal(s);
 	std::cout << big4 << std::endl;
 	std::cout << big4.toBinString() << std::endl;
 
-	BigInteger big5;
+	Bint big5;
 	s = "5712345"; 
 	big5.setDecimal(s);
 	std::cout << big5 << std::endl;
 	std::cout << big5.toBinString() << std::endl;
 
-	BigInteger big6 = big4 & big5;
+	Bint big6 = big4 & big5;
 	std::cout << big6.toBinString() << std::endl;
 	std::cout << big6 << std::endl;
 	std::cout << std::endl;
 
 	std::cout << big4 << std::endl;
 	std::cout << big5 << std::endl;
-	BigInteger big7 = big4 * big5;
+	Bint big7 = big4 * big5;
 	std::cout << "BIG7 = " << big7.toBinString() << std::endl;
 	std::cout << "BIG7 = " << big7 << std::endl;
 	std::cout << std::endl;
 
-	BigInteger big8 = big7++;
+	Bint big8 = big7++;
 	std::cout << "BIG7 = " << big7 << std::endl;
 	std::cout << "BIG8 = " << big8 << std::endl;
 	std::cout << std::endl;
@@ -88,7 +88,7 @@ int main() {
 	//*/
 
 	/*
-	BigInteger big9;
+	Bint big9;
 	big9.setDecimal("34534535646786745963567567");
 	std::cout << "BIG9 = " << big9 << std::endl;
 	big9 >>= 1;
@@ -99,7 +99,7 @@ int main() {
 	//std::cout << "BIG9 = " << big9 << std::endl;
 	std::cout << std::endl;
 
-	BigInteger big0;
+	Bint big0;
 	big0.setDecimal("64534000000000000000000000000");
 	std::cout << "BIG0 = " << big0 << std::endl;
 
@@ -115,7 +115,7 @@ int main() {
 		std::cout << "BIG0 isn't lesser than BIG9" << std::endl;
 	}
 
-	BigInteger big10 = big0;
+	Bint big10 = big0;
 	big10 *= big9;
 	big10 *= big9;
 
@@ -135,9 +135,9 @@ int main() {
 
 	//*/
 	
-	BigInteger big11("44");
-	BigInteger big14 = big11;
-	BigInteger big12 = "2000000000000000000000000000000000000000000";
+	Bint big11("44");
+	Bint big14 = big11;
+	Bint big12 = "2000000000000000000000000000000000000000000";
 
 	std::cout << "BIG11 = " << big11 << std::endl;
 	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
@@ -153,7 +153,7 @@ int main() {
 	std::cout << std::endl;
 
 	/*
-	BigInteger big13 = big11 * big12;
+	Bint big13 = big11 * big12;
 	std::cout << "BIG13 = " << big13 << std::endl;
 	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;

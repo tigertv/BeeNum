@@ -17,48 +17,48 @@
 
 #include <bits/stdc++.h>
 #include <cstdlib>
-#include "BigInteger.h"
+#include "Bint.h"
 
 
 namespace TigerTV {
 
 
-void BigInteger::mult10() {
-	BigInteger k = *this;
+void Bint::mult10() {
+	Bint k = *this;
 	*this <<= 3;
 	k <<= 1;
 	(*this) += k;
 }
 
-void BigInteger::addDigit(char c) {
+void Bint::addDigit(char c) {
 	c = c & 0xf;
 	uint64_t i = (uint64_t)c;
 	if (i > 9) i = 0;
 
-	BigInteger b;
+	Bint b;
 	b.number[0] = i;
 	*this += b;
 }
 
-BigInteger::BigInteger() {
+Bint::Bint() {
 	number.push_back(0);
 }
 
-BigInteger::BigInteger(const std::string& decimal) {
-	number.push_back(0);
-	setDecimal(decimal);
-}
-
-BigInteger::BigInteger(const char* decimal) {
+Bint::Bint(const std::string& decimal) {
 	number.push_back(0);
 	setDecimal(decimal);
 }
 
-BigInteger::BigInteger(const uint64_t num) {
+Bint::Bint(const char* decimal) {
+	number.push_back(0);
+	setDecimal(decimal);
+}
+
+Bint::Bint(const uint64_t num) {
 	number.push_back(num);
 }
 
-void BigInteger::setDecimal(const std::string& s) {
+void Bint::setDecimal(const std::string& s) {
 
 	number.clear();
 	number.push_back(0);
@@ -69,13 +69,13 @@ void BigInteger::setDecimal(const std::string& s) {
 	}
 }
 
-BigInteger BigInteger::operator + (const BigInteger& a) {
-	BigInteger b = *this;
+Bint Bint::operator + (const Bint& a) {
+	Bint b = *this;
 	b += a;
 	return b;
 }
 
-BigInteger& BigInteger::operator += (const BigInteger& a) {
+Bint& Bint::operator += (const Bint& a) {
 
 	const std::vector<uint64_t>& bin = a.number;
 
@@ -107,7 +107,7 @@ BigInteger& BigInteger::operator += (const BigInteger& a) {
 	return *this;
 }
 
-void BigInteger::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) {
+void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) {
 	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;
 	uint64_t result = (operand1res >> 1) + (operand2 >> 1) + (bigCarry >> 1);
 	carry = (bool)(result & 0x8000000000000000);
@@ -116,11 +116,11 @@ void BigInteger::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand
 	operand1res = result;
 }
 
-BigInteger::operator std::string() {
+Bint::operator std::string() {
 	return this->toString();
 }
 
-std::string BigInteger::toBinString() {
+std::string Bint::toBinString() {
 	//return toBaseString(2);
 	//*
 	// binary number output, '0' and '1'
@@ -148,15 +148,15 @@ std::string BigInteger::toBinString() {
 	//*/
 }
 
-std::string BigInteger::toString() {
+std::string Bint::toString() {
 	return toBaseString(10);
 }
 
-std::string BigInteger::toHexString() {
+std::string Bint::toHexString() {
 	return toBaseString(16);
 }
 
-std::string BigInteger::toBaseString(uint64_t base) {
+std::string Bint::toBaseString(uint64_t base) {
 
 	std::string s = "";
 	std::vector<uint64_t>current = number;
@@ -194,21 +194,21 @@ std::string BigInteger::toBaseString(uint64_t base) {
 	return s;
 }
 
-BigInteger BigInteger::operator * (const BigInteger& a) {
-	BigInteger b = *this;
+Bint Bint::operator * (const Bint& a) {
+	Bint b = *this;
 	b *= a;
 	return b;
 }
 
-BigInteger& BigInteger::operator *= (const BigInteger& a) {
+Bint& Bint::operator *= (const Bint& a) {
 
 	const std::vector<uint64_t>& bin = a.number;
 
-	BigInteger c;
+	Bint c;
 
 	for(int j = 0; j < (int)bin.size(); j++) {
 		for (int i = 0; i < (int)number.size(); i++) {
-			BigInteger b;
+			Bint b;
 			// add zeros
 			for (int k = 0; k < i+j; k++) {
 				b.number.push_back(0);
@@ -231,7 +231,7 @@ BigInteger& BigInteger::operator *= (const BigInteger& a) {
 	return (*this);
 }
 
-void BigInteger::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) {
+void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) {
 	uint64_t low1 = 0x00000000ffffffff & operand1ResHigh;	
 	uint64_t high1 = (0xffffffff00000000 & operand1ResHigh) >> 32;	
 	uint64_t low2 = 0x00000000ffffffff & operand2ResLow;	
@@ -264,22 +264,22 @@ void BigInteger::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) {
 	operand2ResLow = resL;
 }
 
-BigInteger& BigInteger::operator ++ () { // prefix
-	BigInteger c;
+Bint& Bint::operator ++ () { // prefix
+	Bint c;
 	c.number[0] = 1;
 	*this += c;
 	return *this;
 }
 
-BigInteger BigInteger::operator ++ (int) { // postfix
-	BigInteger b = *this; 
-	BigInteger c;
+Bint Bint::operator ++ (int) { // postfix
+	Bint b = *this; 
+	Bint c;
 	c.number[0] = 1;
 	*this += c;
 	return b;
 }
 
-BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
+Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
 	const std::vector<uint64_t>& bin = a.number;
 	if (number.size() < bin.size()) {
 		int diff = bin.size() - number.size();
@@ -295,43 +295,43 @@ BigInteger& BigInteger::bitOperation(const BigInteger& a, std::function<uint64_t
 	return *this;
 }
 
-BigInteger BigInteger::operator | (const BigInteger& a) {
-	BigInteger b = a;
+Bint Bint::operator | (const Bint& a) {
+	Bint b = a;
 	b |= *this;
 	return b;
 }
 
-BigInteger& BigInteger::operator |= (const BigInteger& a) {
+Bint& Bint::operator |= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a | b; });
 }
 
-BigInteger BigInteger::operator & (const BigInteger& a) {
-	BigInteger b = a;
+Bint Bint::operator & (const Bint& a) {
+	Bint b = a;
 	b &= *this;
 	return b;
 }
 
-BigInteger& BigInteger::operator &= (const BigInteger& a) {
+Bint& Bint::operator &= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a & b; });
 }
 
-BigInteger BigInteger::operator ^ (const BigInteger& a) {
-	BigInteger b = a;
+Bint Bint::operator ^ (const Bint& a) {
+	Bint b = a;
 	b |= *this;
 	return b;
 }
 
-BigInteger& BigInteger::operator ^= (const BigInteger& a) {
+Bint& Bint::operator ^= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a ^ b; });
 }
 
-BigInteger BigInteger::operator - (const BigInteger& a) {
-	BigInteger b = *this;
+Bint Bint::operator - (const Bint& a) {
+	Bint b = *this;
 	b -= a;
 	return b;
 }
 
-BigInteger& BigInteger::operator -= (const BigInteger& a) {
+Bint& Bint::operator -= (const Bint& a) {
 
 	const std::vector<uint64_t>& bin = a.number;
 
@@ -367,35 +367,35 @@ BigInteger& BigInteger::operator -= (const BigInteger& a) {
 	return *this;
 }
 
-std::ostream& operator << (std::ostream &strm, BigInteger &a) {
+std::ostream& operator << (std::ostream &strm, Bint &a) {
 	return strm << a.toString(); 
 }
 
-BigInteger& BigInteger::operator -- () { // prefix
-	BigInteger c;
+Bint& Bint::operator -- () { // prefix
+	Bint c;
 	c.number[0] = 1;
 	*this -= c;
 	return *this;
 }
 
-BigInteger BigInteger::operator -- (int) { // postfix
-	BigInteger b = *this; 
-	BigInteger c;
+Bint Bint::operator -- (int) { // postfix
+	Bint b = *this; 
+	Bint c;
 	c.number[0] = 1;
 	*this -= c;
 	return b;
 }
 
-std::istream& operator >> (std::istream& strm, BigInteger& a) {
+std::istream& operator >> (std::istream& strm, Bint& a) {
     std::string s;
     strm >> s;
-	BigInteger b;
+	Bint b;
 	b.setDecimal(s);
     a = b; 
     return strm;
 }
 
-uint64_t BigInteger::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) {
+uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) {
 	uint64_t quot = 0;
 	uint64_t rmd = 0;
 
@@ -423,13 +423,13 @@ uint64_t BigInteger::div(const uint64_t& dividend, const uint64_t& divisor, uint
 	return quot;
 }
 
-BigInteger BigInteger::operator >> (const int shift) {
-	BigInteger b = *this;
+Bint Bint::operator >> (const int shift) {
+	Bint b = *this;
 	b >>= shift;
 	return b;
 }
 
-BigInteger& BigInteger::operator >>= (const int shift) {
+Bint& Bint::operator >>= (const int shift) {
 	int sh = shift;
 	if (sh > 63) {
 		int q = sh / 64;
@@ -455,13 +455,13 @@ BigInteger& BigInteger::operator >>= (const int shift) {
 	return *this;
 }
 
-BigInteger BigInteger::operator << (const int shift) {
-	BigInteger b = *this;
+Bint Bint::operator << (const int shift) {
+	Bint b = *this;
 	b <<= shift;
 	return b;
 }
 
-BigInteger& BigInteger::operator <<= (const int shift) {
+Bint& Bint::operator <<= (const int shift) {
 	int sh = shift;
 	int q = 0;
 	if (sh > 63) {
@@ -496,7 +496,7 @@ BigInteger& BigInteger::operator <<= (const int shift) {
 	return *this;
 }
 
-bool BigInteger::operator < (const BigInteger& a) {
+bool Bint::operator < (const Bint& a) {
 	const std::vector<uint64_t>& n = a.number;
 	if (number.size() < n.size()) return true;
 	if (number.size() > n.size()) return false;
@@ -510,7 +510,7 @@ bool BigInteger::operator < (const BigInteger& a) {
 	return false;
 }
 
-bool BigInteger::operator <= (const BigInteger& a) {
+bool Bint::operator <= (const Bint& a) {
 	const std::vector<uint64_t>& n = a.number;
 	if (number.size() < n.size()) return true;
 	if (number.size() > n.size()) return false;
@@ -526,7 +526,7 @@ bool BigInteger::operator <= (const BigInteger& a) {
 	return true;
 }
 
-bool BigInteger::operator > (const BigInteger& a) {
+bool Bint::operator > (const Bint& a) {
 	const std::vector<uint64_t>& n = a.number;
 	if (number.size() < n.size()) return false;
 	if (number.size() > n.size()) return true;
@@ -540,7 +540,7 @@ bool BigInteger::operator > (const BigInteger& a) {
 	return false;
 }
 
-bool BigInteger::operator >= (const BigInteger& a) {
+bool Bint::operator >= (const Bint& a) {
 	const std::vector<uint64_t>& n = a.number;
 	if (number.size() < n.size()) return false;
 	if (number.size() > n.size()) return true;
@@ -556,11 +556,11 @@ bool BigInteger::operator >= (const BigInteger& a) {
 	return true;
 }
 
-bool BigInteger::operator == (const BigInteger& a) {
+bool Bint::operator == (const Bint& a) {
 	return compare(a, false, false, [](auto a, auto b) { return a == b; });
 }
 
-bool BigInteger::operator != (const BigInteger& a) {
+bool Bint::operator != (const Bint& a) {
 	const std::vector<uint64_t>& n = a.number;
 	if (number.size() < n.size()) return true;
 	if (number.size() > n.size()) return true;
@@ -574,7 +574,7 @@ bool BigInteger::operator != (const BigInteger& a) {
 	return false;
 }
 
-bool BigInteger::compare(const BigInteger& a, bool b, bool c, std::function<bool(const uint64_t&,const uint64_t&)>&& lambda) {
+bool Bint::compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&,const uint64_t&)>&& lambda) {
 	const std::vector<uint64_t>& n = a.number;
 	if (number.size() < n.size()) return b;
 	if (number.size() > n.size()) return c;
@@ -588,15 +588,15 @@ bool BigInteger::compare(const BigInteger& a, bool b, bool c, std::function<bool
 	return true;
 }
 
-BigInteger BigInteger::operator / (const BigInteger& a) {
-	BigInteger b = *this;
+Bint Bint::operator / (const Bint& a) {
+	Bint b = *this;
 	b /= a;
 	return b;
 }
 
-void BigInteger::div(BigInteger& c, BigInteger& res, const BigInteger& a) {
+void Bint::div(Bint& c, Bint& res, const Bint& a) {
 
-	BigInteger b = a;
+	Bint b = a;
 	std::vector<uint64_t>& bin = b.number;
 
 	int diff = number.size() - bin.size();
@@ -636,10 +636,10 @@ void BigInteger::div(BigInteger& c, BigInteger& res, const BigInteger& a) {
 
 }
 
-BigInteger& BigInteger::operator /= (const BigInteger& a) {
+Bint& Bint::operator /= (const Bint& a) {
 
-	BigInteger c = *this;
-	BigInteger res;
+	Bint c = *this;
+	Bint res;
 
 	div(c, res, a);
 
@@ -647,16 +647,16 @@ BigInteger& BigInteger::operator /= (const BigInteger& a) {
 	return (*this);
 }
 
-BigInteger BigInteger::operator % (const BigInteger& a) {
-	BigInteger b = *this;
+Bint Bint::operator % (const Bint& a) {
+	Bint b = *this;
 	b %= a;
 	return b;
 }
 
-BigInteger& BigInteger::operator %= (const BigInteger& a) {
+Bint& Bint::operator %= (const Bint& a) {
 
-	BigInteger c = *this;
-	BigInteger res;
+	Bint c = *this;
+	Bint res;
 
 	div(c, res, a);
 
@@ -664,14 +664,14 @@ BigInteger& BigInteger::operator %= (const BigInteger& a) {
 	return (*this);
 }
 
-void BigInteger::eraseLeadingZeros() {
+void Bint::eraseLeadingZeros() {
 	for (int i = number.size() - 1; i > 0; i--) {
 		if (number.back() != 0) break;
 		number.erase(number.end()-1);
 	}
 }
 
-BigInteger& BigInteger::operator ~ () {
+Bint& Bint::operator ~ () {
 	for(auto& item : number) {
 		item = ~item;
 	}
