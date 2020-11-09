@@ -133,12 +133,13 @@ int main() {
 	}
 	std::cout << std::endl;
 
-	//*/
 	
+	//*/
 	Bint big11("44");
 	Bint big14 = big11;
 	Bint big12 = "2000000000000000000000000000000000000000000";
 
+	/*
 	std::cout << "BIG11 = " << big11 << std::endl;
 	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
 	std::cout << "BIG12 = " << big12 << std::endl;
@@ -151,16 +152,15 @@ int main() {
 	std::cout << "BIG14 = " << big14 << std::endl;
 	std::cout << "BIG14 = " << big14.toBinString() << std::endl;
 	std::cout << std::endl;
-
-	/*
-	Bint big13 = big11 * big12;
-	std::cout << "BIG13 = " << big13 << std::endl;
-	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
-	std::cout << std::endl;
-	big13 = ~big13;
-	std::cout << "BIG13 = " << big13 << std::endl;
-	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
-	std::cout << std::endl;
 	//*/
+
+	Bint big13 = big11;
+	std::cout << "BIG13 = " << big13 << std::endl;
+	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
+	std::cout << std::endl;
+	big13 = Math::pow(big13, 1000);
+	std::cout << "BIG13 = " << big13 << std::endl;
+	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
+	std::cout << std::endl;
 
 }

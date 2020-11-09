@@ -28,9 +28,7 @@ void Bint::addDigit(char c) {
 	uint64_t i = (uint64_t)c;
 	if (i > 9) i = 0;
 
-	Bint b;
-	b.number[0] = i;
-	*this += b;
+	*this += i;
 }
 
 Bint::Bint() {
@@ -383,9 +381,7 @@ Bint Bint::operator -- (int) { // postfix
 std::istream& operator >> (std::istream& strm, Bint& a) {
     std::string s;
     strm >> s;
-	Bint b;
-	b.setDecimal(s);
-    a = b; 
+    a = s; 
     return strm;
 }
 
@@ -670,6 +666,21 @@ Bint& Bint::operator ~ () {
 		item = ~item;
 	}
 	return *this;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+Bint Math::pow(const Bint& a, uint64_t exp) {
+	Bint b = a, temp = 1;
+	while (exp > 1) {
+        if (exp & 1) {
+            temp *= b;
+		}
+        b *= b;
+        exp >>= 1;
+    }
+
+	return b*temp;
 }
 
 

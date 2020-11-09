@@ -98,6 +98,14 @@ public:
 	friend std::istream& operator >> (std::istream& strm, Bint& a); 
 };
 
+class Math {
+private:
+	Math();
+
+public:
+	static Bint pow(const Bint& a, uint64_t pow);
+};
+
 
 } // namespace
 
