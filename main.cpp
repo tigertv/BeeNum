@@ -132,8 +132,9 @@ int main() {
 
 	//*/
 	
-	BigInteger big11("60000000000000064564560000000000000000000000000000000000000555555555555555555000000000000022000000000000000000000000000000000000000000000000000");
-	BigInteger big12 = "2000000000000000000000000000000000000004444400000000000000000";
+	BigInteger big11("44");
+	BigInteger big14 = big11;
+	BigInteger big12 = "2000000000000000000000000000000000000000000";
 
 	std::cout << "BIG11 = " << big11 << std::endl;
 	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
@@ -143,6 +144,11 @@ int main() {
 	std::cout << "BIG11 = " << big11 << std::endl;
 	std::cout << "BIG11 = " << big11.toBinString() << std::endl;
 	std::cout << std::endl;
+	big14 %= big12;
+	std::cout << "BIG14 = " << big14 << std::endl;
+	std::cout << "BIG14 = " << big14.toBinString() << std::endl;
+	std::cout << std::endl;
+	/*
 	BigInteger big13 = big11 * big12;
 	std::cout << "BIG13 = " << big13 << std::endl;
 	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
@@ -151,5 +157,6 @@ int main() {
 	std::cout << "BIG13 = " << big13 << std::endl;
 	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
+	//*/
 
 }
