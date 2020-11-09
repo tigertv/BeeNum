@@ -41,6 +41,20 @@ BigInteger::BigInteger() {
 	number.push_back(0);
 }
 
+BigInteger::BigInteger(const std::string& decimal) {
+	number.push_back(0);
+	setDecimal(decimal);
+}
+
+BigInteger::BigInteger(const char* decimal) {
+	number.push_back(0);
+	setDecimal(decimal);
+}
+
+BigInteger::BigInteger(const uint64_t num) {
+	number.push_back(num);
+}
+
 void BigInteger::setDecimal(const std::string& s) {
 
 	number.clear();
@@ -89,8 +103,6 @@ BigInteger& BigInteger::operator += (const BigInteger& a) {
 
 	return *this;
 }
-
-
 
 void BigInteger::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) {
 	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;

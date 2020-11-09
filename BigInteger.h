@@ -39,6 +39,10 @@ private:
 
 public:
 	BigInteger();
+	BigInteger(const char* decimal);
+	BigInteger(const uint64_t num);
+	BigInteger(const std::string& decimal);
+
 	void setDecimal(const std::string& s);
 
 	std::string toBinString();
