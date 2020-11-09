@@ -2,6 +2,9 @@
 #include <string>
 #include "BigInteger.h"
 
+using namespace TigerTV;
+
+
 int main() {
 	/*
 	std::string s = "2218";
@@ -148,6 +151,7 @@ int main() {
 	std::cout << "BIG14 = " << big14 << std::endl;
 	std::cout << "BIG14 = " << big14.toBinString() << std::endl;
 	std::cout << std::endl;
+
 	/*
 	BigInteger big13 = big11 * big12;
 	std::cout << "BIG13 = " << big13 << std::endl;

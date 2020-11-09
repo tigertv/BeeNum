@@ -24,6 +24,10 @@
 #include <functional>
 #include <iostream>
 
+
+namespace TigerTV {
+
+
 class BigInteger {
 private:
 	std::vector<uint64_t> number;
@@ -95,5 +99,8 @@ public:
 	friend std::ostream& operator << (std::ostream &strm, BigInteger &a);
 	friend std::istream& operator >> (std::istream& strm, BigInteger& a); 
 };
+
+
+} // namespace
 
 #endif

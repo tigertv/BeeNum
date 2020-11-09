@@ -20,6 +20,9 @@
 #include "BigInteger.h"
 
 
+namespace TigerTV {
+
+
 void BigInteger::mult10() {
 	BigInteger k = *this;
 	*this <<= 3;
@@ -674,3 +677,6 @@ BigInteger& BigInteger::operator ~ () {
 	}
 	return *this;
 }
+
+
+} // namespace
