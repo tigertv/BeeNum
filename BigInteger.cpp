@@ -139,6 +139,7 @@ std::string BigInteger::toBinString() {
 		current >>= 1;
 	}
 
+	if (s.size() == 0) return "0";
 	std::reverse(s.begin(), s.end());
 	return s;
 	//*/
@@ -185,6 +186,7 @@ std::string BigInteger::toBaseString(uint64_t base) {
 		current = res;
 	}
 
+	if (s.size() == 0) return "0";
 	std::reverse(s.begin(), s.end());
 	return s;
 }
