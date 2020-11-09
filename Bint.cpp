@@ -23,13 +23,6 @@
 namespace TigerTV {
 
 
-void Bint::mult10() {
-	Bint k = *this;
-	*this <<= 3;
-	k <<= 1;
-	(*this) += k;
-}
-
 void Bint::addDigit(char c) {
 	c = c & 0xf;
 	uint64_t i = (uint64_t)c;
@@ -63,8 +56,9 @@ void Bint::setDecimal(const std::string& s) {
 	number.clear();
 	number.push_back(0);
 
+	Bint ten(10);
 	for(const char& c : s) {
-		this->mult10();
+		*this *= ten;
 		this->addDigit(c);
 	}
 }

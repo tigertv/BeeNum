@@ -32,7 +32,6 @@ class Bint {
 private:
 	std::vector<uint64_t> number;
 
-	void mult10();
 	void addDigit(char c);
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry);
 	void mult(uint64_t& operand1High, uint64_t& operand2Low);
@@ -41,6 +40,8 @@ private:
 	bool compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda);
 	void eraseLeadingZeros();
 	void div(Bint& c, Bint& res, const Bint& a);
+	void setDecimal(const std::string& s);
+	std::string toBaseString(uint64_t base);
 
 public:
 	Bint();
@@ -48,12 +49,9 @@ public:
 	Bint(const uint64_t num);
 	Bint(const std::string& decimal);
 
-	void setDecimal(const std::string& s);
-
 	std::string toBinString();
 	std::string toHexString();
 	std::string toString();
-	std::string toBaseString(uint64_t base);
 	operator std::string();
 
 	// Bit
