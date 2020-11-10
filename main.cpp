@@ -158,20 +158,22 @@ int main() {
 	std::cout << "BIG13 = " << big13 << std::endl;
 	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
-	big13 = Math::pow(big13, 1000);
+	//big13 = Math::pow(big13, 1000);
 	std::cout << "BIG13 = " << big13 << std::endl;
 	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
 	//big13 = 2;
-	big13 /= 10;
+	big13 = 33;
 	std::cout << "BIG13 = " << big13 << std::endl;
 	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
 
-	/*
-	big13 = Math::pow(big13, 1000);
+	//*
+	Bint exp = 2000;
+	Bint mod = 12;
+	big13 = Math::modPow(big13, exp, mod);
 	std::cout << "BIG13 = " << big13 << std::endl;
-	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
+	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
 	//*/
 

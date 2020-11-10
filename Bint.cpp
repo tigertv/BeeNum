@@ -682,5 +682,28 @@ Bint Math::pow(const Bint& a, uint64_t exp) {
 	return b*temp;
 }
 
+Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
+	Bint ret;
+	Bint one = 1;
+	if (one == mod) return ret;
+	ret = 1;
+	Bint b = base;
+	Bint x = exp;
+	Bint zero;
+
+	b %= mod;
+	while(x > zero) {
+		if ((x & 1) == one) {
+			ret *= b;
+			ret %= mod;
+		}
+		x >>= 1;
+		b *= b;
+		b %= mod;
+	}
+
+	return ret;
+}
+
 
 } // namespace
