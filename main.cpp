@@ -163,18 +163,27 @@ int main() {
 	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
 	//big13 = 2;
-	big13 = 33;
+	big13 = "330546345634563456345634586304576937456729462638456284294858734563456345623452435234523452345";
 	std::cout << "BIG13 = " << big13 << std::endl;
 	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
 
 	//*
 	Bint exp = 2000;
-	Bint mod = 12;
-	big13 = Math::modPow(big13, exp, mod);
+	//Bint mod = "1243457934567934569399458639983009987";
+
+	//Bint mod = "123456789012345678902223217";
+	Bint mod = "123456789012345678901234567890";
+	std::cout << "MOD = " << mod.toString() << std::endl;
+	//big13 = Math::modPow(big13, exp, mod);
 	std::cout << "BIG13 = " << big13 << std::endl;
 	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
 	//*/
+	Bint d = "29508186119999999999999999993452345234987984576934597639456739458674053333333333333";
+	std::cout << "d = " << d << std::endl;
+	std::cout << "mod = " << mod << std::endl;
+	d %= mod;
+	std::cout << "d = " << d << std::endl;
 
 }

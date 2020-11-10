@@ -495,6 +495,7 @@ bool Bint::operator < (const Bint& a) {
 		if(number[i] < n[i]) {
 			return true;
 		}
+		if(number[i] != n[i]) break;
 	}
 
 	return false;
@@ -525,6 +526,7 @@ bool Bint::operator > (const Bint& a) {
 		if(number[i] > n[i]) {
 			return true;
 		}
+		if(number[i] != n[i]) break;
 	}
 
 	return false;
