@@ -160,7 +160,19 @@ int main() {
 	std::cout << std::endl;
 	big13 = Math::pow(big13, 1000);
 	std::cout << "BIG13 = " << big13 << std::endl;
+	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
+	std::cout << std::endl;
+	//big13 = 2;
+	big13 /= 10;
+	std::cout << "BIG13 = " << big13 << std::endl;
+	//std::cout << "BIG13 = " << big13.toBinString() << std::endl;
+	std::cout << std::endl;
+
+	/*
+	big13 = Math::pow(big13, 1000);
+	std::cout << "BIG13 = " << big13 << std::endl;
 	std::cout << "BIG13 = " << big13.toBinString() << std::endl;
 	std::cout << std::endl;
+	//*/
 
 }

@@ -584,44 +584,43 @@ Bint Bint::operator / (const Bint& a) {
 	return b;
 }
 
-void Bint::div(Bint& c, Bint& res, const Bint& a) {
 
-	Bint b = a;
-	std::vector<uint64_t>& bin = b.number;
+// c - rmd, res - quot, a - divisor
+void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) {
 
-	int diff = number.size() - bin.size();
+	Bint& a = rmdDividend; 
+	Bint& b = resQuot;
 
-	if (diff < 0) {
-		return; 
+	if (a < divisor) {
+		return;
 	}
 
+	Bint d = divisor;
+	std::vector<uint64_t>& dnum = d.number;
+
+	// add zeros at the end
+	int diff = a.number.size() - dnum.size();
 	for(int i = diff; i > 0; --i) {
-		bin.insert(bin.begin(), 0);
+		dnum.insert(dnum.begin(), 0);
 	}
 
-	if (b < c) {
-		while(b < c) {
-			b <<= 1;
-		}
-		b >>= 1;
-	} else {
-		while(b > c) {
-			b >>= 1;
-		}
+	// find where to subtruct
+	while(a >= d) {
+		d <<= 1;
 	}
 
-	while(b != a) {
-		res <<= 1;
-		if (b <= c) {
-			res.number[0] |= 1;
-			c -= b;
+	while(d > a) {
+		d >>= 1;
+	}
+
+	// do subruction
+	while(d >= divisor) {
+		b <<= 1;
+		if (d <= a) {
+			b.number[0] |= 1;
+			a -= d;
 		} 
-		b >>= 1;
-	}
-
-	res <<= 1;
-	if (c >= b) {
-		res.number[0] |= 1;
+		d >>= 1;
 	}
 
 }
