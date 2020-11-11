@@ -31,25 +31,15 @@
 namespace TigerTV {
 
 
-void Bint::addDigit(char c) {
-	c = c & 0xf;
-	uint64_t i = (uint64_t)c;
-	if (i > 9) i = 0;
-	Bint t(i);
-	*this += t;
-}
-
 Bint::Bint() {
 	number.push_back(0);
 }
 
-Bint::Bint(const std::string& decimal) {
-	number.push_back(0);
+Bint::Bint(const std::string& decimal) : Bint() {
 	setDecimal(decimal);
 }
 
-Bint::Bint(const char* decimal) {
-	number.push_back(0);
+Bint::Bint(const char* decimal) : Bint() {
 	setDecimal(decimal);
 }
 
@@ -59,13 +49,16 @@ Bint::Bint(const uint64_t num) {
 
 void Bint::setDecimal(const std::string& s) {
 
-	number.clear();
-	number.push_back(0);
-
 	Bint ten(10);
+	Bint temp;
 	for(const char& c : s) {
 		*this *= ten;
-		this->addDigit(c);
+		// add digit
+		uint64_t i = (uint64_t)c;
+		i &= 0xf;
+		if (i > 9) i = 0; // should return exception
+		temp.number[0] = i;
+		*this += temp;
 	}
 }
 

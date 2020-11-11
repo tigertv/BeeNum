@@ -40,7 +40,6 @@ class Bint {
 private:
 	std::vector<uint64_t> number;
 
-	void addDigit(char c);
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const;
 	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
