@@ -41,56 +41,56 @@ private:
 	std::vector<uint64_t> number;
 
 	void addDigit(char c);
-	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry);
-	void mult(uint64_t& operand1High, uint64_t& operand2Low);
-	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd);
+	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const;
+	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
+	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
 	Bint& bitOperation(const Bint& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
-	bool compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda);
+	bool compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda); // not used now
 	void eraseLeadingZeros();
-	void div(Bint& c, Bint& res, const Bint& a);
+	void div(Bint& c, Bint& res, const Bint& a) const;
 	void setDecimal(const std::string& s);
-	std::string toBaseString(uint64_t base);
+	std::string toBaseString(uint64_t base) const;
 
 public:
 	Bint();
-	Bint(const char* decimal);
 	Bint(const uint64_t num);
+	Bint(const char* decimal);
 	Bint(const std::string& decimal);
 
-	std::string toBinString();
-	std::string toHexString();
-	std::string toString();
-	operator std::string();
+	std::string toBinString() const;
+	std::string toHexString() const;
+	std::string toString() const;
+	operator std::string() const;
 
 	// Bit
-	Bint operator & (const Bint& a);
+	Bint operator & (const Bint& a) const;
 	Bint& operator &= (const Bint& a);
-	Bint operator | (const Bint& a);
+	Bint operator | (const Bint& a) const;
 	Bint& operator |= (const Bint& a);
-	Bint operator ^ (const Bint& a);
+	Bint operator ^ (const Bint& a) const;
 	Bint& operator ^= (const Bint& a);
-	Bint& operator ~ ();
+	Bint operator ~ () const;
 
 	// Arithmetic
-	Bint operator + (const Bint& a);
+	Bint operator + (const Bint& a) const;
 	Bint& operator += (const Bint& a);
 	Bint operator ++ (int); // postfix
 	Bint& operator ++ (); // prefix
-	Bint operator - (const Bint& a);
+	Bint operator - (const Bint& a) const;
 	Bint& operator -= (const Bint& a);
 	Bint operator -- (int); // postfix
 	Bint& operator -- (); // prefix
-	Bint operator * (const Bint& a);
+	Bint operator * (const Bint& a) const;
 	Bint& operator *= (const Bint& a);
-	Bint operator / (const Bint& a);
+	Bint operator / (const Bint& a) const;
 	Bint& operator /= (const Bint& a);
-	Bint operator % (const Bint& a);
+	Bint operator % (const Bint& a) const;
 	Bint& operator %= (const Bint& a);
 
 	// Shifts
-	Bint operator << (const int shift);
+	Bint operator << (const int shift) const;
 	Bint& operator <<= (const int shift);
-	Bint operator >> (const int shift);
+	Bint operator >> (const int shift) const;
 	Bint& operator >>= (const int shift);
 
 	// Comparison

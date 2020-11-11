@@ -35,8 +35,8 @@ void Bint::addDigit(char c) {
 	c = c & 0xf;
 	uint64_t i = (uint64_t)c;
 	if (i > 9) i = 0;
-
-	*this += i;
+	Bint t(i);
+	*this += t;
 }
 
 Bint::Bint() {
@@ -69,7 +69,7 @@ void Bint::setDecimal(const std::string& s) {
 	}
 }
 
-Bint Bint::operator + (const Bint& a) {
+Bint Bint::operator + (const Bint& a) const {
 	Bint b = *this;
 	b += a;
 	return b;
@@ -107,7 +107,7 @@ Bint& Bint::operator += (const Bint& a) {
 	return *this;
 }
 
-void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) {
+void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const {
 	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;
 	uint64_t result = (operand1res >> 1) + (operand2 >> 1) + (bigCarry >> 1);
 	carry = (bool)(result & 0x8000000000000000);
@@ -116,11 +116,11 @@ void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, boo
 	operand1res = result;
 }
 
-Bint::operator std::string() {
+Bint::operator std::string() const {
 	return this->toString();
 }
 
-std::string Bint::toBinString() {
+std::string Bint::toBinString() const {
 	//return toBaseString(2);
 	//*
 	// binary number output, '0' and '1'
@@ -148,15 +148,15 @@ std::string Bint::toBinString() {
 	//*/
 }
 
-std::string Bint::toString() {
+std::string Bint::toString() const {
 	return toBaseString(10);
 }
 
-std::string Bint::toHexString() {
+std::string Bint::toHexString() const {
 	return toBaseString(16);
 }
 
-std::string Bint::toBaseString(uint64_t base) {
+std::string Bint::toBaseString(uint64_t base) const {
 
 	std::string s = "";
 	std::vector<uint64_t>current = number;
@@ -177,7 +177,8 @@ std::string Bint::toBaseString(uint64_t base) {
 		}
 
 		if (res.size() == 0) res.push_back(0);
-
+		
+		// here's limitation
 		if (rmd < 10) {
 			s += '0'+(char)rmd;
 		} else {
@@ -194,7 +195,7 @@ std::string Bint::toBaseString(uint64_t base) {
 	return s;
 }
 
-Bint Bint::operator * (const Bint& a) {
+Bint Bint::operator * (const Bint& a) const {
 	Bint b = *this;
 	b *= a;
 	return b;
@@ -231,7 +232,7 @@ Bint& Bint::operator *= (const Bint& a) {
 	return (*this);
 }
 
-void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) {
+void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) const {
 	uint64_t low1 = 0x00000000ffffffff & operand1ResHigh;	
 	uint64_t high1 = (0xffffffff00000000 & operand1ResHigh) >> 32;	
 	uint64_t low2 = 0x00000000ffffffff & operand2ResLow;	
@@ -295,8 +296,8 @@ Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const u
 	return *this;
 }
 
-Bint Bint::operator | (const Bint& a) {
-	Bint b = a;
+Bint Bint::operator | (const Bint& a) const {
+	Bint b(a);
 	b |= *this;
 	return b;
 }
@@ -305,8 +306,8 @@ Bint& Bint::operator |= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a | b; });
 }
 
-Bint Bint::operator & (const Bint& a) {
-	Bint b = a;
+Bint Bint::operator & (const Bint& a) const {
+	Bint b(a);
 	b &= *this;
 	return b;
 }
@@ -315,8 +316,8 @@ Bint& Bint::operator &= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a & b; });
 }
 
-Bint Bint::operator ^ (const Bint& a) {
-	Bint b = a;
+Bint Bint::operator ^ (const Bint& a) const {
+	Bint b(a);
 	b |= *this;
 	return b;
 }
@@ -325,7 +326,7 @@ Bint& Bint::operator ^= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a ^ b; });
 }
 
-Bint Bint::operator - (const Bint& a) {
+Bint Bint::operator - (const Bint& a) const {
 	Bint b = *this;
 	b -= a;
 	return b;
@@ -367,10 +368,6 @@ Bint& Bint::operator -= (const Bint& a) {
 	return *this;
 }
 
-std::ostream& operator << (std::ostream &strm, Bint &a) {
-	return strm << a.toString(); 
-}
-
 Bint& Bint::operator -- () { // prefix
 	Bint c;
 	c.number[0] = 1;
@@ -386,14 +383,7 @@ Bint Bint::operator -- (int) { // postfix
 	return b;
 }
 
-std::istream& operator >> (std::istream& strm, Bint& a) {
-    std::string s;
-    strm >> s;
-    a = s; 
-    return strm;
-}
-
-uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) {
+uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const {
 	uint64_t quot = 0;
 	uint64_t rmd = 0;
 
@@ -421,7 +411,7 @@ uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& 
 	return quot;
 }
 
-Bint Bint::operator >> (const int shift) {
+Bint Bint::operator >> (const int shift) const {
 	Bint b = *this;
 	b >>= shift;
 	return b;
@@ -453,7 +443,7 @@ Bint& Bint::operator >>= (const int shift) {
 	return *this;
 }
 
-Bint Bint::operator << (const int shift) {
+Bint Bint::operator << (const int shift) const {
 	Bint b = *this;
 	b <<= shift;
 	return b;
@@ -508,15 +498,14 @@ bool Bint::compare(const Bint& a, bool b, bool c, std::function<bool(const uint6
 	return true;
 }
 
-Bint Bint::operator / (const Bint& a) {
+Bint Bint::operator / (const Bint& a) const {
 	Bint b = *this;
 	b /= a;
 	return b;
 }
 
-
 // c - rmd, res - quot, a - divisor
-void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) {
+void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const {
 
 	Bint& a = rmdDividend; 
 	Bint& b = resQuot;
@@ -566,7 +555,7 @@ Bint& Bint::operator /= (const Bint& a) {
 	return (*this);
 }
 
-Bint Bint::operator % (const Bint& a) {
+Bint Bint::operator % (const Bint& a) const {
 	Bint b = *this;
 	b %= a;
 	return b;
@@ -590,18 +579,20 @@ void Bint::eraseLeadingZeros() {
 	}
 }
 
-Bint& Bint::operator ~ () {
+Bint Bint::operator ~ () const {
+	Bint a(*this);
+	std::vector<uint64_t>& number = a.number;
 	for(auto& item : number) {
 		item = ~item;
 	}
-	return *this;
+	return a;
 }
 
 ////////////////////////////////////////////////////////////////////////
+//            FRIEND FUNCTIONS
+////////////////////////////////////////////////////////////////////////
 
 bool operator == (const Bint& a, const Bint &b) {
-//bool Bint::operator == (const Bint& a) {
-	//return a.compare(b, false, false, [](auto c, auto d) { return c == d; });
 	const std::vector<uint64_t>& n = b.number;
 	const std::vector<uint64_t>& number = a.number;
 	if (number.size() < n.size()) return false;
@@ -646,11 +637,6 @@ bool operator > (const Bint& a, const Bint& b) {
 
 	return false;
 }
-/*
-bool operator > (const uint64_t a, const Bint &b) {
-	return (b < a);
-}
-//*/
 
 bool operator < (const Bint& a, const Bint &b) {
 	const std::vector<uint64_t>& n = b.number;
@@ -702,16 +688,24 @@ bool operator >= (const Bint& a, const Bint &b) {
 	return true;
 }
 
-/*
-bool operator < (const uint64_t a, const Bint &b) {
-	return (b > a);
+std::ostream& operator << (std::ostream &strm, Bint &a) {
+	return strm << a.toString(); 
 }
-//*/
 
+std::istream& operator >> (std::istream& strm, Bint& a) {
+    std::string s;
+    strm >> s;
+    a = s; 
+    return strm;
+}
+
+
+////////////////////////////////////////////////////////////////////////
+//            MATH FUNCTIONS
 ////////////////////////////////////////////////////////////////////////
 
 Bint Math::pow(const Bint& a, uint64_t exp) {
-	Bint b = a, temp = 1;
+	Bint b(a), temp(1);
 	while (exp > 1) {
         if (exp & 1) {
             temp *= b;
