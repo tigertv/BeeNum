@@ -686,45 +686,5 @@ std::istream& operator >> (std::istream& strm, Bint& a) {
     return strm;
 }
 
-////////////////////////////////////////////////////////////////////////
-//            MATH FUNCTIONS
-////////////////////////////////////////////////////////////////////////
-
-Bint Math::pow(const Bint& a, uint64_t exp) {
-	Bint b(a), temp(1);
-	while (exp > 1) {
-        if (exp & 1) {
-            temp *= b;
-		}
-        b *= b;
-        exp >>= 1;
-    }
-
-	return b*temp;
-}
-
-Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
-	Bint ret;
-	const Bint one(1);
-	if (mod == one) return ret;
-	ret = one;
-	Bint b(base);
-	Bint x(exp);
-	const Bint zero;
-
-	b %= mod;
-	while(x > zero) {
-		if (one == (x & one) ) {
-			ret *= b;
-			ret %= mod;
-		}
-		x >>= 1;
-		b *= b;
-		b %= mod;
-	}
-
-	return ret;
-}
-
 
 } // namespace

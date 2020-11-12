@@ -105,16 +105,6 @@ public:
 std::ostream& operator << (std::ostream& strm, Bint& a);
 std::istream& operator >> (std::istream& strm, Bint& a); 
 
-class Math {
-private:
-	Math();
-
-public:
-	static Bint pow(const Bint& a, uint64_t pow);
-	static Bint modPow(const Bint& base, const Bint& exp, const Bint& mod);
-};
-
-
 } // namespace
 
 #endif
