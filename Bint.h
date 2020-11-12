@@ -93,17 +93,17 @@ public:
 	Bint& operator >>= (const int shift);
 
 	// Comparison
-	friend bool operator <= (const Bint& a, const Bint &b);
-	friend bool operator >= (const Bint& a, const Bint &b);
-	friend bool operator == (const Bint& a, const Bint &b);
-	friend bool operator != (const Bint& a, const Bint &b);
-	friend bool operator < (const Bint& a, const Bint &b);
-	friend bool operator > (const Bint& a, const Bint &b);
-
-	// Input-output
-	friend std::ostream& operator << (std::ostream &strm, Bint &a);
-	friend std::istream& operator >> (std::istream& strm, Bint& a); 
+	bool operator <= (const Bint &b) const;
+	bool operator >= (const Bint &b) const;
+	bool operator == (const Bint &b) const;
+	bool operator != (const Bint &b) const;
+	bool operator < (const Bint &b) const;
+	bool operator > (const Bint &b) const;
 };
+
+// Input-output
+std::ostream& operator << (std::ostream& strm, Bint& a);
+std::istream& operator >> (std::istream& strm, Bint& a); 
 
 class Math {
 private:

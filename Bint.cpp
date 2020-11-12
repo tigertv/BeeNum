@@ -100,6 +100,96 @@ Bint& Bint::operator += (const Bint& a) {
 	return *this;
 }
 
+bool Bint::operator == (const Bint &b) const {
+	const std::vector<uint64_t>& n = b.number;
+	if (number.size() < n.size()) return false;
+	if (number.size() > n.size()) return false;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] != n[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Bint::operator != (const Bint &b) const {
+	const std::vector<uint64_t>& n = b.number;
+	if (number.size() < n.size()) return true;
+	if (number.size() > n.size()) return true;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] != n[i]) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Bint::operator > (const Bint& b) const {
+	const std::vector<uint64_t>& n = b.number;
+	if (number.size() < n.size()) return false;
+	if (number.size() > n.size()) return true;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] > n[i]) {
+			return true;
+		}
+		if(number[i] != n[i]) break;
+	}
+
+	return false;
+}
+
+bool Bint::operator < (const Bint &b) const {
+	const std::vector<uint64_t>& n = b.number;
+	if (number.size() < n.size()) return true;
+	if (number.size() > n.size()) return false;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] < n[i]) {
+			return true;
+		}
+		if(number[i] != n[i]) break;
+	}
+
+	return false;
+}
+
+bool Bint::operator <= (const Bint &b) const {
+	const std::vector<uint64_t>& n = b.number;
+	if (number.size() < n.size()) return true;
+	if (number.size() > n.size()) return false;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] < n[i]) {
+			return true;
+		} else if(number[i] != n[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Bint::operator >= (const Bint &b) const {
+	const std::vector<uint64_t>& n = b.number;
+	if (number.size() < n.size()) return false;
+	if (number.size() > n.size()) return true;
+
+	for(int i = n.size() - 1; i >= 0; i--) {
+		if(number[i] > n[i]) {
+			return true;
+		} else if(number[i] != n[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const {
 	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;
 	uint64_t result = (operand1res >> 1) + (operand2 >> 1) + (bigCarry >> 1);
@@ -582,106 +672,10 @@ Bint Bint::operator ~ () const {
 }
 
 ////////////////////////////////////////////////////////////////////////
-//            FRIEND FUNCTIONS
+//            INPUT-OUTPUT FUNCTIONS
 ////////////////////////////////////////////////////////////////////////
 
-bool operator == (const Bint& a, const Bint &b) {
-	const std::vector<uint64_t>& n = b.number;
-	const std::vector<uint64_t>& number = a.number;
-	if (number.size() < n.size()) return false;
-	if (number.size() > n.size()) return false;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] != n[i]) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool operator != (const Bint& a, const Bint &b) {
-	const std::vector<uint64_t>& n = b.number;
-	const std::vector<uint64_t>& number = a.number;
-	if (number.size() < n.size()) return true;
-	if (number.size() > n.size()) return true;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] != n[i]) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool operator > (const Bint& a, const Bint& b) {
-	const std::vector<uint64_t>& n = b.number;
-	const std::vector<uint64_t>& number = a.number;
-	if (number.size() < n.size()) return false;
-	if (number.size() > n.size()) return true;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] > n[i]) {
-			return true;
-		}
-		if(number[i] != n[i]) break;
-	}
-
-	return false;
-}
-
-bool operator < (const Bint& a, const Bint &b) {
-	const std::vector<uint64_t>& n = b.number;
-	const std::vector<uint64_t>& number = a.number;
-	if (number.size() < n.size()) return true;
-	if (number.size() > n.size()) return false;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] < n[i]) {
-			return true;
-		}
-		if(number[i] != n[i]) break;
-	}
-
-	return false;
-}
-
-bool operator <= (const Bint& a, const Bint &b) {
-	const std::vector<uint64_t>& n = b.number;
-	const std::vector<uint64_t>& number = a.number;
-	if (number.size() < n.size()) return true;
-	if (number.size() > n.size()) return false;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] < n[i]) {
-			return true;
-		} else if(number[i] != n[i]) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool operator >= (const Bint& a, const Bint &b) {
-	const std::vector<uint64_t>& n = b.number;
-	const std::vector<uint64_t>& number = a.number;
-	if (number.size() < n.size()) return false;
-	if (number.size() > n.size()) return true;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] > n[i]) {
-			return true;
-		} else if(number[i] != n[i]) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-std::ostream& operator << (std::ostream &strm, Bint &a) {
+std::ostream& operator << (std::ostream& strm, Bint& a) {
 	return strm << a.toString(); 
 }
 
@@ -691,7 +685,6 @@ std::istream& operator >> (std::istream& strm, Bint& a) {
     a = s; 
     return strm;
 }
-
 
 ////////////////////////////////////////////////////////////////////////
 //            MATH FUNCTIONS
