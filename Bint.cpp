@@ -66,8 +66,12 @@ void Bint::setDecimal(const std::string& s) {
 	for(; it != s.end(); ++it) {
 		*this *= ten;
 		// add digit
-		uint64_t i = *it & 0xf;
-		if (i > 9) i = 0; // should return exception
+		uint64_t i = *it - '0';
+		if (i > 9) {
+			std::string s("Unexpected symbol! - ");
+			s.push_back(*it);
+			throw std::invalid_argument(s);
+		}
 		temp.number[0] = i;
 		*this += temp;
 	}
