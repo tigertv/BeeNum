@@ -39,23 +39,27 @@ namespace TigerTV {
 class Bint {
 private:
 	std::vector<uint64_t> number;
+	bool neg;
 
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const;
 	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
-	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
 	Bint& bitOperation(const Bint& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
 	bool compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda); // not used now
 	void eraseLeadingZeros();
+	void addLeadingZeros(const Bint&a);
+	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
 	void div(Bint& c, Bint& res, const Bint& a) const;
 	void setDecimal(const std::string& s);
 	std::string toBaseString(uint64_t base) const;
 
 public:
+	// Constructors
 	Bint();
-	Bint(const uint64_t num);
+	Bint(int num);
 	Bint(const char* decimal);
 	Bint(const std::string& decimal);
 
+	// String representation
 	std::string toBinString() const;
 	std::string toHexString() const;
 	std::string toString() const;

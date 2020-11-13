@@ -6,11 +6,14 @@ using namespace TigerTV;
 
 
 int main() {
-	Bint d("119999999999999999999998888888888888888888888888888888888888111111111111111111111188888888888888888881111111111111111118888888888888888888888888820001");
-	Bint c("119999999999999999999998888888888888888833333333333333333333388888888888888888888855555555555555555558888888888888888888888888888888888888888888820001");
-	Bint a = d*c;
-	std::cout << "d = " << d << std::endl;
-	std::cout << "c = " << c << std::endl;
+	Bint a = "17";
+	Bint b("5");
+	Bint c = a&b;
 	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.toBinString() << std::endl;
+	std::cout << "c = " << c << std::endl;
+	std::cout << "c = " << c.toBinString() << std::endl;
 
 }

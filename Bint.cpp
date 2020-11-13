@@ -33,6 +33,7 @@ namespace TigerTV {
 
 Bint::Bint() {
 	number.push_back(0);
+	neg = false;
 }
 
 Bint::Bint(const std::string& decimal) : Bint() {
@@ -43,23 +44,34 @@ Bint::Bint(const char* decimal) : Bint() {
 	setDecimal(decimal);
 }
 
-Bint::Bint(const uint64_t num) {
+Bint::Bint(int num) {
+	if (num < 0) {
+		num = -num;
+		neg = true;
+	} else {
+		neg = false;
+	}
+
 	number.push_back(num);
 }
 
 void Bint::setDecimal(const std::string& s) {
-
 	Bint ten(10);
 	Bint temp;
-	for(const char& c : s) {
+	auto it = s.begin();
+
+	neg = (*it == '-');
+	if (neg) ++it;
+
+	for(; it != s.end(); ++it) {
 		*this *= ten;
 		// add digit
-		uint64_t i = (uint64_t)c;
-		i &= 0xf;
+		uint64_t i = *it & 0xf;
 		if (i > 9) i = 0; // should return exception
 		temp.number[0] = i;
 		*this += temp;
 	}
+
 }
 
 Bint Bint::operator + (const Bint& a) const {
@@ -72,12 +84,7 @@ Bint& Bint::operator += (const Bint& a) {
 
 	const std::vector<uint64_t>& bin = a.number;
 
-	if (number.size() < bin.size()) {
-		int diff = bin.size() - number.size();
-		for(int i = 0; i < diff; i++) {
-			number.push_back(0);
-		}
-	}
+	addLeadingZeros(a);	
 
 	int j = 0;
 	bool carry = false;
@@ -218,7 +225,8 @@ std::string Bint::toBinString() const {
 			current >>= 1;
 		}
 	}
-
+	
+	// skip leading zeros
 	current = number[j];
 	while(current){
 		s += (current & 1) + 0x30;
@@ -274,6 +282,9 @@ std::string Bint::toBaseString(uint64_t base) const {
 	}
 
 	if (s.size() == 0) return "0";
+	if (neg) {
+		s += '-';
+	}
 	std::reverse(s.begin(), s.end());
 	return s;
 }
@@ -311,6 +322,7 @@ Bint& Bint::operator *= (const Bint& a) {
 
 	}
 	
+	this->neg ^= a.neg;
 	this->number = c.number;
 	return (*this);
 }
@@ -365,12 +377,7 @@ Bint Bint::operator ++ (int) { // postfix
 
 Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
 	const std::vector<uint64_t>& bin = a.number;
-	if (number.size() < bin.size()) {
-		int diff = bin.size() - number.size();
-		for(int i = 0; i < diff; i++) {
-			number.push_back(0);
-		}
-	}
+	addLeadingZeros(a);
 
 	for(int j = 0; j < (int)bin.size(); j++) {
 		number[j] = lambda(number[j], bin[j]);
@@ -419,12 +426,7 @@ Bint& Bint::operator -= (const Bint& a) {
 
 	const std::vector<uint64_t>& bin = a.number;
 
-	if (bin.size() > number.size()) {
-		int diff = bin.size() - number.size();
-		for(int i = 0; i < diff; i++) {
-			number.push_back(-1);
-		}
-	}
+	addLeadingZeros(a);
 
 	int j = 0;
 	bool borrow = false;
@@ -615,7 +617,7 @@ void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const {
 		d >>= 1;
 	}
 
-	// do subruction
+	// do subtruction
 	while(d >= divisor) {
 		b <<= 1;
 		if (d <= a) {
@@ -634,6 +636,7 @@ Bint& Bint::operator /= (const Bint& a) {
 
 	div(c, res, a);
 
+	this->neg ^= a.neg;
 	this->number = res.number;
 	return (*this);
 }
@@ -651,6 +654,7 @@ Bint& Bint::operator %= (const Bint& a) {
 
 	div(c, res, a);
 
+	this->neg ^= a.neg;
 	this->number = c.number;
 	return (*this);
 }
@@ -662,6 +666,16 @@ void Bint::eraseLeadingZeros() {
 	}
 }
 
+void Bint::addLeadingZeros(const Bint& a) {
+	const std::vector<uint64_t>& bin = a.number;
+	if (bin.size() > number.size()) {
+		int diff = bin.size() - number.size();
+		for(int i = 0; i < diff; i++) {
+			number.push_back(0);
+		}
+	}
+}
+
 Bint Bint::operator ~ () const {
 	Bint a(*this);
 	std::vector<uint64_t>& number = a.number;
@@ -670,6 +684,7 @@ Bint Bint::operator ~ () const {
 	}
 	return a;
 }
+
 
 ////////////////////////////////////////////////////////////////////////
 //            INPUT-OUTPUT FUNCTIONS
