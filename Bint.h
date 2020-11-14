@@ -44,7 +44,7 @@ private:
 	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
 	Bint& bitOperation(const Bint& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
 	bool compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda); // not used now
-	void eraseLeadingZeros();
+	void eraseLeadingSign();
 	void extendNumberBySizeOf(Bint& extNumber, const Bint&a);
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
 	void div(Bint& c, Bint& res, const Bint& a) const;
@@ -89,6 +89,7 @@ public:
 	Bint& operator /= (const Bint& a);
 	Bint operator % (const Bint& a) const;
 	Bint& operator %= (const Bint& a);
+	Bint operator - () const; // prefix
 
 	// Shifts
 	Bint operator << (const int shift) const;

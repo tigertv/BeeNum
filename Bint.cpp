@@ -44,14 +44,11 @@ Bint::Bint(const char* decimal) : Bint() {
 }
 
 Bint::Bint(int num) {
-	if (num < 0) {
-		num = -num;
-	}
 	number.push_back(num);
 }
 
 void Bint::setDecimal(const std::string& s) {
-	const Bint ten(10);
+	//const Bint ten(10);
 	Bint temp;
 	auto it = s.begin();
 
@@ -59,8 +56,14 @@ void Bint::setDecimal(const std::string& s) {
 	if (neg) ++it;
 
 	for(; it != s.end(); ++it) {
-		*this *= ten;
+		Bint t(*this);
+		*this <<= 3;
+		t <<= 1;
+		*this += t;
+
+		//this *= ten;
 		// add digit
+
 		uint64_t i = *it - '0';
 		if (i > 9) {
 			std::string s("Unexpected symbol! - ");
@@ -72,15 +75,10 @@ void Bint::setDecimal(const std::string& s) {
 	}
 
 	if (neg) {
-		// set sign
-		uint64_t num = number.back();
-		num >>= 63;
-		if (num) {
-			number.push_back(0);	
-		}
-		*this = ~(*this) + 1;
+		*this = -(*this);
 	}
-
+	
+	eraseLeadingSign();
 }
 
 Bint Bint::operator + (const Bint& a) const {
@@ -108,13 +106,15 @@ Bint& Bint::operator += (const Bint& a) {
 
 	// check signed overflow 
 	if ((neg == negA) && (neg != isNegative())) {
-		if (carry) {
+		// refactor it
+		if (neg) {
 			number.push_back(-1);
 		} else {
 			number.push_back(0);
 		}
 	}
 
+	eraseLeadingSign();
 	return *this;
 }
 
@@ -252,7 +252,7 @@ std::string Bint::toBaseString(uint64_t base) const {
 	Bint temp(*this);
 	bool neg = isNegative();
 	if (neg) {
-		temp = ~temp + 1;
+		temp = -temp;
 	}
 
 	std::vector<uint64_t>current = temp.number;
@@ -303,8 +303,17 @@ Bint Bint::operator * (const Bint& a) const {
 }
 
 Bint& Bint::operator *= (const Bint& a) {
+	Bint aa(a);
 
-	const std::vector<uint64_t>& bin = a.number;
+	bool neg = (a.isNegative() != isNegative());
+	if (isNegative()) {
+		*this = -(*this);
+	}
+	if (aa.isNegative()) {
+		aa = -aa;
+	}
+
+	std::vector<uint64_t>& bin = aa.number;
 
 	Bint c;
 
@@ -328,8 +337,11 @@ Bint& Bint::operator *= (const Bint& a) {
 		}
 
 	}
+
+	if (neg) {
+		c = -c;
+	}
 	
-	//this->neg ^= a.neg;
 	this->number = c.number;
 	return (*this);
 }
@@ -431,7 +443,7 @@ Bint Bint::operator - (const Bint& a) const {
 
 Bint& Bint::operator -= (const Bint& a) {
 	Bint aa(a);
-	aa = ~aa + 1;
+	aa = -aa;
 	*this += aa;
 	return *this;
 }
@@ -490,8 +502,17 @@ Bint& Bint::operator >>= (const int shift) {
 	if (sh > 63) {
 		int q = sh / 64;
 		sh %= 64;
-		number.erase(number.begin(), number.begin() + q);
+		// check q limits
+		if (q >= (int)number.size()) {
+			number.clear();
+			number.push_back(0);
+			return *this;
+		} else {
+			number.erase(number.begin(), number.begin() + q);
+		}
 	}
+
+	int neg = isNegative();
 
 	uint64_t mask = (1 << sh) - 1;
 	int maskShift = 64 - sh;
@@ -507,7 +528,14 @@ Bint& Bint::operator >>= (const int shift) {
 		carry = nextCarry;
 	}
 
-	eraseLeadingZeros();
+	if (neg) {
+		uint64_t t = -1;
+		t <<= maskShift;
+		uint64_t& num = number.back();
+		num |= t;
+	}
+
+	eraseLeadingSign();
 	return *this;
 }
 
@@ -520,13 +548,13 @@ Bint Bint::operator << (const int shift) const {
 Bint& Bint::operator <<= (const int shift) {
 	int sh = shift;
 	int q = 0;
-	if (sh > 63) {
+	if (sh > 63) { // size specific
 		q = sh / 64;
 		sh %= 64;
 	}
-
+	bool neg = isNegative();
 	uint64_t mask = ~(((uint64_t)-1) >> sh);
-	int maskShift = 64 - sh;
+	int maskShift = 64 - sh; // size specific
 	uint64_t carry = 0;
 
 	for (uint64_t& n : number) {
@@ -540,14 +568,27 @@ Bint& Bint::operator <<= (const int shift) {
 	}
 
 	if (carry) {
+		uint64_t t = neg ? -1 : 0;
+		t <<= sh;
 		carry >>= maskShift;
+		carry |= t;
 		number.push_back(carry);
+	}
+
+	if (neg != isNegative()) {
+		if (neg) {
+			number.push_back(-1);
+		} else {
+			number.push_back(0);
+		}
 	}
 
 	if (q) {
 		std::vector<uint64_t> a(q, 0);
 		number.insert(number.begin(), a.begin(), a.end());
 	}
+
+	eraseLeadingSign();
 
 	return *this;
 }
@@ -637,15 +678,27 @@ Bint& Bint::operator %= (const Bint& a) {
 
 	div(c, res, a);
 
-	//this->neg ^= a.neg;
 	this->number = c.number;
 	return (*this);
 }
 
-void Bint::eraseLeadingZeros() {
-	for (int i = number.size() - 1; i > 0; i--) {
-		if (number.back() != 0) break;
-		number.erase(number.end()-1);
+void Bint::eraseLeadingSign() {
+	bool neg = isNegative();
+	// refactor
+	if (neg) {
+		for (int i = number.size() - 1; i > 0; i--) {
+			if (number[i] != (uint64_t)-1) break;
+			bool sign = number[i-1] >> 63;
+			// erase last
+			if (neg == sign) number.erase(number.end()-1);
+		}
+	} else {
+		for (int i = number.size() - 1; i > 0; i--) {
+			if (number[i] != 0) break;
+			bool sign = number[i-1] >> 63;
+			// erase last
+			if (neg == sign) number.erase(number.end()-1);
+		}
 	}
 }
 
@@ -654,7 +707,7 @@ void Bint::extendNumberBySizeOf(Bint& extNumber, const Bint& a) {
 	std::vector<uint64_t>& ext = extNumber.number;
 
 	int diff = bin.size() - ext.size();
-	int num = isNegative() ? -1 : 0;
+	int num = extNumber.isNegative() ? -1 : 0;
 
 	for(int i = 0; i < diff; i++) {
 		ext.push_back(num);
@@ -667,6 +720,7 @@ Bint Bint::operator ~ () const {
 	for(auto& item : number) {
 		item = ~item;
 	}
+	//a.eraseLeadingSign();
 	return a;
 }
 
@@ -676,6 +730,11 @@ bool Bint::isNegative() const {
 	return last;
 }
 
+Bint Bint::operator - () const { // prefix
+	Bint r(*this);
+	r = ~r + 1;
+	return r;
+}
 
 ////////////////////////////////////////////////////////////////////////
 //            INPUT-OUTPUT FUNCTIONS
