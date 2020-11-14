@@ -33,7 +33,6 @@ namespace TigerTV {
 
 Bint::Bint() {
 	number.push_back(0);
-	neg = false;
 }
 
 Bint::Bint(const std::string& decimal) : Bint() {
@@ -47,20 +46,16 @@ Bint::Bint(const char* decimal) : Bint() {
 Bint::Bint(int num) {
 	if (num < 0) {
 		num = -num;
-		neg = true;
-	} else {
-		neg = false;
 	}
-
 	number.push_back(num);
 }
 
 void Bint::setDecimal(const std::string& s) {
-	Bint ten(10);
+	const Bint ten(10);
 	Bint temp;
 	auto it = s.begin();
 
-	neg = (*it == '-');
+	bool neg = (*it == '-');
 	if (neg) ++it;
 
 	for(; it != s.end(); ++it) {
@@ -76,6 +71,16 @@ void Bint::setDecimal(const std::string& s) {
 		*this += temp;
 	}
 
+	if (neg) {
+		// set sign
+		uint64_t num = number.back();
+		num >>= 63;
+		if (num) {
+			number.push_back(0);	
+		}
+		*this = ~(*this) + 1;
+	}
+
 }
 
 Bint Bint::operator + (const Bint& a) const {
@@ -85,26 +90,28 @@ Bint Bint::operator + (const Bint& a) const {
 }
 
 Bint& Bint::operator += (const Bint& a) {
+	Bint aa(a);
+	extendNumberBySizeOf(*this, aa);	
+	extendNumberBySizeOf(aa, *this);	
 
-	const std::vector<uint64_t>& bin = a.number;
-
-	addLeadingZeros(a);	
+	std::vector<uint64_t>& bin = aa.number;
 
 	int j = 0;
 	bool carry = false;
 
-	for(; j < (int)bin.size(); j++) {
+	bool neg = isNegative();
+	bool negA = aa.isNegative();
+
+	for(; j < (int)number.size(); j++) {
 		addUintWithCarry(number[j], bin[j], carry);
 	}
 
-	if (carry) {
-		for(int i = j; i < (int)number.size(); i++) {
-			addUintWithCarry(number[i], 0, carry);
-			if (!carry) break;
-		}
-
+	// check signed overflow 
+	if ((neg == negA) && (neg != isNegative())) {
 		if (carry) {
-			number.push_back(1);
+			number.push_back(-1);
+		} else {
+			number.push_back(0);
 		}
 	}
 
@@ -215,32 +222,22 @@ Bint::operator std::string() const {
 }
 
 std::string Bint::toBinString() const {
-	//return toBaseString(2);
-	//*
 	// binary number output, '0' and '1'
 	std::string s = "";
 	uint64_t current;
 
 	int j = 0;
-	for(; j < (int)number.size() - 1; j++) {
+	for(; j < (int)number.size(); j++) {
 		current = number[j];
-		for (int i = 0; i < 64; i++){
+		for (int i = 0; i < 64; i++){ // size specific
 			s += (current & 1) + 0x30;
 			current >>= 1;
 		}
 	}
 	
-	// skip leading zeros
-	current = number[j];
-	while(current){
-		s += (current & 1) + 0x30;
-		current >>= 1;
-	}
-
 	if (s.size() == 0) return "0";
 	std::reverse(s.begin(), s.end());
 	return s;
-	//*/
 }
 
 std::string Bint::toString() const {
@@ -252,9 +249,14 @@ std::string Bint::toHexString() const {
 }
 
 std::string Bint::toBaseString(uint64_t base) const {
+	Bint temp(*this);
+	bool neg = isNegative();
+	if (neg) {
+		temp = ~temp + 1;
+	}
 
+	std::vector<uint64_t>current = temp.number;
 	std::string s = "";
-	std::vector<uint64_t>current = number;
 
 	while(current[0] || (current.size() > 1)) {
 		std::vector<uint64_t>res;
@@ -285,8 +287,9 @@ std::string Bint::toBaseString(uint64_t base) const {
 		current = res;
 	}
 
-	if (s.size() == 0) return "0";
-	if (neg) {
+	if (s.size() == 0) { 
+		return "0";
+	} else if (neg) {
 		s += '-';
 	}
 	std::reverse(s.begin(), s.end());
@@ -326,7 +329,7 @@ Bint& Bint::operator *= (const Bint& a) {
 
 	}
 	
-	this->neg ^= a.neg;
+	//this->neg ^= a.neg;
 	this->number = c.number;
 	return (*this);
 }
@@ -381,7 +384,7 @@ Bint Bint::operator ++ (int) { // postfix
 
 Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
 	const std::vector<uint64_t>& bin = a.number;
-	addLeadingZeros(a);
+	extendNumberBySizeOf(*this, a);
 
 	for(int j = 0; j < (int)bin.size(); j++) {
 		number[j] = lambda(number[j], bin[j]);
@@ -427,33 +430,9 @@ Bint Bint::operator - (const Bint& a) const {
 }
 
 Bint& Bint::operator -= (const Bint& a) {
-
-	const std::vector<uint64_t>& bin = a.number;
-
-	addLeadingZeros(a);
-
-	int j = 0;
-	bool borrow = false;
-
-	for(; j < (int)bin.size(); j++) {
-		uint64_t t = bin[j] + borrow;
-		borrow = number[j] < t;
-		number[j] -= t;
-	}
-
-	if (borrow) {
-		for(; j < (int)number.size(); j++) {
-			if (number[j] == 0) {
-				number[j] -= 1;
-			} else {
-				number[j] -= 1;
-				break;
-			}
-		}
-	}
-
-	eraseLeadingZeros();
-
+	Bint aa(a);
+	aa = ~aa + 1;
+	*this += aa;
 	return *this;
 }
 
@@ -640,7 +619,7 @@ Bint& Bint::operator /= (const Bint& a) {
 
 	div(c, res, a);
 
-	this->neg ^= a.neg;
+	//this->neg ^= a.neg;
 	this->number = res.number;
 	return (*this);
 }
@@ -658,7 +637,7 @@ Bint& Bint::operator %= (const Bint& a) {
 
 	div(c, res, a);
 
-	this->neg ^= a.neg;
+	//this->neg ^= a.neg;
 	this->number = c.number;
 	return (*this);
 }
@@ -670,13 +649,15 @@ void Bint::eraseLeadingZeros() {
 	}
 }
 
-void Bint::addLeadingZeros(const Bint& a) {
+void Bint::extendNumberBySizeOf(Bint& extNumber, const Bint& a) {
 	const std::vector<uint64_t>& bin = a.number;
-	if (bin.size() > number.size()) {
-		int diff = bin.size() - number.size();
-		for(int i = 0; i < diff; i++) {
-			number.push_back(0);
-		}
+	std::vector<uint64_t>& ext = extNumber.number;
+
+	int diff = bin.size() - ext.size();
+	int num = isNegative() ? -1 : 0;
+
+	for(int i = 0; i < diff; i++) {
+		ext.push_back(num);
 	}
 }
 
@@ -687,6 +668,12 @@ Bint Bint::operator ~ () const {
 		item = ~item;
 	}
 	return a;
+}
+
+bool Bint::isNegative() const {
+	uint64_t last = number.back();	
+	last >>= 63; // size specific
+	return last;
 }
 
 
