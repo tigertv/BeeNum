@@ -56,12 +56,14 @@ void Bint::setDecimal(const std::string& s) {
 	if (neg) ++it;
 
 	for(; it != s.end(); ++it) {
+		//*
 		Bint t(*this);
 		*this <<= 3;
 		t <<= 1;
 		*this += t;
+		//*/
 
-		//this *= ten;
+		//(*this) *= ten;
 		// add digit
 
 		uint64_t i = *it - '0';
@@ -306,9 +308,11 @@ Bint& Bint::operator *= (const Bint& a) {
 	Bint aa(a);
 
 	bool neg = (a.isNegative() != isNegative());
+
 	if (isNegative()) {
 		*this = -(*this);
 	}
+
 	if (aa.isNegative()) {
 		aa = -aa;
 	}
@@ -331,6 +335,13 @@ Bint& Bint::operator *= (const Bint& a) {
 			b.number[i+j] = opL;
 			if (opH) {
 				b.number.push_back(opH);
+				if (opH & 0x8000000000000000) {
+					b.number.push_back(0);
+				}
+			} else {
+				if (opL & 0x8000000000000000) {
+					b.number.push_back(0);
+				}
 			}
 
 			c += b;
@@ -341,7 +352,7 @@ Bint& Bint::operator *= (const Bint& a) {
 	if (neg) {
 		c = -c;
 	}
-	
+
 	this->number = c.number;
 	return (*this);
 }

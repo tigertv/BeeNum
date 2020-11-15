@@ -19,7 +19,7 @@ int main() {
 	};
 
 	///////////////////////////////////////////////////////////
-//*
+/*
 	std::cout << "addition:" << std::endl;
 
 	std::cout << "positives:" << std::endl;
@@ -50,7 +50,7 @@ int main() {
 	//*/
 
 	///////////////////////////////////////////////////////////
-//*
+/*
 	std::cout << "shift left:" << std::endl;
 
 	std::cout << "positives:" << std::endl;
@@ -83,7 +83,7 @@ int main() {
 	//*/
 
 	///////////////////////////////////////////////////////////
-//*
+/*
 	std::cout << "shift right:" << std::endl;
 
 	std::cout << "positives:" << std::endl;
@@ -119,7 +119,7 @@ int main() {
 
 	///////////////////////////////////////////////////////////
 
-//*
+/*
 	std::cout << "subtruction:" << std::endl;
 	std::string s = "5000000000000000000";
 
@@ -166,26 +166,112 @@ int main() {
 	std::cout << "a = " << a.toBinString() << std::endl;
 	std::cout << std::endl;
 	//*/
+
 /*
-	std::cout << "negatives:" << std::endl;
-	a = "-36893488147419103232";
+	///////////////////////////////////////////////////////////
+
+	a = "-500000000000000000000000000000000000000000000000";
 	std::cout << "a = " << a << std::endl;
 	std::cout << "a = " << a.toBinString() << std::endl;
 
-	std::cout << "=1============================================================= " << std::endl;
-	a = "-1";
-	std::cout << "a = -1" << std::endl;
-	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
-	std::cout << "=2============================================================= " << std::endl;
-	a <<= 65;
-	std::cout << "<<=65" << std::endl;
-	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
-	std::cout << "=3============================================================= " << std::endl;
-	//assert(a.toString()==("-"+s.second));
-	//std::cout << "a = " << a << std::endl;
-	//std::cout << "a = " << a.toBinString() << std::endl;
+	b = "-500000000000000000000000000000000000000000";
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.toBinString() << std::endl;
+
+	c = a * b;
+	std::cout << "c = " << c << std::endl;
+	std::cout << "c = " << c.toBinString() << std::endl;
 	std::cout << std::endl;
 //*/
+
+	///////////////////////////////////////////////////////////
+/*
+	std::cout << "square:" << std::endl;
+
+	std::cout << "positives:" << std::endl;
+	for (auto& s : data) {
+		a = s.second;
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+
+		a *= a;
+		//assert(a.toString()==s.second);
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << std::endl;
+	}
+	
+	std::cout << "negatives:" << std::endl;
+	for (auto& s : data) {
+		a = "-" + s.second;
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+
+		a *= a;
+		//assert(a.toString()==("-"+s.second));
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << std::endl;
+	}
+	//*/
+
+	///////////////////////////////////////////////////////////
+//*
+	std::cout << "product:" << std::endl;
+
+	std::cout << "positives:" << std::endl;
+	for (auto& s : data) {
+		a = s.second;
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+
+		int i = -10;
+		std::cout << "i = " << i << std::endl;
+		a *= i;
+		//assert(a.toString()==s.second);
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << std::endl;
+	}
+	
+	std::cout << "negatives:" << std::endl;
+	for (auto& s : data) {
+		a = "-" + s.second;
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+
+		int i = 10;
+		std::cout << "i = " << i << std::endl;
+		a *= i;
+		//assert(a.toString()==("-"+s.second));
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << std::endl;
+	}
+//*/
+//*
+	std::string s = "18446744073709551616";
+	s = "1844674407370955160";
+	a = s;
+	std::cout << "s = " << s << std::endl;
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.toBinString() << std::endl;
+	a *= -10;
+	//a =	"36893488147419103232";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.toBinString() << std::endl;
+	
+//*/
+/*
+	b = 10;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.toBinString() << std::endl;
+
+	c = a * b;
+
+	//assert(a.toString()==s.second);
+	std::cout << "c = " << c << std::endl;
+	std::cout << "c = " << c.toBinString() << std::endl;
+	std::cout << std::endl;
+	//*/
 }
