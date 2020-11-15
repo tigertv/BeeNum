@@ -216,7 +216,7 @@ int main() {
 	//*/
 
 	///////////////////////////////////////////////////////////
-//*
+/*
 	std::cout << "product:" << std::endl;
 
 	std::cout << "positives:" << std::endl;
@@ -260,18 +260,26 @@ int main() {
 	//a =	"36893488147419103232";
 	std::cout << "a = " << a << std::endl;
 	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "a = " << a.hex() << std::endl;
+	std::cout << "a = " << a.oct() << std::endl;
+	std::cout << "a = " << a.base(12) << std::endl;
+	std::cout << std::endl;
 	
 //*/
-/*
-	b = 10;
-	std::cout << "b = " << b << std::endl;
-	std::cout << "b = " << b.bin() << std::endl;
+//*
+	int e = 9;
+	std::cout << "e = " << e << std::endl;
+	std::cout << "e = " << std::hex <<  e << std::endl;
 
-	c = a * b;
+	int f = -5;
+	std::cout << "f = " << std::dec << f << std::endl;
+	std::cout << "f = " << std::hex << f << std::endl;
 
-	//assert(a.toString()==s.second);
-	std::cout << "c = " << c << std::endl;
-	std::cout << "c = " << c.bin() << std::endl;
+	int h = e % f;
+
+	std::cout << "h = " << std::dec << h << std::endl;
+	std::cout << "h = " << std::hex << h << std::endl;
 	std::cout << std::endl;
 	//*/
+
 }

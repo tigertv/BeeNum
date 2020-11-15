@@ -61,6 +61,7 @@ public:
 	// String representation
 	std::string bin() const;
 	std::string hex() const;
+	std::string oct() const;
 	std::string toString() const;
 	std::string base(uint64_t base) const;
 	operator std::string() const;

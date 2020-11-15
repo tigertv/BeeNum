@@ -250,6 +250,10 @@ std::string Bint::hex() const {
 	return base(16);
 }
 
+std::string Bint::oct() const {
+	return base(8);
+}
+
 std::string Bint::base(uint64_t base) const {
 	Bint temp(*this);
 	bool neg = isNegative();

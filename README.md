@@ -9,6 +9,7 @@ Bint c = a * b;
 std::cout << "c= " << c << std::endl;
 std::cout << "c= " << c.bin() << std::endl;
 std::cout << "c= " << c.hex() << std::endl;
+std::cout << "c= " << c.oct() << std::endl;
 std::cout << "c= " << c.base(12) << std::endl;
 ```
 
