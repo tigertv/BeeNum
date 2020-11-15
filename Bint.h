@@ -50,6 +50,7 @@ private:
 	void div(Bint& c, Bint& res, const Bint& a) const;
 	void setDecimal(const std::string& s);
 	bool isNegative() const;
+	std::string base2(const uint64_t base) const;
 
 public:
 	// Constructors
@@ -63,7 +64,7 @@ public:
 	std::string hex() const;
 	std::string oct() const;
 	std::string toString() const;
-	std::string base(uint64_t base) const;
+	std::string base(const uint64_t base) const;
 	operator std::string() const;
 
 	// Bit

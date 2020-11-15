@@ -224,16 +224,22 @@ Bint::operator std::string() const {
 }
 
 std::string Bint::bin() const {
-	// binary number output, '0' and '1'
+	return "0b" + base2(1);
+}
+
+std::string Bint::base2(const uint64_t base) const {
+	uint64_t mask = (1 << base) - 1;
 	std::string s = "";
 	uint64_t current;
+	const std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
 
 	int j = 0;
+	const int limit = (64 / base);
 	for(; j < (int)number.size(); j++) {
 		current = number[j];
-		for (int i = 0; i < 64; i++){ // size specific
-			s += (current & 1) + 0x30;
-			current >>= 1;
+		for (int i = 0; i < limit; i++){ // size specific
+			s.push_back(alphabet[current & mask]);
+			current >>= base;
 		}
 	}
 	
@@ -247,14 +253,14 @@ std::string Bint::toString() const {
 }
 
 std::string Bint::hex() const {
-	return base(16);
+	return "0x" + base2(4);
 }
 
 std::string Bint::oct() const {
-	return base(8);
+	return "0" + base2(3);
 }
 
-std::string Bint::base(uint64_t base) const {
+std::string Bint::base(const uint64_t base) const {
 	Bint temp(*this);
 	bool neg = isNegative();
 	if (neg) {
@@ -293,13 +299,12 @@ std::string Bint::base(uint64_t base) const {
 		current = res;
 	}
 
-	if (s.size() == 0) { 
-		return "0";
-	} else if (neg) {
-		s += '-';
-	}
+	if (s.size() == 0) return "0";
+	if (neg) s += '-';
+
 	std::reverse(s.begin(), s.end());
-	return s;
+	if (base == 10) return s;
+	return "b" + std::to_string(base) + '_' + s;
 }
 
 Bint Bint::operator * (const Bint& a) const {
