@@ -26,11 +26,11 @@ int main() {
 	for (auto& s : data) {
 		a = s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		c = a+a;
 		std::cout << "c = " << c << std::endl;
-		std::cout << "c = " << c.toBinString() << std::endl;
+		std::cout << "c = " << c.bin() << std::endl;
 
 		std::cout << std::endl;
 	}
@@ -39,11 +39,11 @@ int main() {
 	for (auto& s : data) {
 		a = "-" + s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		c = a+a;
 		std::cout << "c = " << c << std::endl;
-		std::cout << "c = " << c.toBinString() << std::endl;
+		std::cout << "c = " << c.bin() << std::endl;
 
 		std::cout << std::endl;
 	}
@@ -57,13 +57,13 @@ int main() {
 	for (auto& s : data) {
 		a = s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		a = "1";
 		a <<= s.first;
 		assert(a.toString()==s.second);
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 
@@ -71,13 +71,13 @@ int main() {
 	for (auto& s : data) {
 		a = "-" + s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		a = "-1";
 		a <<= s.first;
 		//assert(a.toString()==("-"+s.second));
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 	//*/
@@ -90,14 +90,14 @@ int main() {
 	for (auto& s : data) {
 		a = s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		a = "1";
 		a <<= s.first + 1;
 		a >>= 1;
 		assert(a.toString()==s.second);
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 	
@@ -105,14 +105,14 @@ int main() {
 	for (auto& s : data) {
 		a = "-" + s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		a = "-1";
 		a <<= s.first + 1;
 		a >>= 1;
 		assert(a.toString()==("-"+s.second));
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 	//*/
@@ -125,15 +125,15 @@ int main() {
 
 	a = "-" + s;
 	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
 
 	b = "" + s;
 	std::cout << "b = " << b << std::endl;
-	std::cout << "b = " << b.toBinString() << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
 
 	c = a - b;
 	std::cout << "c = " << c << std::endl;
-	std::cout << "c = " << c.toBinString() << std::endl;
+	std::cout << "c = " << c.bin() << std::endl;
 	std::cout << std::endl;
 
 	///////////////////////////////////////////////////////////
@@ -142,15 +142,15 @@ int main() {
 
 	b = "" + s;
 	std::cout << "b = " << b << std::endl;
-	std::cout << "b = " << b.toBinString() << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
 
 	a = "-" + s;
 	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
 
 	c = b - a;
 	std::cout << "c = " << c << std::endl;
-	std::cout << "c = " << c.toBinString() << std::endl;
+	std::cout << "c = " << c.bin() << std::endl;
 	std::cout << std::endl;
 	//*/
 
@@ -159,11 +159,11 @@ int main() {
 /*
 	a = "5000000000000000000";
 	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
 	std::cout << std::endl;
 	a <<= 2;
 	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
 	std::cout << std::endl;
 	//*/
 
@@ -172,15 +172,15 @@ int main() {
 
 	a = "-500000000000000000000000000000000000000000000000";
 	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
 
 	b = "-500000000000000000000000000000000000000000";
 	std::cout << "b = " << b << std::endl;
-	std::cout << "b = " << b.toBinString() << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
 
 	c = a * b;
 	std::cout << "c = " << c << std::endl;
-	std::cout << "c = " << c.toBinString() << std::endl;
+	std::cout << "c = " << c.bin() << std::endl;
 	std::cout << std::endl;
 //*/
 
@@ -192,12 +192,12 @@ int main() {
 	for (auto& s : data) {
 		a = s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		a *= a;
 		//assert(a.toString()==s.second);
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 	
@@ -205,12 +205,12 @@ int main() {
 	for (auto& s : data) {
 		a = "-" + s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		a *= a;
 		//assert(a.toString()==("-"+s.second));
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 	//*/
@@ -223,14 +223,14 @@ int main() {
 	for (auto& s : data) {
 		a = s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		int i = -10;
 		std::cout << "i = " << i << std::endl;
 		a *= i;
 		//assert(a.toString()==s.second);
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 	
@@ -238,14 +238,14 @@ int main() {
 	for (auto& s : data) {
 		a = "-" + s.second;
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 
 		int i = 10;
 		std::cout << "i = " << i << std::endl;
 		a *= i;
 		//assert(a.toString()==("-"+s.second));
 		std::cout << "a = " << a << std::endl;
-		std::cout << "a = " << a.toBinString() << std::endl;
+		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
 	}
 //*/
@@ -255,23 +255,23 @@ int main() {
 	a = s;
 	std::cout << "s = " << s << std::endl;
 	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
 	a *= -10;
 	//a =	"36893488147419103232";
 	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.toBinString() << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
 	
 //*/
 /*
 	b = 10;
 	std::cout << "b = " << b << std::endl;
-	std::cout << "b = " << b.toBinString() << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
 
 	c = a * b;
 
 	//assert(a.toString()==s.second);
 	std::cout << "c = " << c << std::endl;
-	std::cout << "c = " << c.toBinString() << std::endl;
+	std::cout << "c = " << c.bin() << std::endl;
 	std::cout << std::endl;
 	//*/
 }

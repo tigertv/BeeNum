@@ -49,7 +49,6 @@ private:
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
 	void div(Bint& c, Bint& res, const Bint& a) const;
 	void setDecimal(const std::string& s);
-	std::string toBaseString(uint64_t base) const;
 	bool isNegative() const;
 
 public:
@@ -60,9 +59,10 @@ public:
 	Bint(const std::string& decimal);
 
 	// String representation
-	std::string toBinString() const;
-	std::string toHexString() const;
+	std::string bin() const;
+	std::string hex() const;
 	std::string toString() const;
+	std::string base(uint64_t base) const;
 	operator std::string() const;
 
 	// Bit

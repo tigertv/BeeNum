@@ -223,7 +223,7 @@ Bint::operator std::string() const {
 	return this->toString();
 }
 
-std::string Bint::toBinString() const {
+std::string Bint::bin() const {
 	// binary number output, '0' and '1'
 	std::string s = "";
 	uint64_t current;
@@ -243,14 +243,14 @@ std::string Bint::toBinString() const {
 }
 
 std::string Bint::toString() const {
-	return toBaseString(10);
+	return base(10);
 }
 
-std::string Bint::toHexString() const {
-	return toBaseString(16);
+std::string Bint::hex() const {
+	return base(16);
 }
 
-std::string Bint::toBaseString(uint64_t base) const {
+std::string Bint::base(uint64_t base) const {
 	Bint temp(*this);
 	bool neg = isNegative();
 	if (neg) {
