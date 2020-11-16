@@ -230,22 +230,26 @@ std::string Bint::bin() const {
 std::string Bint::base2(const uint64_t base) const {
 	uint64_t mask = (1 << base) - 1;
 	std::string s = "";
-	uint64_t current;
 	const std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	const int limit = 64 / base;
-	const int rmd = 64 % base;
-	int j = 0;
-
 	Bint a(*this);
+	int j = a.number.size() << 6;
+	const int limit = j / base;
+	const int rmd = j % base;
+	j = 0;
 	Bint zero;
 
-	while(a != zero) {
+	for(int i = 0; i < limit; i++) {
 		j = a.number[0] & mask;
 		s.push_back(alphabet[j]);
 		a.urshift(base);
 	}
-	
+
+	if (rmd) {
+		j = a.number[0] & mask;
+		s.push_back(alphabet[j]);
+	}
+
 	if (s.size() == 0) return "0";
 	std::reverse(s.begin(), s.end());
 	return s;
@@ -307,7 +311,7 @@ std::string Bint::base(const uint64_t base) const {
 
 	std::reverse(s.begin(), s.end());
 	if (base == 10) return s;
-	return "b" + std::to_string(base) + '_' + s;
+	return s + "_b" + std::to_string(base);
 }
 
 Bint Bint::operator * (const Bint& a) const {
