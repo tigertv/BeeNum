@@ -120,6 +120,10 @@ Bint& Bint::operator += (const Bint& a) {
 	return *this;
 }
 
+////////////////////////////////////////////////////////////////////////
+//            COMPARISON OPERATORS
+////////////////////////////////////////////////////////////////////////
+
 bool Bint::operator == (const Bint &b) const {
 	const std::vector<uint64_t>& n = b.number;
 	if (number.size() < n.size()) return false;
@@ -149,9 +153,13 @@ bool Bint::operator != (const Bint &b) const {
 }
 
 bool Bint::operator > (const Bint& b) const {
+	bool neg = isNegative();
+	bool negB = b.isNegative();
+	if (neg != negB) return negB;
+
 	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return false;
-	if (number.size() > n.size()) return true;
+	if (number.size() < n.size()) return neg;
+	if (number.size() > n.size()) return !neg;
 
 	for(int i = n.size() - 1; i >= 0; i--) {
 		if(number[i] > n[i]) {
@@ -164,9 +172,13 @@ bool Bint::operator > (const Bint& b) const {
 }
 
 bool Bint::operator < (const Bint &b) const {
+	bool neg = isNegative();
+	bool negB = b.isNegative();
+	if (neg != negB) return neg;
+
 	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return true;
-	if (number.size() > n.size()) return false;
+	if (number.size() < n.size()) return !neg;
+	if (number.size() > n.size()) return neg;
 
 	for(int i = n.size() - 1; i >= 0; i--) {
 		if(number[i] < n[i]) {
@@ -179,9 +191,13 @@ bool Bint::operator < (const Bint &b) const {
 }
 
 bool Bint::operator <= (const Bint &b) const {
+	bool neg = isNegative();
+	bool negB = b.isNegative();
+	if (neg != negB) return neg;
+
 	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return true;
-	if (number.size() > n.size()) return false;
+	if (number.size() < n.size()) return !neg;
+	if (number.size() > n.size()) return neg;
 
 	for(int i = n.size() - 1; i >= 0; i--) {
 		if(number[i] < n[i]) {
@@ -195,9 +211,13 @@ bool Bint::operator <= (const Bint &b) const {
 }
 
 bool Bint::operator >= (const Bint &b) const {
+	bool neg = isNegative();
+	bool negB = b.isNegative();
+	if (neg != negB) return negB;
+
 	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return false;
-	if (number.size() > n.size()) return true;
+	if (number.size() < n.size()) return neg;
+	if (number.size() > n.size()) return !neg;
 
 	for(int i = n.size() - 1; i >= 0; i--) {
 		if(number[i] > n[i]) {
@@ -209,6 +229,8 @@ bool Bint::operator >= (const Bint &b) const {
 
 	return true;
 }
+
+////////////////////////////////////////////////////////////////////////
 
 void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const {
 	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;
@@ -662,20 +684,6 @@ Bint& Bint::operator <<= (const int shift) {
 	eraseLeadingSign();
 
 	return *this;
-}
-
-bool Bint::compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&,const uint64_t&)>&& lambda) {
-	const std::vector<uint64_t>& n = a.number;
-	if (number.size() < n.size()) return b;
-	if (number.size() > n.size()) return c;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(!lambda(number[i], n[i])) {
-			return false;
-		}
-	}
-
-	return true;
 }
 
 Bint Bint::operator / (const Bint& a) const {

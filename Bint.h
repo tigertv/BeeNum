@@ -43,7 +43,6 @@ private:
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const;
 	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
 	Bint& bitOperation(const Bint& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
-	bool compare(const Bint& a, bool b, bool c, std::function<bool(const uint64_t&, const uint64_t&)>&& lambda); // not used now
 	void eraseLeadingSign();
 	void extendNumberBySizeOf(Bint& extNumber, const Bint&a);
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;

@@ -249,24 +249,11 @@ int main() {
 		std::cout << std::endl;
 	}
 //*/
-//*
-	std::string s = "18446744073709551616";
-	s = "1844674407370955160";
-	//s = "10934534535345288343";
-	s = "372542872459";
+/*
+	std::string s = "372542872459";
 	a = s;
 	b = "-29351077";
 	a *= b;
-	/*
-	std::cout << "s = " << s << std::endl;
-	std::cout << "a = " << a << std::endl;
-	std::cout << "a bin = " << a.bin() << std::endl;
-	std::cout << "a hex = " << a.hex() << std::endl;
-	std::cout << "a oct = " << a.oct() << std::endl;
-	std::cout << "a b12 = " << a.base(12) << std::endl;
-	std::cout << std::endl;
-	//*/
-	//a =	"36893488147419103232";
 	std::cout << "a = " << a << std::endl;
 	std::cout << "a bin = " << a.bin() << std::endl;
 	std::cout << "a hex = " << a.hex() << std::endl;
@@ -282,20 +269,124 @@ int main() {
 	std::cout << std::endl;
 	
 //*/
-/*
-	int e = 9;
-	std::cout << "e = " << e << std::endl;
-	std::cout << "e = " << std::hex <<  e << std::endl;
 
-	int f = -5;
-	std::cout << "f = " << std::dec << f << std::endl;
-	std::cout << "f = " << std::hex << f << std::endl;
+	///////////////////////////////////////////////////////////
+	//  COMPARISON
+	///////////////////////////////////////////////////////////
 
-	int h = e % f;
+	std::cout << "comparison operators:" << std::endl;
+	a = "-3235345345345";
+	b = "-2935107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a > b) {
+		std::cout << "a > b" << std::endl;
+	} else {
+		std::cout << "a !> b" << std::endl;
+	}
+	assert((a > b)==false);
+	std::cout << std::endl;
 
-	std::cout << "h = " << std::dec << h << std::endl;
-	std::cout << "h = " << std::hex << h << std::endl;
+	a = "-2135107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a > b) {
+		std::cout << "a > b" << std::endl;
+	} else {
+		std::cout << "a !> b" << std::endl;
+	}
+	assert((a > b)==true);
 	std::cout << std::endl;
 	//*/
+	a = "3235345345345";
+	b = "2935107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a > b) {
+		std::cout << "a > b" << std::endl;
+	} else {
+		std::cout << "a !> b" << std::endl;
+	}
+	assert((a > b)==true);
+	std::cout << std::endl;
+
+	a = "2135107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a > b) {
+		std::cout << "a > b" << std::endl;
+	} else {
+		std::cout << "a !> b" << std::endl;
+	}
+	assert((a > b)==false);
+	std::cout << std::endl;
+
+	///////////////////////////////////////////////////////////
+
+	a = "-3235345345345";
+	b = "-2935107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a < b) {
+		std::cout << "a < b" << std::endl;
+	} else {
+		std::cout << "a !< b" << std::endl;
+	}
+	assert((a < b)==true);
+	std::cout << std::endl;
+
+	a = "-2135107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a < b) {
+		std::cout << "a < b" << std::endl;
+	} else {
+		std::cout << "a !< b" << std::endl;
+	}
+	assert((a < b)==false);
+	std::cout << std::endl;
+	//*/
+	a = "3235345345345";
+	b = "2935107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a < b) {
+		std::cout << "a < b" << std::endl;
+	} else {
+		std::cout << "a !< b" << std::endl;
+	}
+	assert((a < b)==false);
+	std::cout << std::endl;
+
+	a = "2135107723423";
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a = " << a.bin() << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "b = " << b.bin() << std::endl;
+	if (a < b) {
+		std::cout << "a < b" << std::endl;
+	} else {
+		std::cout << "a !< b" << std::endl;
+	}
+	assert((a < b)==true);
+	std::cout << std::endl;
+
+	///////////////////////////////////////////////////////////
+	//  COMPARISON END
+	///////////////////////////////////////////////////////////
 
 }
