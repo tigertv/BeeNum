@@ -231,16 +231,19 @@ std::string Bint::base2(const uint64_t base) const {
 	uint64_t mask = (1 << base) - 1;
 	std::string s = "";
 	uint64_t current;
-	const std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
+	const std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+	const int limit = 64 / base;
+	const int rmd = 64 % base;
 	int j = 0;
-	const int limit = (64 / base);
-	for(; j < (int)number.size(); j++) {
-		current = number[j];
-		for (int i = 0; i < limit; i++){ // size specific
-			s.push_back(alphabet[current & mask]);
-			current >>= base;
-		}
+
+	Bint a(*this);
+	Bint zero;
+
+	while(a != zero) {
+		j = a.number[0] & mask;
+		s.push_back(alphabet[j]);
+		a.urshift(base);
 	}
 	
 	if (s.size() == 0) return "0";
@@ -520,7 +523,7 @@ Bint Bint::operator >> (const int shift) const {
 Bint& Bint::operator >>= (const int shift) {
 	int sh = shift;
 	if (sh > 63) {
-		int q = sh / 64;
+		int q = sh / 64; // container size specific
 		sh %= 64;
 		// check q limits
 		if (q >= (int)number.size()) {
@@ -556,6 +559,41 @@ Bint& Bint::operator >>= (const int shift) {
 	}
 
 	eraseLeadingSign();
+	return *this;
+}
+
+// unsigned right shift
+Bint& Bint::urshift(const uint64_t shift) {
+	int sh = shift;
+	if (sh > 63) {
+		int q = sh / 64;
+		sh %= 64;
+		// check q limits
+		if (q >= (int)number.size()) {
+			number.clear();
+			number.push_back(0);
+			return *this;
+		} else {
+			number.erase(number.begin(), number.begin() + q);
+		}
+	}
+
+	uint64_t mask = (1 << sh) - 1;
+	int maskShift = 64 - sh;
+	uint64_t carry = 0;
+
+	for (int i = number.size() - 1; i >= 0; --i) {
+		uint64_t nextCarry = number[i] & mask;
+		number[i] >>= sh;
+		if (carry) {
+			carry <<= maskShift;
+			number[i] |= carry;
+		}
+		carry = nextCarry;
+	}
+
+	eraseLeadingSign();
+
 	return *this;
 }
 
@@ -740,7 +778,6 @@ Bint Bint::operator ~ () const {
 	for(auto& item : number) {
 		item = ~item;
 	}
-	//a.eraseLeadingSign();
 	return a;
 }
 
@@ -755,6 +792,7 @@ Bint Bint::operator - () const { // prefix
 	r = ~r + 1;
 	return r;
 }
+
 
 ////////////////////////////////////////////////////////////////////////
 //            INPUT-OUTPUT FUNCTIONS

@@ -51,6 +51,7 @@ private:
 	void setDecimal(const std::string& s);
 	bool isNegative() const;
 	std::string base2(const uint64_t base) const;
+	Bint& urshift(const uint64_t shift);
 
 public:
 	// Constructors
