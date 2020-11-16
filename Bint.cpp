@@ -269,7 +269,7 @@ std::string Bint::oct() const {
 
 std::string Bint::base(const uint64_t base) const {
 	const std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	if (base > alphabet.size()) return "too big base";
+	bool isBaseBig = (base > alphabet.size());
 
 	Bint temp(*this);
 	bool neg = isNegative();
@@ -296,12 +296,25 @@ std::string Bint::base(const uint64_t base) const {
 		}
 
 		if (res.size() == 0) res.push_back(0);
-		s.push_back(alphabet[rmd]);
+
+		if (isBaseBig) {
+			uint64_t current = rmd;
+			while(current) {
+				rmd = current % 10;
+				current = current / 10;
+				s.push_back(alphabet[rmd]);
+			}
+			s.push_back(':');
+		} else {
+			s.push_back(alphabet[rmd]);
+		}
+
 		std::reverse(res.begin(), res.end());
 		current = res;
 	}
 
 	if (s.size() == 0) return "0";
+	if (isBaseBig) s.pop_back();
 	if (neg) s += '-';
 
 	std::reverse(s.begin(), s.end());

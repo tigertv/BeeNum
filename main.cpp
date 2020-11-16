@@ -252,8 +252,11 @@ int main() {
 //*
 	std::string s = "18446744073709551616";
 	s = "1844674407370955160";
-	s = "10934534535345288343";
+	//s = "10934534535345288343";
+	s = "372542872459";
 	a = s;
+	b = "-29351077";
+	a *= b;
 	/*
 	std::cout << "s = " << s << std::endl;
 	std::cout << "a = " << a << std::endl;
@@ -263,7 +266,6 @@ int main() {
 	std::cout << "a b12 = " << a.base(12) << std::endl;
 	std::cout << std::endl;
 	//*/
-	a = -a;
 	//a =	"36893488147419103232";
 	std::cout << "a = " << a << std::endl;
 	std::cout << "a bin = " << a.bin() << std::endl;
@@ -272,6 +274,10 @@ int main() {
 	std::cout << "a b12 = " << a.base(12) << std::endl;
 	std::cout << "a b16 = " << a.base(16) << std::endl;
 	std::cout << "a b62 = " << a.base(62) << std::endl;
+	std::cout << "a b100 = " << a.base(100) << std::endl;
+	std::cout << "a b101 = " << a.base(101) << std::endl;
+	std::cout << "a b1000 = " << a.base(1000) << std::endl;
+	std::cout << "a b1001 = " << a.base(1001) << std::endl;
 	std::cout << "-a hex= " << (-a).hex() << std::endl;
 	std::cout << std::endl;
 	
