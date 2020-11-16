@@ -30,6 +30,7 @@
 
 namespace TigerTV {
 
+const std::string Bint::alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 Bint::Bint() {
 	number.push_back(0);
@@ -252,7 +253,6 @@ std::string Bint::bin() const {
 std::string Bint::base2(const uint64_t base) const {
 	uint64_t mask = (1 << base) - 1;
 	std::string s = "";
-	const std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	Bint a(*this);
 	int j = a.number.size() << 6;
@@ -290,7 +290,6 @@ std::string Bint::oct() const {
 }
 
 std::string Bint::base(const uint64_t base) const {
-	const std::string alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	bool isBaseBig = (base > alphabet.size());
 
 	Bint temp(*this);

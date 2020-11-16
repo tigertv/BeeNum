@@ -39,6 +39,7 @@ namespace TigerTV {
 class Bint {
 private:
 	std::vector<uint64_t> number;
+	static const std::string alphabet;
 
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const;
 	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
