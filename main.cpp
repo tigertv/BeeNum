@@ -271,6 +271,7 @@ int main() {
 	std::cout << "a oct = " << a.oct() << std::endl;
 	std::cout << "a b12 = " << a.base(12) << std::endl;
 	std::cout << "a b16 = " << a.base(16) << std::endl;
+	std::cout << "a b62 = " << a.base(62) << std::endl;
 	std::cout << "-a hex= " << (-a).hex() << std::endl;
 	std::cout << std::endl;
 	
