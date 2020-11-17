@@ -52,6 +52,7 @@ private:
 	bool isNegative() const;
 	std::string base2(const uint64_t base) const;
 	Bint& urshift(const uint64_t shift);
+	void addUintAt(uint64_t index, uint64_t operand);
 
 public:
 	// Constructors

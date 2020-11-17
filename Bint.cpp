@@ -92,6 +92,7 @@ Bint Bint::operator + (const Bint& a) const {
 
 Bint& Bint::operator += (const Bint& a) {
 	Bint aa(a);
+	// no need so many calls to extend
 	extendNumberBySizeOf(*this, aa);	
 	extendNumberBySizeOf(aa, *this);	
 
@@ -117,6 +118,7 @@ Bint& Bint::operator += (const Bint& a) {
 		}
 	}
 
+	// TODO: check need
 	eraseLeadingSign();
 	return *this;
 }
@@ -242,6 +244,22 @@ void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, boo
 	operand1res = result;
 }
 
+// it doesn't check bounds
+void Bint::addUintAt(uint64_t index, uint64_t operand) {
+	bool carry = false;
+	addUintWithCarry(number[index], operand, carry);
+	while(carry) {
+		++index;
+		if (number[index] != (uint64_t)-1) {
+			++number[index];
+			break;
+		}
+		number[index] = 0;
+	}
+}
+
+////////////////////////////////////////////////////////////////////////
+
 Bint::operator std::string() const {
 	return this->toString();
 }
@@ -366,33 +384,22 @@ Bint& Bint::operator *= (const Bint& a) {
 	std::vector<uint64_t>& bin = aa.number;
 
 	Bint c;
+	int m = bin.size() * number.size();
+	for (int i = 0; i < m; ++i) {
+		c.number.push_back(0);
+	}
 
-	for(int j = 0; j < (int)bin.size(); ++j) {
-		for (int i = 0; i < (int)number.size(); ++i) {
-			Bint b;
-			// add zeros
-			for (int k = i + j; k > 0; --k) {
-				b.number.push_back(0);
-			}
-
+	for(int j = bin.size() - 1; j >= 0 ; --j) {
+		for(int i = number.size() - 1; i >= 0 ; --i) {
 			uint64_t opH = number[i];	
 			uint64_t opL = bin[j];	
 			mult(opH, opL);
-			b.number[i+j] = opL;
-			if (opH) {
-				b.number.push_back(opH);
-			} else {
-				opH = opL;
-			}
-
-			if (opH & 0x8000000000000000) { // size specific
-				b.number.push_back(0);
-			}
-
-			c += b;
+			c.addUintAt(i+j, opL);
+			c.addUintAt(i+j+1, opH);
 		}
-
 	}
+
+	c.eraseLeadingSign();
 
 	if (neg) {
 		c = -c;
