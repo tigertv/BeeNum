@@ -320,11 +320,11 @@ std::string Bint::base(const uint64_t base) const {
 
 		if (isBaseBig) {
 			uint64_t current = rmd;
-			while(current) {
+			do {
 				rmd = current % 10;
 				current = current / 10;
 				s.push_back(alphabet[rmd]);
-			}
+			} while (current);
 			s.push_back(':');
 		} else {
 			s.push_back(alphabet[rmd]);
@@ -367,11 +367,11 @@ Bint& Bint::operator *= (const Bint& a) {
 
 	Bint c;
 
-	for(int j = 0; j < (int)bin.size(); j++) {
-		for (int i = 0; i < (int)number.size(); i++) {
+	for(int j = 0; j < (int)bin.size(); ++j) {
+		for (int i = 0; i < (int)number.size(); ++i) {
 			Bint b;
 			// add zeros
-			for (int k = 0; k < i+j; k++) {
+			for (int k = i + j; k > 0; --k) {
 				b.number.push_back(0);
 			}
 
@@ -381,13 +381,12 @@ Bint& Bint::operator *= (const Bint& a) {
 			b.number[i+j] = opL;
 			if (opH) {
 				b.number.push_back(opH);
-				if (opH & 0x8000000000000000) {
-					b.number.push_back(0);
-				}
 			} else {
-				if (opL & 0x8000000000000000) {
-					b.number.push_back(0);
-				}
+				opH = opL;
+			}
+
+			if (opH & 0x8000000000000000) { // size specific
+				b.number.push_back(0);
 			}
 
 			c += b;
@@ -427,7 +426,7 @@ void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) const {
 	bool carry = false;
 	addUintWithCarry(resL, hll, carry);
 	if (carry) {
-		resH++;
+		++resH;
 		carry = false;
 	}
 	addUintWithCarry(resL, ll, carry);

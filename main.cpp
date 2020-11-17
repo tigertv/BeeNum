@@ -3,6 +3,7 @@
 #include <cassert>
 #include <map>
 #include "Bint.h"
+#include "Math.h"
 
 using namespace TigerTV;
 
@@ -228,7 +229,7 @@ int main() {
 		int i = -10;
 		std::cout << "i = " << i << std::endl;
 		a *= i;
-		//assert(a.toString()==s.second);
+		assert(a.toString()==("-" + s.second + "0"));
 		std::cout << "a = " << a << std::endl;
 		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
@@ -240,10 +241,10 @@ int main() {
 		std::cout << "a = " << a << std::endl;
 		std::cout << "a = " << a.bin() << std::endl;
 
-		int i = 10;
-		std::cout << "i = " << i << std::endl;
-		a *= i;
-		//assert(a.toString()==("-"+s.second));
+		std::string t = "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+		std::cout << "t = " << t << std::endl;
+		a *= t;
+		assert(a.toString()==("-" + s.second + "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
 		std::cout << "a = " << a << std::endl;
 		std::cout << "a = " << a.bin() << std::endl;
 		std::cout << std::endl;
@@ -272,7 +273,7 @@ int main() {
 	///////////////////////////////////////////////////////////
 	//  COMPARISON
 	///////////////////////////////////////////////////////////
-//*
+/*
 	std::cout << "comparison operators:" << std::endl;
 	a = "-3235345345345";
 	b = "-2935107723423";
@@ -387,5 +388,23 @@ int main() {
 	///////////////////////////////////////////////////////////
 	//  COMPARISON END
 	///////////////////////////////////////////////////////////
+
+	a = "120";
+	std::cout << "a = " << a << std::endl;
+	a = Math::fact(a);
+	assert(a.toString()=="6689502913449127057588118054090372586752746333138029810295671352301633557244962989366874165271984981308157637893214090552534408589408121859898481114389650005964960521256960000000000000000000000000000");
+	std::cout << "a = " << a << std::endl;
+	std::cout << "a bin = " << a.bin() << std::endl;
+	std::cout << "a hex = " << a.hex() << std::endl;
+	std::cout << "a oct = " << a.oct() << std::endl;
+	std::cout << "a b12 = " << a.base(12) << std::endl;
+	std::cout << "a b16 = " << a.base(16) << std::endl;
+	std::cout << "a b62 = " << a.base(62) << std::endl;
+	std::cout << "a b100 = " << a.base(100) << std::endl;
+	std::cout << "a b101 = " << a.base(101) << std::endl;
+	std::cout << "a b1000 = " << a.base(1000) << std::endl;
+	std::cout << "a b1001 = " << a.base(1001) << std::endl;
+	//std::cout << "-a hex= " << (-a).hex() << std::endl;
+	std::cout << std::endl;
 
 }

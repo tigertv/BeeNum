@@ -65,5 +65,17 @@ Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
 	return ret;
 }
 
+Bint Math::fact(const Bint& a) {
+	Bint ret(1), mult(1);
+	if (a <= 0) return ret;
+
+	while (mult != a) {
+		++mult;
+		ret *= mult;
+	}
+
+	return ret;
+}
+
 
 } // namespace
