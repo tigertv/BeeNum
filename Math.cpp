@@ -72,21 +72,35 @@ Bint Math::fact(const uint64_t& a) {
 
 	uint64_t c(a);
 	uint64_t sum = 0;
+	std::vector<uint64_t> bitc;
 
 	while (c != 1) {
-		ret *= oddFact(c);
+		bitc.push_back((c-1)|1);
 		c >>= 1;
 		sum += c;
+	}
+
+	uint64_t prev = 1;
+	Bint result(1);
+
+	for(int i = bitc.size() - 1; i >= 0; --i) {
+		result *= oddFact(bitc[i], prev + 2);
+		ret *= result;
+		prev = bitc[i];
 	}
 
 	ret <<= sum;
 	return ret;
 }
 
-Bint Math::oddFact(const uint64_t& a) {
-	Bint ret(1), mult(3), two(2), b(a);
-	if (a < 3) return ret;
-	if (a == 3) return mult;
+Bint Math::oddFact(const uint64_t& a, const uint64_t& begin) {
+	Bint ret(1), mult(begin), two(2), b(a);
+	if (a < 3) {
+		return ret;
+	}
+	if (a == 3) {
+		return a;
+	}
 
 	while (mult <= b) {
 		ret *= mult;
