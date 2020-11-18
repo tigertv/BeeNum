@@ -81,6 +81,7 @@ public:
 	// Arithmetic
 	Bint operator + (const Bint& a) const;
 	Bint& operator += (const Bint& a);
+	//Bint& operator += (const int& a);
 	Bint operator ++ (int); // postfix
 	Bint& operator ++ (); // prefix
 	Bint operator - (const Bint& a) const;
@@ -98,6 +99,7 @@ public:
 	// Shifts
 	Bint operator << (const int shift) const;
 	Bint& operator <<= (const int shift);
+	Bint& operator <<= (const Bint& a);
 	Bint operator >> (const int shift) const;
 	Bint& operator >>= (const int shift);
 

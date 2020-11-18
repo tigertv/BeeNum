@@ -122,6 +122,28 @@ Bint& Bint::operator += (const Bint& a) {
 	eraseLeadingSign();
 	return *this;
 }
+/*
+Bint& Bint::operator += (const int& a) {
+	bool neg = isNegative();
+	if (a > 0) {
+		bool carry = false;
+		addUintWithCarry(number[0], a, carry);
+		if (carry) {
+			if (neg) {
+
+			} else {
+
+			}
+		}
+
+		
+
+	} else {
+		// a <= 0
+	}
+	return *this;
+}
+//*/
 
 ////////////////////////////////////////////////////////////////////////
 //            COMPARISON OPERATORS
@@ -641,6 +663,11 @@ Bint Bint::operator << (const int shift) const {
 	Bint b = *this;
 	b <<= shift;
 	return b;
+}
+
+Bint& Bint::operator <<= (const Bint& a) {
+	*this <<= a.number[0];
+	return *this;
 }
 
 Bint& Bint::operator <<= (const int shift) {

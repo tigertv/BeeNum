@@ -66,14 +66,19 @@ Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
 }
 
 Bint Math::fact(const Bint& a) {
-	Bint ret(1), mult(1);
-	if (a <= 0) return ret;
+	Bint ret(1), mult(1), two(2), twos(a);
+	if (a <= 1) return ret;
+	if (a == 2) return a;
 
-	while (mult != a) {
-		++mult;
+	twos >>= 1;
+
+	while (mult <= a) {
 		ret *= mult;
+		mult += two;
 	}
+	ret <<= twos;
 
+	ret *= fact(twos);
 	return ret;
 }
 
