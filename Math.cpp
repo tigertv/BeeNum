@@ -65,22 +65,35 @@ Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
 	return ret;
 }
 
-Bint Math::fact(const Bint& a) {
-	Bint ret(1), mult(1), two(2), twos(a);
+Bint Math::fact(const uint64_t& a) {
+	Bint ret(1);
 	if (a <= 1) return ret;
 	if (a == 2) return a;
 
-	twos >>= 1;
+	uint64_t c(a);
+	uint64_t sum = 0;
 
-	while (mult <= a) {
-		ret *= mult;
-		mult += two;
+	while (c != 1) {
+		ret *= oddFact(c);
+		c >>= 1;
+		sum += c;
 	}
-	ret <<= twos;
 
-	ret *= fact(twos);
+	ret <<= sum;
 	return ret;
 }
 
+Bint Math::oddFact(const uint64_t& a) {
+	Bint ret(1), mult(3), two(2), b(a);
+	if (a < 3) return ret;
+	if (a == 3) return mult;
+
+	while (mult <= b) {
+		ret *= mult;
+		mult += two;
+	}
+
+	return ret;
+}
 
 } // namespace
