@@ -190,7 +190,7 @@ bool Bint::operator > (const Bint& b) const {
 		if(number[i] > n[i]) {
 			return true;
 		}
-		if(number[i] != n[i]) break;
+		if(number[i] != n[i]) return false;
 	}
 
 	return false;
@@ -209,50 +209,18 @@ bool Bint::operator < (const Bint &b) const {
 		if(number[i] < n[i]) {
 			return true;
 		}
-		if(number[i] != n[i]) break;
+		if(number[i] != n[i]) return false;
 	}
 
 	return false;
 }
 
 bool Bint::operator <= (const Bint &b) const {
-	bool neg = isNegative();
-	bool negB = b.isNegative();
-	if (neg != negB) return neg;
-
-	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return !neg;
-	if (number.size() > n.size()) return neg;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] < n[i]) {
-			return true;
-		} else if(number[i] != n[i]) {
-			return false;
-		}
-	}
-
-	return true;
+	return !(*this > b);
 }
 
 bool Bint::operator >= (const Bint &b) const {
-	bool neg = isNegative();
-	bool negB = b.isNegative();
-	if (neg != negB) return negB;
-
-	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return neg;
-	if (number.size() > n.size()) return !neg;
-
-	for(int i = n.size() - 1; i >= 0; i--) {
-		if(number[i] > n[i]) {
-			return true;
-		} else if(number[i] != n[i]) {
-			return false;
-		}
-	}
-
-	return true;
+	return !(*this < b);
 }
 
 ////////////////////////////////////////////////////////////////////////

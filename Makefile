@@ -6,7 +6,7 @@ SRC = $(wildcard *.cpp)
 OBJ=$(SRC:.cpp=.o)
 OBJF=$(SRC:.cpp=.fast.o)
 
-all: main main-fast
+all: main 
 
 main: $(OBJ) 
 	$(CXX) $(OPTS) $(OBJ) -o $@
