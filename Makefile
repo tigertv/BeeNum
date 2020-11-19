@@ -1,15 +1,21 @@
 .PHONY: clean
 
 CXX = g++ 
-OPTS = -std=c++17 -Wall -Wextra -masm=intel
+OPTS = -std=c++17 -Wall -Wextra -masm=intel 
 SRC = $(wildcard *.cpp) 
 OBJ=$(SRC:.cpp=.o)
+OBJF=$(SRC:.cpp=.fast.o)
 
-all: main
+all: main main-fast
 
 main: $(OBJ) 
-	$(CXX) $(OPTS) $(OBJ) -o main
+	$(CXX) $(OPTS) $(OBJ) -o $@
+main-fast: $(OBJF) 
+	$(CXX) $(OPTS) -Ofast $(OBJF) -o $@ 
 %.o: %.cpp
 	$(CXX) $(OPTS) -c $< -o $@ 
+%.fast.o: %.cpp
+	$(CXX) $(OPTS) -Ofast -c $< -o $@ 
+
 clean: 
-	rm -rf main *.o
+	rm -rf main main-fast *.o
