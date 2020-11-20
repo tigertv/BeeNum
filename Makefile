@@ -1,4 +1,4 @@
-.PHONY: clean
+.PHONY: clean fast
 
 CXX = g++ 
 OPTS = -std=c++17 -Wall -Wextra -masm=intel 
@@ -7,6 +7,8 @@ OBJ=$(SRC:.cpp=.o)
 OBJF=$(SRC:.cpp=.fast.o)
 
 all: main 
+
+fast: main-fast
 
 main: $(OBJ) 
 	$(CXX) $(OPTS) $(OBJ) -o $@

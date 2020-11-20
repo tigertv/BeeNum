@@ -35,11 +35,11 @@ namespace TigerTV {
 class Math {
 private:
 	Math();
-	static Bint oddFact(const uint64_t& a, const uint64_t& begin); 
+	static Bint oddFact(const uint64_t a, const uint64_t begin); 
 public:
 	static Bint pow(const Bint& a, uint64_t pow);
 	static Bint modPow(const Bint& base, const Bint& exp, const Bint& mod);
-	static Bint fact(const uint64_t& a);
+	static Bint fact(const uint64_t a);
 };
 
 

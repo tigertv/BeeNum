@@ -65,7 +65,7 @@ Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
 	return ret;
 }
 
-Bint Math::fact(const uint64_t& a) {
+Bint Math::fact(const uint64_t a) {
 	Bint ret(1);
 	if (a <= 1) return ret;
 	if (a == 2) return a;
@@ -93,8 +93,8 @@ Bint Math::fact(const uint64_t& a) {
 	return ret;
 }
 
-Bint Math::oddFact(const uint64_t& a, const uint64_t& begin) {
-	Bint ret(1), mult(begin), two(2), b(a);
+Bint Math::oddFact(const uint64_t a, const uint64_t begin) {
+	Bint ret(1);
 	if (a < 3) {
 		return ret;
 	}
@@ -102,9 +102,18 @@ Bint Math::oddFact(const uint64_t& a, const uint64_t& begin) {
 		return a;
 	}
 
-	while (mult <= b) {
-		ret *= mult;
-		mult += two;
+	uint64_t n = (a - 1) | 1;
+	if (((n - begin) % 4) == 0) {
+		ret = n;
+		n -= 2;
+	}
+
+	Bint last(n+2);
+	last *= (begin - 2);
+	
+	for (uint64_t m = n - begin + 2; m >= 2; m -= 4) {
+		last += m << 1;
+		ret *= last;
 	}
 
 	return ret;
