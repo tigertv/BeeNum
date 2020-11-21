@@ -41,7 +41,7 @@ private:
 	std::vector<uint64_t> number;
 	static const std::string alphabet;
 
-	void addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const;
+	void addUintWithCarry(uint64_t& operand1res, const uint64_t operand2, bool& carry) const;
 	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
 	Bint& bitOperation(const Bint& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
 	void eraseLeadingSign();
@@ -90,7 +90,7 @@ public:
 	Bint& operator -- (); // prefix
 	Bint operator * (const Bint& a) const;
 	Bint& operator *= (const Bint& a);
-	//Bint& operator *= (const int a);
+	Bint& operator *= (int a);
 	Bint operator / (const Bint& a) const;
 	Bint& operator /= (const Bint& a);
 	Bint operator % (const Bint& a) const;

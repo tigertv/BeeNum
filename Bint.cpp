@@ -225,7 +225,7 @@ bool Bint::operator >= (const Bint &b) const {
 
 ////////////////////////////////////////////////////////////////////////
 
-void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t& operand2, bool& carry) const {
+void Bint::addUintWithCarry(uint64_t& operand1res, const uint64_t operand2, bool& carry) const {
 	uint64_t bigCarry = (operand1res & 1) + (operand2 & 1) + carry;
 	uint64_t result = (operand1res >> 1) + (operand2 >> 1) + (bigCarry >> 1);
 	carry = (bool)(result & 0x8000000000000000);
@@ -358,6 +358,46 @@ Bint Bint::operator * (const Bint& a) const {
 	return b;
 }
 
+Bint& Bint::operator *= (int a) {
+	if (a == 1) return *this;
+
+	bool neg = ((a < 0) != isNegative());
+
+	if (isNegative()) {
+		*this = -(*this);
+	}
+	
+	if (a < 0) {
+		a = -a;
+	}
+	
+	uint64_t bigCarry = 0;	
+	bool carry = false;
+	for(int i = 0; i < (int)number.size(); ++i) {
+		uint64_t opH = a;
+		mult(opH, number[i]);
+		addUintWithCarry(number[i], bigCarry, carry);
+		bigCarry = opH;
+	}
+
+	if (bigCarry || carry) {
+		if (bigCarry != (uint64_t)-1) {
+			number.push_back(bigCarry + carry);
+		} else {
+			number.push_back(0);
+			number.push_back(1);
+		}
+	}
+
+	eraseLeadingSign();
+
+	if (neg) {
+		*this = -(*this);
+	}
+
+	return *this;
+}
+
 Bint& Bint::operator *= (const Bint& a) {
 	Bint aa(a);
 
@@ -431,6 +471,7 @@ void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) const {
 	operand1ResHigh = resH;
 	operand2ResLow = resL;
 }
+//*/
 
 Bint& Bint::operator ++ () { // prefix
 	Bint c;

@@ -108,7 +108,7 @@ Bint Math::oddFact(const uint64_t a, const uint64_t begin) {
 		n -= 2;
 	}
 
-	Bint last(n+2);
+	Bint last(n + 2);
 	last *= (begin - 2);
 	
 	for (uint64_t m = n - begin + 2; m >= 2; m -= 4) {
