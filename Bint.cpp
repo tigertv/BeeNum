@@ -44,7 +44,7 @@ Bint::Bint(const char* decimal) : Bint() {
 	setDecimal(decimal);
 }
 
-Bint::Bint(int num) {
+Bint::Bint(const int64_t num) {
 	number.push_back(num);
 }
 
@@ -160,6 +160,189 @@ Bint& Bint::operator += (const int64_t a) {
 	// TODO: check need
 	eraseLeadingSign();
 	return *this;
+}
+
+Bint Bint::operator * (const Bint& a) const {
+	Bint b = *this;
+	b *= a;
+	return b;
+}
+
+Bint Bint::operator * (const int64_t a) const {
+	Bint b = *this;
+	b *= a;
+	return b;
+}
+
+Bint& Bint::operator *= (const int64_t a) {
+	if (a == 1) return *this;
+
+	int64_t aa = a;
+
+	bool neg = ((aa < 0) != isNegative());
+
+	if (isNegative()) {
+		*this = -(*this);
+	}
+	
+	if (aa < 0) {
+		aa = -aa;
+	}
+	
+	uint64_t bigCarry = 0;	
+	bool carry = false;
+	for(int i = 0; i < (int)number.size(); ++i) {
+		uint64_t opH = aa;
+		mult(opH, number[i]);
+		addUintWithCarry(number[i], bigCarry, carry);
+		bigCarry = opH;
+	}
+
+	if (bigCarry || carry) {
+		if (bigCarry != (uint64_t)-1) {
+			number.push_back(bigCarry + carry);
+		} else {
+			number.push_back(0);
+			number.push_back(1);
+		}
+	}
+
+	eraseLeadingSign();
+
+	if (neg) {
+		*this = -(*this);
+	}
+
+	return *this;
+}
+
+Bint& Bint::operator *= (const Bint& a) {
+	Bint aa(a);
+
+	bool neg = (a.isNegative() != isNegative());
+
+	if (isNegative()) {
+		*this = -(*this);
+	}
+
+	if (aa.isNegative()) {
+		aa = -aa;
+	}
+
+	std::vector<uint64_t>& bin = aa.number;
+
+	Bint c;
+	int m = bin.size() * number.size();
+	for (int i = 0; i < m; ++i) {
+		c.number.push_back(0);
+	}
+
+	for(int j = bin.size() - 1; j >= 0 ; --j) {
+		for(int i = number.size() - 1; i >= 0 ; --i) {
+			uint64_t opH = number[i];	
+			uint64_t opL = bin[j];	
+			mult(opH, opL);
+			c.addUintAt(i+j, opL);
+			c.addUintAt(i+j+1, opH);
+		}
+	}
+
+	c.eraseLeadingSign();
+
+	if (neg) {
+		c = -c;
+	}
+
+	this->number = c.number;
+	return (*this);
+}
+
+void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) const {
+	uint64_t low1 = 0x00000000ffffffff & operand1ResHigh;	
+	uint64_t high1 = (0xffffffff00000000 & operand1ResHigh) >> 32;	
+	uint64_t low2 = 0x00000000ffffffff & operand2ResLow;	
+	uint64_t high2 = (0xffffffff00000000 & operand2ResLow) >> 32;	
+
+	uint64_t ll = low1 * low2;
+	uint64_t hh = high1 * high2;
+
+	uint64_t lh = low1 * high2;
+	uint64_t hl = high1 * low2;
+
+	uint64_t lhh = (lh & 0xffffffff00000000) >> 32;
+	uint64_t lhl = (lh & 0x00000000ffffffff) << 32;
+
+	uint64_t hlh = (hl & 0xffffffff00000000) >> 32;
+	uint64_t hll = (hl & 0x00000000ffffffff) << 32;
+
+	uint64_t resL = lhl;
+	uint64_t resH = lhh;
+	resH += hlh;
+	bool carry = false;
+	addUintWithCarry(resL, hll, carry);
+	if (carry) {
+		++resH;
+		carry = false;
+	}
+	addUintWithCarry(resL, ll, carry);
+	addUintWithCarry(resH, hh, carry);
+	operand1ResHigh = resH;
+	operand2ResLow = resL;
+}
+//*/
+
+Bint& Bint::operator ++ () { // prefix
+	Bint c;
+	c.number[0] = 1;
+	*this += c;
+	return *this;
+}
+
+Bint Bint::operator ++ (int) { // postfix
+	Bint b = *this; 
+	Bint c;
+	c.number[0] = 1;
+	*this += c;
+	return b;
+}
+
+Bint Bint::operator - (const Bint& a) const {
+	Bint b = *this;
+	b -= a;
+	return b;
+}
+
+Bint Bint::operator - (const int64_t a) const {
+	Bint b = *this;
+	b -= a;
+	return b;
+}
+
+Bint& Bint::operator -= (const Bint& a) {
+	Bint aa(a);
+	aa = -aa;
+	*this += aa;
+	return *this;
+}
+
+Bint& Bint::operator -= (const int64_t a) {
+	*this += -a;
+	return *this;
+}
+
+Bint& Bint::operator -- () { // prefix
+	Bint c;
+	c.number[0] = 1;
+	*this -= c;
+	return *this;
+}
+
+Bint Bint::operator -- (int) { // postfix
+	Bint b = *this; 
+	Bint c;
+	c.number[0] = 1;
+	*this -= c;
+	return b;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -369,149 +552,6 @@ std::string Bint::base(const uint64_t base) const {
 	return s + "_b" + std::to_string(base);
 }
 
-Bint Bint::operator * (const Bint& a) const {
-	Bint b = *this;
-	b *= a;
-	return b;
-}
-
-Bint Bint::operator * (const int64_t a) const {
-	Bint b = *this;
-	b *= a;
-	return b;
-}
-
-Bint& Bint::operator *= (const int64_t a) {
-	if (a == 1) return *this;
-
-	int64_t aa = a;
-
-	bool neg = ((aa < 0) != isNegative());
-
-	if (isNegative()) {
-		*this = -(*this);
-	}
-	
-	if (aa < 0) {
-		aa = -aa;
-	}
-	
-	uint64_t bigCarry = 0;	
-	bool carry = false;
-	for(int i = 0; i < (int)number.size(); ++i) {
-		uint64_t opH = aa;
-		mult(opH, number[i]);
-		addUintWithCarry(number[i], bigCarry, carry);
-		bigCarry = opH;
-	}
-
-	if (bigCarry || carry) {
-		if (bigCarry != (uint64_t)-1) {
-			number.push_back(bigCarry + carry);
-		} else {
-			number.push_back(0);
-			number.push_back(1);
-		}
-	}
-
-	eraseLeadingSign();
-
-	if (neg) {
-		*this = -(*this);
-	}
-
-	return *this;
-}
-
-Bint& Bint::operator *= (const Bint& a) {
-	Bint aa(a);
-
-	bool neg = (a.isNegative() != isNegative());
-
-	if (isNegative()) {
-		*this = -(*this);
-	}
-
-	if (aa.isNegative()) {
-		aa = -aa;
-	}
-
-	std::vector<uint64_t>& bin = aa.number;
-
-	Bint c;
-	int m = bin.size() * number.size();
-	for (int i = 0; i < m; ++i) {
-		c.number.push_back(0);
-	}
-
-	for(int j = bin.size() - 1; j >= 0 ; --j) {
-		for(int i = number.size() - 1; i >= 0 ; --i) {
-			uint64_t opH = number[i];	
-			uint64_t opL = bin[j];	
-			mult(opH, opL);
-			c.addUintAt(i+j, opL);
-			c.addUintAt(i+j+1, opH);
-		}
-	}
-
-	c.eraseLeadingSign();
-
-	if (neg) {
-		c = -c;
-	}
-
-	this->number = c.number;
-	return (*this);
-}
-
-void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) const {
-	uint64_t low1 = 0x00000000ffffffff & operand1ResHigh;	
-	uint64_t high1 = (0xffffffff00000000 & operand1ResHigh) >> 32;	
-	uint64_t low2 = 0x00000000ffffffff & operand2ResLow;	
-	uint64_t high2 = (0xffffffff00000000 & operand2ResLow) >> 32;	
-
-	uint64_t ll = low1 * low2;
-	uint64_t hh = high1 * high2;
-
-	uint64_t lh = low1 * high2;
-	uint64_t hl = high1 * low2;
-
-	uint64_t lhh = (lh & 0xffffffff00000000) >> 32;
-	uint64_t lhl = (lh & 0x00000000ffffffff) << 32;
-
-	uint64_t hlh = (hl & 0xffffffff00000000) >> 32;
-	uint64_t hll = (hl & 0x00000000ffffffff) << 32;
-
-	uint64_t resL = lhl;
-	uint64_t resH = lhh;
-	resH += hlh;
-	bool carry = false;
-	addUintWithCarry(resL, hll, carry);
-	if (carry) {
-		++resH;
-		carry = false;
-	}
-	addUintWithCarry(resL, ll, carry);
-	addUintWithCarry(resH, hh, carry);
-	operand1ResHigh = resH;
-	operand2ResLow = resL;
-}
-//*/
-
-Bint& Bint::operator ++ () { // prefix
-	Bint c;
-	c.number[0] = 1;
-	*this += c;
-	return *this;
-}
-
-Bint Bint::operator ++ (int) { // postfix
-	Bint b = *this; 
-	Bint c;
-	c.number[0] = 1;
-	*this += c;
-	return b;
-}
 
 Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
 	const std::vector<uint64_t>& bin = a.number;
@@ -554,44 +594,6 @@ Bint& Bint::operator ^= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a ^ b; });
 }
 
-Bint Bint::operator - (const Bint& a) const {
-	Bint b = *this;
-	b -= a;
-	return b;
-}
-
-Bint Bint::operator - (const int64_t a) const {
-	Bint b = *this;
-	b -= a;
-	return b;
-}
-
-Bint& Bint::operator -= (const Bint& a) {
-	Bint aa(a);
-	aa = -aa;
-	*this += aa;
-	return *this;
-}
-
-Bint& Bint::operator -= (const int64_t a) {
-	*this += -a;
-	return *this;
-}
-
-Bint& Bint::operator -- () { // prefix
-	Bint c;
-	c.number[0] = 1;
-	*this -= c;
-	return *this;
-}
-
-Bint Bint::operator -- (int) { // postfix
-	Bint b = *this; 
-	Bint c;
-	c.number[0] = 1;
-	*this -= c;
-	return b;
-}
 
 uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const {
 	uint64_t quot = 0;
@@ -810,13 +812,11 @@ void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const {
 }
 
 Bint& Bint::operator /= (const Bint& a) {
-
 	Bint c = *this;
 	Bint res;
 
 	div(c, res, a);
 
-	//this->neg ^= a.neg;
 	this->number = res.number;
 	return (*this);
 }

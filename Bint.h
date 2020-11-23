@@ -57,7 +57,7 @@ private:
 public:
 	// Constructors
 	Bint();
-	Bint(int num);
+	Bint(int64_t num);
 	Bint(const char* decimal);
 	Bint(const std::string& decimal);
 
