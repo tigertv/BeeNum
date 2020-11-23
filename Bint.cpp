@@ -97,6 +97,8 @@ Bint Bint::operator + (const int64_t a) const {
 }
 
 Bint& Bint::operator += (const Bint& a) {
+	if (a.number.size() == 1) return (*this) += a.number[0];
+
 	Bint aa(a);
 	// no need so many calls to extend
 	extendNumberBySizeOf(*this, aa);	
@@ -178,7 +180,6 @@ Bint& Bint::operator *= (const int64_t a) {
 	if (a == 1) return *this;
 
 	int64_t aa = a;
-
 	bool neg = ((aa < 0) != isNegative());
 
 	if (isNegative()) {
@@ -207,6 +208,10 @@ Bint& Bint::operator *= (const int64_t a) {
 		}
 	}
 
+	if (isNegative()) {
+		number.push_back(0);
+	}
+
 	eraseLeadingSign();
 
 	if (neg) {
@@ -217,6 +222,8 @@ Bint& Bint::operator *= (const int64_t a) {
 }
 
 Bint& Bint::operator *= (const Bint& a) {
+	if (a.number.size() == 1) return (*this) *= a.number[0];
+
 	Bint aa(a);
 
 	bool neg = (a.isNegative() != isNegative());
