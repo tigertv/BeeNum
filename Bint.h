@@ -80,17 +80,21 @@ public:
 
 	// Arithmetic
 	Bint operator + (const Bint& a) const;
+	Bint operator + (const int64_t a) const;
 	Bint& operator += (const Bint& a);
 	Bint& operator += (const int64_t a);
 	Bint operator ++ (int); // postfix
 	Bint& operator ++ (); // prefix
 	Bint operator - (const Bint& a) const;
+	Bint operator - (const int64_t a) const;
 	Bint& operator -= (const Bint& a);
+	Bint& operator -= (const int64_t a);
 	Bint operator -- (int); // postfix
 	Bint& operator -- (); // prefix
 	Bint operator * (const Bint& a) const;
+	Bint operator * (const int64_t a) const;
 	Bint& operator *= (const Bint& a);
-	Bint& operator *= (int a);
+	Bint& operator *= (const int64_t a);
 	Bint operator / (const Bint& a) const;
 	Bint& operator /= (const Bint& a);
 	Bint operator % (const Bint& a) const;

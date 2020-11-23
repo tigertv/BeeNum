@@ -90,6 +90,12 @@ Bint Bint::operator + (const Bint& a) const {
 	return b;
 }
 
+Bint Bint::operator + (const int64_t a) const {
+	Bint b = *this;
+	b += a;
+	return b;
+}
+
 Bint& Bint::operator += (const Bint& a) {
 	Bint aa(a);
 	// no need so many calls to extend
@@ -369,23 +375,31 @@ Bint Bint::operator * (const Bint& a) const {
 	return b;
 }
 
-Bint& Bint::operator *= (int a) {
+Bint Bint::operator * (const int64_t a) const {
+	Bint b = *this;
+	b *= a;
+	return b;
+}
+
+Bint& Bint::operator *= (const int64_t a) {
 	if (a == 1) return *this;
 
-	bool neg = ((a < 0) != isNegative());
+	int64_t aa = a;
+
+	bool neg = ((aa < 0) != isNegative());
 
 	if (isNegative()) {
 		*this = -(*this);
 	}
 	
-	if (a < 0) {
-		a = -a;
+	if (aa < 0) {
+		aa = -aa;
 	}
 	
 	uint64_t bigCarry = 0;	
 	bool carry = false;
 	for(int i = 0; i < (int)number.size(); ++i) {
-		uint64_t opH = a;
+		uint64_t opH = aa;
 		mult(opH, number[i]);
 		addUintWithCarry(number[i], bigCarry, carry);
 		bigCarry = opH;
@@ -546,10 +560,21 @@ Bint Bint::operator - (const Bint& a) const {
 	return b;
 }
 
+Bint Bint::operator - (const int64_t a) const {
+	Bint b = *this;
+	b -= a;
+	return b;
+}
+
 Bint& Bint::operator -= (const Bint& a) {
 	Bint aa(a);
 	aa = -aa;
 	*this += aa;
+	return *this;
+}
+
+Bint& Bint::operator -= (const int64_t a) {
+	*this += -a;
 	return *this;
 }
 
