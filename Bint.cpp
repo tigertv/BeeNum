@@ -123,25 +123,36 @@ Bint& Bint::operator += (const Bint& a) {
 	return *this;
 }
 
-Bint& Bint::operator += (const int a) {
+Bint& Bint::operator += (const int64_t a) {
 	bool neg = isNegative();
-	if (a > 0 && !neg) {
-		bool carry = false;
-		addUintWithCarry(number[0], a, carry);
-		if (carry) {
-			for (int i = 1; i < (int)number.size(); ++i) {
-				if (number[i] != (uint64_t)-1) {
-					++number[i];
-					return *this;
-				}
-				number[i] = 0;
-			}
-			number.push_back(1);
-		}
+	bool negA = (a < 0);
+	bool carry = false;
+	addUintWithCarry(number[0], a, carry);
 
-	} else {
-		// TODO: fill it
+	if (carry) {
+		if (negA) {
+			for(int j = 1; j < (int)number.size(); j++) {
+				addUintWithCarry(number[j], -1, carry);
+			}
+		} else {
+			for(int j = 1; j < (int)number.size(); j++) {
+				addUintWithCarry(number[j], 0, carry);
+				if (!carry) break;
+			}
+		}
 	}
+
+	// check signed overflow 
+	if ((neg == negA) && (neg != isNegative())) {
+		if (neg) {
+			number.push_back(-1);
+		} else {
+			number.push_back(0);
+		}
+	}
+
+	// TODO: check need
+	eraseLeadingSign();
 	return *this;
 }
 
