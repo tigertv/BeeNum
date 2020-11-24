@@ -383,17 +383,32 @@ uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& 
 	return quot;
 }
 
-// c - rmd, res - quot, a - divisor
 void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const {
 
 	Bint& a = rmdDividend; 
-	Bint& b = resQuot;
+	Bint d = divisor;
+	Bint& c = resQuot;
 
-	if (a < divisor) {
+	bool neg = (a.isNegative() != d.isNegative());
+
+	if (a.isNegative()) {
+		a = -a;
+	}
+
+	if (d.isNegative()) {
+		d = -d;
+	}
+
+	if (a < d) {
+		// c = 0;
+		if (neg) {
+			a = -a;
+		}
 		return;
 	}
 
-	Bint d = divisor;
+	Bint dvsr = d;
+
 	std::vector<uint64_t>& dnum = d.number;
 
 	// add zeros at the end
@@ -412,13 +427,18 @@ void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const {
 	}
 
 	// do subtruction
-	while(d >= divisor) {
-		b <<= 1;
+	while(d >= dvsr) {
+		c <<= 1;
 		if (d <= a) {
-			b.number[0] |= 1;
+			c.number[0] |= 1;
 			a -= d;
 		} 
 		d >>= 1;
+	}
+
+	if (neg) {
+		c = -c;
+		a = -a;
 	}
 
 }
