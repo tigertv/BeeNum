@@ -3,5 +3,7 @@
 *.log
 main
 main-fast
+test-*
+
 
 
