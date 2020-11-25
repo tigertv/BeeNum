@@ -44,16 +44,14 @@ Bint Math::pow(const Bint& a, uint64_t exp) {
 
 Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
 	Bint ret;
-	const Bint one(1);
-	if (mod == one) return ret;
-	ret = one;
+	if (mod == 1) return ret;
+	ret = 1;
 	Bint b(base);
 	Bint x(exp);
-	const Bint zero;
 
 	b %= mod;
-	while(x > zero) {
-		if (one == (x & one) ) {
+	while(x > 0) {
+		if ((x & 1) == 1) {
 			ret *= b;
 			ret %= mod;
 		}
@@ -120,31 +118,30 @@ Bint Math::oddFact(const uint64_t a, const uint64_t begin) {
 }
 
 Bint Math::gcd(const Bint& a, const Bint& b) {
-	Bint zero;
 	Bint c;
 	Bint aa(a);
 	Bint bb(b);
 
-	if (aa < zero) {
+	if (aa < 0) {
 		aa = -aa;
 	}
-	if (bb < zero) {
+	if (bb < 0) {
 		bb = -bb;
 	}
 
-	if (a == zero) return bb;
-	if (b == zero) return aa;
+	if (a == 0) return bb;
+	if (b == 0) return aa;
 
 	while(1) {
 		if (aa > bb) {
 			aa %= bb;
-			if (aa == zero) {
+			if (aa == 0) {
 				c = bb;
 				break;
 			}
 		} else {
 			bb %= aa;
-			if (bb == zero) {
+			if (bb == 0) {
 				c = aa;
 				break;
 			}

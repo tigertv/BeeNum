@@ -29,6 +29,11 @@
 
 namespace TigerTV {
 
+bool Bint::operator == (const int64_t a) const {
+	if (number.size() != 1) return false;
+	return (number[0] == (uint64_t)a); 
+}
+
 bool Bint::operator == (const Bint &b) const {
 	const std::vector<uint64_t>& n = b.number;
 	if (number.size() < n.size()) return false;
@@ -41,6 +46,11 @@ bool Bint::operator == (const Bint &b) const {
 	}
 
 	return true;
+}
+
+bool Bint::operator != (const int64_t a) const {
+	if (number.size() != 1) return true;
+	return (number[0] != (uint64_t)a); 
 }
 
 bool Bint::operator != (const Bint &b) const {
@@ -76,6 +86,22 @@ bool Bint::operator > (const Bint& b) const {
 	return false;
 }
 
+bool Bint::operator > (const int64_t a) const {
+	bool neg = isNegative();
+	bool negA = (a < 0);
+	if (neg != negA) return negA;
+	if (number.size() > 1) return !neg;
+	return (number[0] > (uint64_t)a);
+}
+
+bool Bint::operator < (const int64_t a) const {
+	bool neg = isNegative();
+	bool negA = (a < 0);
+	if (neg != negA) return neg;
+	if (number.size() > 1) return neg;
+	return (number[0] < (uint64_t)a);
+}
+
 bool Bint::operator < (const Bint &b) const {
 	bool neg = isNegative();
 	bool negB = b.isNegative();
@@ -101,6 +127,14 @@ bool Bint::operator <= (const Bint &b) const {
 
 bool Bint::operator >= (const Bint &b) const {
 	return !(*this < b);
+}
+
+bool Bint::operator <= (const int64_t a) const {
+	return !(*this > a);
+}
+
+bool Bint::operator >= (const int64_t a) const {
+	return !(*this < a);
 }
 
 

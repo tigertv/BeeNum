@@ -110,11 +110,17 @@ public:
 
 	// Comparison
 	bool operator <= (const Bint &b) const;
+	bool operator <= (const int64_t a) const;
 	bool operator >= (const Bint &b) const;
+	bool operator >= (const int64_t a) const;
 	bool operator == (const Bint &b) const;
+	bool operator == (const int64_t a) const;
 	bool operator != (const Bint &b) const;
+	bool operator != (const int64_t a) const;
 	bool operator < (const Bint &b) const;
+	bool operator < (const int64_t a) const;
 	bool operator > (const Bint &b) const;
+	bool operator > (const int64_t a) const;
 };
 
 // Input-output

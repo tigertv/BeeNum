@@ -356,6 +356,10 @@ void Bint::addUintAt(uint64_t index, uint64_t operand) {
 }
 
 uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const {
+	if (divisor == 0) {
+		throw std::invalid_argument("Division by zero!");
+	}
+
 	uint64_t quot = 0;
 	uint64_t rmd = 0;
 
@@ -384,6 +388,9 @@ uint64_t Bint::div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& 
 }
 
 void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const {
+	if (divisor == 0) {
+		throw std::invalid_argument("Division by zero!");
+	}
 
 	Bint& a = rmdDividend; 
 	Bint d = divisor;
