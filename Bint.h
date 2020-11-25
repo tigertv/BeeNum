@@ -48,7 +48,7 @@ private:
 	void eraseLeadingSign();
 	void extendNumberBySizeOf(Bint& extNumber, const Bint&a);
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
-	void div(Bint& c, Bint& res, const Bint& a) const;
+	void div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const;
 	void setDecimal(const std::string& s);
 	bool isNegative() const;
 	std::string base2(const uint64_t base) const;
@@ -88,21 +88,22 @@ public:
 	Bint operator ~ () const; // prefix
 
 	// Arithmetics
-	Bint operator + (const Bint& a) const;
-	Bint& operator += (const Bint& a);
 	Bint operator ++ (int); // postfix
 	Bint& operator ++ (); // prefix
-	Bint operator - (const Bint& a) const;
-	Bint& operator -= (const Bint& a);
 	Bint operator -- (int); // postfix
 	Bint& operator -- (); // prefix
+	Bint operator - () const; // prefix
+
+	Bint operator + (const Bint& a) const;
+	Bint& operator += (const Bint& a);
+	Bint operator - (const Bint& a) const;
+	Bint& operator -= (const Bint& a);
 	Bint operator * (const Bint& a) const;
 	Bint& operator *= (const Bint& a);
 	Bint operator / (const Bint& a) const;
 	Bint& operator /= (const Bint& a);
 	Bint operator % (const Bint& a) const;
 	Bint& operator %= (const Bint& a);
-	Bint operator - () const; // prefix
 
 	Bint operator + (const int64_t a) const;
 	Bint& operator += (const int64_t a);
@@ -110,6 +111,10 @@ public:
 	Bint& operator -= (const int64_t a);
 	Bint operator * (const int64_t a) const;
 	Bint& operator *= (const int64_t a);
+	Bint operator / (const int64_t a) const;
+	Bint& operator /= (const int64_t a);
+	Bint operator % (const int64_t a) const;
+	Bint& operator %= (const int64_t a);
 
 	// Shifts
 	Bint operator << (const int shift) const;

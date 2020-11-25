@@ -302,8 +302,23 @@ Bint Bint::operator / (const Bint& a) const {
 	return b;
 }
 
+Bint Bint::operator / (const int64_t a) const {
+	Bint b(*this);
+	b /= a;
+	return b;
+}
 
 Bint& Bint::operator /= (const Bint& a) {
+	Bint c = *this;
+	Bint res;
+
+	div(c, res, a);
+
+	this->number = res.number;
+	return (*this);
+}
+
+Bint& Bint::operator /= (const int64_t a) {
 	Bint c = *this;
 	Bint res;
 
@@ -319,9 +334,26 @@ Bint Bint::operator % (const Bint& a) const {
 	return b;
 }
 
+Bint Bint::operator % (const int64_t a) const {
+	Bint b(*this);
+	b %= a;
+	return b;
+}
+
 Bint& Bint::operator %= (const Bint& a) {
 
 	Bint c = *this;
+	Bint res;
+
+	div(c, res, a);
+
+	this->number = c.number;
+	return (*this);
+}
+
+Bint& Bint::operator %= (const int64_t a) {
+
+	Bint c(*this);
 	Bint res;
 
 	div(c, res, a);
