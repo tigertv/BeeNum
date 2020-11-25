@@ -243,28 +243,24 @@ void Bint::mult(uint64_t& operand1ResHigh, uint64_t& operand2ResLow) const {
 }
 
 Bint& Bint::operator ++ () { // prefix
-	Bint c;
-	c.number[0] = 1;
-	*this += c;
+	*this += 1;
 	return *this;
 }
 
 Bint Bint::operator ++ (int) { // postfix
 	Bint b = *this; 
-	Bint c;
-	c.number[0] = 1;
-	*this += c;
+	*this += 1;
 	return b;
 }
 
 Bint Bint::operator - (const Bint& a) const {
-	Bint b = *this;
+	Bint b(*this);
 	b -= a;
 	return b;
 }
 
 Bint Bint::operator - (const int64_t a) const {
-	Bint b = *this;
+	Bint b(*this);
 	b -= a;
 	return b;
 }
@@ -282,22 +278,18 @@ Bint& Bint::operator -= (const int64_t a) {
 }
 
 Bint& Bint::operator -- () { // prefix
-	Bint c;
-	c.number[0] = 1;
-	*this -= c;
+	*this -= 1;
 	return *this;
 }
 
 Bint Bint::operator -- (int) { // postfix
 	Bint b = *this; 
-	Bint c;
-	c.number[0] = 1;
-	*this -= c;
+	*this -= 1;
 	return b;
 }
 
 Bint Bint::operator / (const Bint& a) const {
-	Bint b = *this;
+	Bint b(*this);
 	b /= a;
 	return b;
 }
@@ -309,7 +301,7 @@ Bint Bint::operator / (const int64_t a) const {
 }
 
 Bint& Bint::operator /= (const Bint& a) {
-	Bint c = *this;
+	Bint c(*this);
 	Bint res;
 
 	div(c, res, a);
@@ -319,7 +311,7 @@ Bint& Bint::operator /= (const Bint& a) {
 }
 
 Bint& Bint::operator /= (const int64_t a) {
-	Bint c = *this;
+	Bint c(*this);
 	Bint res;
 
 	div(c, res, a);
@@ -329,7 +321,7 @@ Bint& Bint::operator /= (const int64_t a) {
 }
 
 Bint Bint::operator % (const Bint& a) const {
-	Bint b = *this;
+	Bint b(*this);
 	b %= a;
 	return b;
 }
@@ -341,8 +333,7 @@ Bint Bint::operator % (const int64_t a) const {
 }
 
 Bint& Bint::operator %= (const Bint& a) {
-
-	Bint c = *this;
+	Bint c(*this);
 	Bint res;
 
 	div(c, res, a);
@@ -352,7 +343,6 @@ Bint& Bint::operator %= (const Bint& a) {
 }
 
 Bint& Bint::operator %= (const int64_t a) {
-
 	Bint c(*this);
 	Bint res;
 
