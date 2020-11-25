@@ -31,8 +31,11 @@ namespace TigerTV {
 
 
 Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
-	const std::vector<uint64_t>& bin = a.number;
-	extendNumberBySizeOf(*this, a);
+	Bint aa(a);
+	extendNumberBySizeOf(*this, aa);
+	extendNumberBySizeOf(aa, *this);
+
+	const std::vector<uint64_t>& bin = aa.number;
 
 	for(int j = 0; j < (int)bin.size(); j++) {
 		number[j] = lambda(number[j], bin[j]);
