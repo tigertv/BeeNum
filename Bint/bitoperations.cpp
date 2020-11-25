@@ -41,9 +41,32 @@ Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const u
 	return *this;
 }
 
+Bint& Bint::bitOperation(const int64_t a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
+	number[0] = lambda(number[0], a);
+	uint64_t b;
+
+	if (a < 0) {
+		b = -1;
+	} else {
+		b = 0;
+	}
+
+	for(int j = 1; j < (int)number.size(); j++) {
+		number[j] = lambda(number[j], b);
+	}
+
+	return *this;
+}
+
 Bint Bint::operator | (const Bint& a) const {
-	Bint b(a);
-	b |= *this;
+	Bint b(*this);
+	b |= a;
+	return b;
+}
+
+Bint Bint::operator | (const int64_t a) const {
+	Bint b(*this);
+	b |= a;
 	return b;
 }
 
@@ -51,9 +74,19 @@ Bint& Bint::operator |= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a | b; });
 }
 
+Bint& Bint::operator |= (const int64_t a) {
+	return bitOperation(a, [](auto a, auto b) { return a | b; });
+}
+
 Bint Bint::operator & (const Bint& a) const {
-	Bint b(a);
-	b &= *this;
+	Bint b(*this);
+	b &= a;
+	return b;
+}
+
+Bint Bint::operator & (const int64_t a) const {
+	Bint b(*this);
+	b &= a;
 	return b;
 }
 
@@ -61,13 +94,27 @@ Bint& Bint::operator &= (const Bint& a) {
 	return bitOperation(a, [](auto a, auto b) { return a & b; });
 }
 
+Bint& Bint::operator &= (const int64_t a) {
+	return bitOperation(a, [](auto a, auto b) { return a & b; });
+}
+
 Bint Bint::operator ^ (const Bint& a) const {
-	Bint b(a);
-	b |= *this;
+	Bint b(*this);
+	b ^= a;
+	return b;
+}
+
+Bint Bint::operator ^ (const int64_t a) const {
+	Bint b(*this);
+	b ^= a;
 	return b;
 }
 
 Bint& Bint::operator ^= (const Bint& a) {
+	return bitOperation(a, [](auto a, auto b) { return a ^ b; });
+}
+
+Bint& Bint::operator ^= (const int64_t a) {
 	return bitOperation(a, [](auto a, auto b) { return a ^ b; });
 }
 

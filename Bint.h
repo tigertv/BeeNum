@@ -44,6 +44,7 @@ private:
 	void addUintWithCarry(uint64_t& operand1res, const uint64_t operand2, bool& carry) const;
 	void mult(uint64_t& operand1High, uint64_t& operand2Low) const;
 	Bint& bitOperation(const Bint& a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
+	Bint& bitOperation(const int64_t a, std::function<uint64_t(uint64_t& a,const uint64_t& b)>&& lambda);
 	void eraseLeadingSign();
 	void extendNumberBySizeOf(Bint& extNumber, const Bint&a);
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
@@ -69,37 +70,46 @@ public:
 	std::string base(const uint64_t base) const;
 	operator std::string() const;
 
-	// Bit
+	// Bits
 	Bint operator & (const Bint& a) const;
 	Bint& operator &= (const Bint& a);
 	Bint operator | (const Bint& a) const;
 	Bint& operator |= (const Bint& a);
 	Bint operator ^ (const Bint& a) const;
 	Bint& operator ^= (const Bint& a);
-	Bint operator ~ () const;
 
-	// Arithmetic
+	Bint operator & (const int64_t a) const;
+	Bint& operator &= (const int64_t a);
+	Bint operator | (const int64_t a) const;
+	Bint& operator |= (const int64_t a);
+	Bint operator ^ (const int64_t a) const;
+	Bint& operator ^= (const int64_t a);
+
+	Bint operator ~ () const; // prefix
+
+	// Arithmetics
 	Bint operator + (const Bint& a) const;
-	Bint operator + (const int64_t a) const;
 	Bint& operator += (const Bint& a);
-	Bint& operator += (const int64_t a);
 	Bint operator ++ (int); // postfix
 	Bint& operator ++ (); // prefix
 	Bint operator - (const Bint& a) const;
-	Bint operator - (const int64_t a) const;
 	Bint& operator -= (const Bint& a);
-	Bint& operator -= (const int64_t a);
 	Bint operator -- (int); // postfix
 	Bint& operator -- (); // prefix
 	Bint operator * (const Bint& a) const;
-	Bint operator * (const int64_t a) const;
 	Bint& operator *= (const Bint& a);
-	Bint& operator *= (const int64_t a);
 	Bint operator / (const Bint& a) const;
 	Bint& operator /= (const Bint& a);
 	Bint operator % (const Bint& a) const;
 	Bint& operator %= (const Bint& a);
 	Bint operator - () const; // prefix
+
+	Bint operator + (const int64_t a) const;
+	Bint& operator += (const int64_t a);
+	Bint operator - (const int64_t a) const;
+	Bint& operator -= (const int64_t a);
+	Bint operator * (const int64_t a) const;
+	Bint& operator *= (const int64_t a);
 
 	// Shifts
 	Bint operator << (const int shift) const;
