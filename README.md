@@ -32,4 +32,8 @@ a b101 = -9:100:79:38:16:3:35:72:76:15_b101
 -a hex= 0x000000000000000097bf4539eb7f3497
 ```
 
-Factorial of 4000 takes `Time difference = 90651[µs]` (g++ -O0)
+Factorial of 4000 takes:  
+```
+Time difference = 90651[µs] (g++ -O0)
+Time difference = 15621[µs] (g++ -Ofast)
+```

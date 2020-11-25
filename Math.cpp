@@ -157,6 +157,24 @@ Bint Math::lcm(const Bint& a, const Bint& b) {
 	return c;
 }
 
+// Fibonnaci number
+Bint Math::fib(const uint64_t a) {
+	if (a < 2) return a;
+	Bint f1;
+	Bint f2(1);
+	Bint f;
+
+	for(uint64_t i = 2; i <= a; ++i) {
+		f = f1 + f2;
+		if (i & 1) {
+			f2 = f;
+		} else {
+			f1 = f;
+		}
+	}
+	return f;
+}
+
 
 
 } // namespace
