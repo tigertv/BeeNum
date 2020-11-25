@@ -151,4 +151,12 @@ Bint Math::gcd(const Bint& a, const Bint& b) {
 	return c;
 }
 
+Bint Math::lcm(const Bint& a, const Bint& b) {
+	Bint c = a * b / gcd(a, b);
+	if (c < 0) return -c;
+	return c;
+}
+
+
+
 } // namespace
