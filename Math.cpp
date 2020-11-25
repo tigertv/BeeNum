@@ -119,4 +119,39 @@ Bint Math::oddFact(const uint64_t a, const uint64_t begin) {
 	return ret;
 }
 
+Bint Math::gcd(const Bint& a, const Bint& b) {
+	Bint zero;
+	Bint c;
+	Bint aa(a);
+	Bint bb(b);
+
+	if (aa < zero) {
+		aa = -aa;
+	}
+	if (bb < zero) {
+		bb = -bb;
+	}
+
+	if (a == zero) return bb;
+	if (b == zero) return aa;
+
+	while(1) {
+		if (aa > bb) {
+			aa %= bb;
+			if (aa == zero) {
+				c = bb;
+				break;
+			}
+		} else {
+			bb %= aa;
+			if (bb == zero) {
+				c = aa;
+				break;
+			}
+		}
+	}
+
+	return c;
+}
+
 } // namespace

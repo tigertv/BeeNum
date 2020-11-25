@@ -40,6 +40,7 @@ public:
 	static Bint pow(const Bint& a, uint64_t pow);
 	static Bint modPow(const Bint& base, const Bint& exp, const Bint& mod);
 	static Bint fact(const uint64_t a);
+	static Bint gcd(const Bint& a, const Bint& b);
 };
 
 
