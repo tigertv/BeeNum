@@ -46,7 +46,6 @@ std::string Bint::base2(const uint64_t base) const {
 	const int limit = j / base;
 	const int rmd = j % base;
 	j = 0;
-	Bint zero;
 
 	for(int i = 0; i < limit; i++) {
 		j = a.number[0] & mask;

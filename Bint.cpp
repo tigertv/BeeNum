@@ -55,32 +55,21 @@ Bint::Bint(const int64_t num) {
 }
 
 void Bint::setDecimal(const std::string& s) {
-	//const Bint ten(10);
-	Bint temp;
 	auto it = s.begin();
 
 	bool neg = (*it == '-');
 	if (neg) ++it;
 
 	for(; it != s.end(); ++it) {
-		//*
-		Bint t(*this);
-		*this <<= 3;
-		t <<= 1;
-		*this += t;
-		//*/
-
-		//(*this) *= ten;
+		(*this) *= 10;
 		// add digit
-
-		uint64_t i = *it - '0';
+		int64_t i = *it - '0';
 		if (i > 9) {
 			std::string s("Unexpected symbol! - ");
 			s.push_back(*it);
 			throw std::invalid_argument(s);
 		}
-		temp.number[0] = i;
-		*this += temp;
+		(*this) += i;
 	}
 
 	if (neg) {
