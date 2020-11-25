@@ -117,24 +117,24 @@ public:
 	Bint& operator %= (const int64_t a);
 
 	// Shifts
-	Bint operator << (const int shift) const;
-	Bint& operator <<= (const int shift);
-	Bint& operator <<= (const Bint& a);
-	Bint operator >> (const int shift) const;
-	Bint& operator >>= (const int shift);
+	Bint operator << (const uint64_t shift) const;
+	Bint& operator <<= (const uint64_t shift);
+	Bint operator >> (const uint64_t shift) const;
+	Bint& operator >>= (const uint64_t shift);
 
 	// Comparison
 	bool operator <= (const Bint &b) const;
-	bool operator <= (const int64_t a) const;
 	bool operator >= (const Bint &b) const;
-	bool operator >= (const int64_t a) const;
 	bool operator == (const Bint &b) const;
-	bool operator == (const int64_t a) const;
 	bool operator != (const Bint &b) const;
-	bool operator != (const int64_t a) const;
 	bool operator < (const Bint &b) const;
-	bool operator < (const int64_t a) const;
 	bool operator > (const Bint &b) const;
+
+	bool operator <= (const int64_t a) const;
+	bool operator >= (const int64_t a) const;
+	bool operator == (const int64_t a) const;
+	bool operator != (const int64_t a) const;
+	bool operator < (const int64_t a) const;
 	bool operator > (const int64_t a) const;
 };
 

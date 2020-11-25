@@ -30,19 +30,19 @@
 namespace TigerTV {
 
 
-Bint Bint::operator >> (const int shift) const {
-	Bint b = *this;
+Bint Bint::operator >> (const uint64_t shift) const {
+	Bint b(*this);
 	b >>= shift;
 	return b;
 }
 
-Bint& Bint::operator >>= (const int shift) {
-	int sh = shift;
+Bint& Bint::operator >>= (const uint64_t shift) {
+	uint64_t sh = shift;
 	if (sh > 63) {
-		int q = sh / 64; // container size specific
+		uint64_t q = sh / 64; // container size specific
 		sh %= 64;
 		// check q limits
-		if (q >= (int)number.size()) {
+		if (q >= number.size()) {
 			number.clear();
 			number.push_back(0);
 			return *this;
@@ -51,10 +51,10 @@ Bint& Bint::operator >>= (const int shift) {
 		}
 	}
 
-	int neg = isNegative();
+	bool neg = isNegative();
 
 	uint64_t mask = (1 << sh) - 1;
-	int maskShift = 64 - sh;
+	uint64_t maskShift = 64 - sh;
 	uint64_t carry = 0;
 
 	for (int i = number.size() - 1; i >= 0; --i) {
@@ -80,12 +80,12 @@ Bint& Bint::operator >>= (const int shift) {
 
 // unsigned right shift
 Bint& Bint::urshift(const uint64_t shift) {
-	int sh = shift;
+	uint64_t sh = shift;
 	if (sh > 63) {
-		int q = sh / 64;
+		uint64_t q = sh / 64;
 		sh %= 64;
 		// check q limits
-		if (q >= (int)number.size()) {
+		if (q >= number.size()) {
 			number.clear();
 			number.push_back(0);
 			return *this;
@@ -95,7 +95,7 @@ Bint& Bint::urshift(const uint64_t shift) {
 	}
 
 	uint64_t mask = (1 << sh) - 1;
-	int maskShift = 64 - sh;
+	uint64_t maskShift = 64 - sh;
 	uint64_t carry = 0;
 
 	for (int i = number.size() - 1; i >= 0; --i) {
@@ -113,27 +113,22 @@ Bint& Bint::urshift(const uint64_t shift) {
 	return *this;
 }
 
-Bint Bint::operator << (const int shift) const {
-	Bint b = *this;
+Bint Bint::operator << (const uint64_t shift) const {
+	Bint b(*this);
 	b <<= shift;
 	return b;
 }
 
-Bint& Bint::operator <<= (const Bint& a) {
-	*this <<= a.number[0];
-	return *this;
-}
-
-Bint& Bint::operator <<= (const int shift) {
-	int sh = shift;
-	int q = 0;
+Bint& Bint::operator <<= (const uint64_t shift) {
+	uint64_t sh = shift;
+	uint64_t q = 0;
 	if (sh > 63) { // size specific
 		q = sh / 64;
 		sh %= 64;
 	}
 	bool neg = isNegative();
 	uint64_t mask = ~(((uint64_t)-1) >> sh);
-	int maskShift = 64 - sh; // size specific
+	uint64_t maskShift = 64 - sh; // size specific
 	uint64_t carry = 0;
 
 	for (uint64_t& n : number) {
