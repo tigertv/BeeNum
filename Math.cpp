@@ -30,7 +30,9 @@ namespace TigerTV {
 
 
 Bint Math::pow(const Bint& a, uint64_t exp) {
-	Bint b(a), temp(1);
+	Bint temp(1);
+	if (exp == 0) return temp;
+	Bint b(a);
 	while (exp > 1) {
         if (exp & 1) {
             temp *= b;
@@ -42,7 +44,7 @@ Bint Math::pow(const Bint& a, uint64_t exp) {
 	return b*temp;
 }
 
-Bint Math::modPow(const Bint& base, const Bint& exp, const Bint& mod) {
+Bint Math::modPow(const Bint& base, const uint64_t exp, const uint64_t mod) {
 	Bint ret;
 	if (mod == 1) return ret;
 	ret = 1;
