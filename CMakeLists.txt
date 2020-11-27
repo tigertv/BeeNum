@@ -27,3 +27,7 @@ foreach(tstfile ${TESTS})
 	add_test(NAME tst-${CMAKE_MATCH_1} COMMAND ./test-${CMAKE_MATCH_1})
 endforeach()
 
+add_library(Bint SHARED ${BINT_SRC} ${MATH_SRC})
+add_library(Bint_static STATIC $<TARGET_OBJECTS:shareobjects>)
+set_target_properties(Bint_static PROPERTIES OUTPUT_NAME Bint)
+
