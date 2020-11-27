@@ -2,8 +2,8 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include "Bint.h"
-#include "Math.h"
+#include "../Bint.h"
+#include "../Math.h"
 #include <chrono>
 
 using namespace TigerTV;

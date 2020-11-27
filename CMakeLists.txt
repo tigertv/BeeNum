@@ -16,9 +16,9 @@ set(BINT_SRC Bint.cpp Bint.h)
 set(MATH_SRC Math.cpp Math.h)
 add_library(shareobjects OBJECT ${BINT_SRC} ${MATH_SRC})
 
-add_executable(main main.cpp $<TARGET_OBJECTS:shareobjects>)
-add_executable(main-fast main.cpp ${BINT_SRC} ${MATH_SRC})
-set_target_properties(main-fast PROPERTIES COMPILE_FLAGS -Ofast)
+add_executable(test-main-fast tests/main.cpp ${BINT_SRC} ${MATH_SRC})
+set_target_properties(test-main-fast PROPERTIES COMPILE_FLAGS -Ofast)
+add_test(NAME tst-main-fast COMMAND ./test-main-fast)
 
 aux_source_directory(tests TESTS)
 foreach(tstfile ${TESTS})
