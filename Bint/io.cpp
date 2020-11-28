@@ -23,6 +23,8 @@
  * SOFTWARE.
  */
 
+#include <algorithm>
+
 
 namespace TigerTV {
 
