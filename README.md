@@ -1,5 +1,7 @@
 # Bint
 
+[![travis][travis-shield]][travis-link]
+
 An implementation of BigInteger library in C++
 
 ```cpp
@@ -37,3 +39,6 @@ Factorial of 4000 takes:
 Time difference = 90651[µs] (g++ -O0)
 Time difference = 15621[µs] (g++ -Ofast)
 ```
+
+[travis-shield]: https://img.shields.io/travis/tigertv/Bint/master.svg?style=for-the-badge&logo=travis
+[travis-link]: https://travis-ci.org/tigertv/Bint
