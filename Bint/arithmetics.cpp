@@ -23,9 +23,6 @@
  * SOFTWARE.
  */
 
-#include <bits/stdc++.h>
-#include <cstdlib>
-
 
 namespace TigerTV {
 
@@ -184,13 +181,13 @@ Bint& Bint::operator *= (const Bint& a) {
 	std::vector<uint64_t>& bin = aa.number;
 
 	Bint c;
-	int m = bin.size() * number.size();
-	for (int i = 0; i < m; ++i) {
+	uint64_t m = bin.size() * number.size();
+	for (uint64_t i = m; i != 0; --i) {
 		c.number.push_back(0);
 	}
 
-	for(int j = bin.size() - 1; j >= 0 ; --j) {
-		for(int i = number.size() - 1; i >= 0 ; --i) {
+	for(int j = (int)bin.size() - 1; j >= 0 ; --j) {
+		for(int i = (int)number.size() - 1; i >= 0 ; --i) {
 			uint64_t opH = number[i];	
 			uint64_t opL = bin[j];	
 			mult(opH, opL);
@@ -441,8 +438,8 @@ void Bint::div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const {
 	std::vector<uint64_t>& dnum = d.number;
 
 	// add zeros at the end
-	int diff = a.number.size() - dnum.size();
-	for(int i = diff; i > 0; --i) {
+	size_t diff = a.number.size() - dnum.size();
+	for(size_t i = diff; i != 0; --i) {
 		dnum.insert(dnum.begin(), 0);
 	}
 

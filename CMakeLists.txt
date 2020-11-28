@@ -10,7 +10,11 @@ enable_testing()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
-add_compile_options(-Wall -Wextra -pedantic)
+if(MSVC)
+	#add_compile_options(/Wall)
+else()
+	add_compile_options(-Wall -Wextra -pedantic)
+endif()
 
 set(BINT_SRC Bint.cpp Bint.h)
 set(MATH_SRC Math.cpp Math.h)

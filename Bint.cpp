@@ -23,8 +23,6 @@
  * SOFTWARE.
  */
 
-#include <bits/stdc++.h>
-#include <cstdlib>
 #include "Bint.h"
 
 #include "Bint/arithmetics.cpp"
@@ -83,14 +81,14 @@ void Bint::eraseLeadingSign() {
 	bool neg = isNegative();
 	// refactor
 	if (neg) {
-		for (int i = number.size() - 1; i > 0; i--) {
+		for (size_t i = number.size() - 1; i != 0; i--) {
 			if (number[i] != (uint64_t)-1) break;
 			bool sign = number[i-1] >> 63;
 			// erase last
 			if (neg == sign) number.erase(number.end()-1);
 		}
 	} else {
-		for (int i = number.size() - 1; i > 0; i--) {
+		for (size_t i = number.size() - 1; i != 0; i--) {
 			if (number[i] != 0) break;
 			bool sign = number[i-1] >> 63;
 			// erase last
@@ -103,7 +101,7 @@ void Bint::extendNumberBySizeOf(Bint& extNumber, const Bint& a) {
 	const std::vector<uint64_t>& bin = a.number;
 	std::vector<uint64_t>& ext = extNumber.number;
 
-	int diff = bin.size() - ext.size();
+	int diff = (int)bin.size() - (int)ext.size();
 	int num = extNumber.isNegative() ? -1 : 0;
 
 	for(int i = 0; i < diff; i++) {

@@ -83,7 +83,7 @@ Bint Math::fact(const uint64_t a) {
 	uint64_t prev = 1;
 	Bint result(1);
 
-	for(int i = bitc.size() - 1; i >= 0; --i) {
+	for(int i = (int)bitc.size() - 1; i >= 0; --i) {
 		result *= oddFact(bitc[i], prev + 2);
 		ret *= result;
 		prev = bitc[i];

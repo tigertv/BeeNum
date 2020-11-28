@@ -23,9 +23,6 @@
  * SOFTWARE.
  */
 
-#include <bits/stdc++.h>
-#include <cstdlib>
-
 
 namespace TigerTV {
 
@@ -39,7 +36,7 @@ bool Bint::operator == (const Bint &b) const {
 	if (number.size() < n.size()) return false;
 	if (number.size() > n.size()) return false;
 
-	for(int i = n.size() - 1; i >= 0; i--) {
+	for(int i = (int)n.size() - 1; i >= 0; i--) {
 		if(number[i] != n[i]) {
 			return false;
 		}
@@ -58,7 +55,7 @@ bool Bint::operator != (const Bint &b) const {
 	if (number.size() < n.size()) return true;
 	if (number.size() > n.size()) return true;
 
-	for(int i = n.size() - 1; i >= 0; i--) {
+	for(int i = (int)n.size() - 1; i >= 0; i--) {
 		if(number[i] != n[i]) {
 			return true;
 		}
@@ -76,7 +73,7 @@ bool Bint::operator > (const Bint& b) const {
 	if (number.size() < n.size()) return neg;
 	if (number.size() > n.size()) return !neg;
 
-	for(int i = n.size() - 1; i >= 0; i--) {
+	for(int i = (int)n.size() - 1; i >= 0; i--) {
 		if(number[i] > n[i]) {
 			return true;
 		}
@@ -111,7 +108,7 @@ bool Bint::operator < (const Bint &b) const {
 	if (number.size() < n.size()) return !neg;
 	if (number.size() > n.size()) return neg;
 
-	for(int i = n.size() - 1; i >= 0; i--) {
+	for(int i = (int)n.size() - 1; i >= 0; i--) {
 		if(number[i] < n[i]) {
 			return true;
 		}

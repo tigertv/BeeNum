@@ -23,9 +23,6 @@
  * SOFTWARE.
  */
 
-#include <bits/stdc++.h>
-#include <cstdlib>
-
 
 namespace TigerTV {
 
@@ -57,7 +54,7 @@ Bint& Bint::operator >>= (const uint64_t shift) {
 	uint64_t maskShift = 64 - sh;
 	uint64_t carry = 0;
 
-	for (int i = number.size() - 1; i >= 0; --i) {
+	for (int i = (int)number.size() - 1; i >= 0; --i) {
 		uint64_t nextCarry = number[i] & mask;
 		number[i] >>= sh;
 		if (carry) {
@@ -98,7 +95,7 @@ Bint& Bint::urshift(const uint64_t shift) {
 	uint64_t maskShift = 64 - sh;
 	uint64_t carry = 0;
 
-	for (int i = number.size() - 1; i >= 0; --i) {
+	for (int i = (int)number.size() - 1; i >= 0; --i) {
 		uint64_t nextCarry = number[i] & mask;
 		number[i] >>= sh;
 		if (carry) {

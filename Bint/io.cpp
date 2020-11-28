@@ -23,9 +23,6 @@
  * SOFTWARE.
  */
 
-#include <bits/stdc++.h>
-#include <cstdlib>
-
 
 namespace TigerTV {
 
@@ -42,12 +39,12 @@ std::string Bint::base2(const uint64_t base) const {
 	std::string s = "";
 
 	Bint a(*this);
-	int j = a.number.size() << 6;
-	const int limit = j / base;
-	const int rmd = j % base;
+	uint64_t j = a.number.size() << 6;
+	const uint64_t limit = j / base;
+	const uint64_t rmd = j % base;
 	j = 0;
 
-	for(int i = 0; i < limit; i++) {
+	for(uint64_t i = 0; i < limit; i++) {
 		j = a.number[0] & mask;
 		s.push_back(alphabet[j]);
 		a.urshift(base);
@@ -92,7 +89,7 @@ std::string Bint::base(const uint64_t base) const {
 		bool notFirst = false;
 		uint64_t rmd = 0;
 
-		for(int j = current.size() - 1; j >= 0; j--) {
+		for(int j = (int)current.size() - 1; j >= 0; j--) {
 			uint64_t quot = div(current[j], base, rmd);
 			if (quot) {
 				notFirst = true;
