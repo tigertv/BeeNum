@@ -133,7 +133,7 @@ std::string Bint::base(const uint64_t base) const {
 //            INPUT-OUTPUT FUNCTIONS
 ////////////////////////////////////////////////////////////////////////
 
-std::ostream& operator << (std::ostream& strm, Bint& a) {
+std::ostream& operator << (std::ostream& strm, const Bint& a) {
 	return strm << a.toString(); 
 }
 

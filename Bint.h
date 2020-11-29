@@ -139,7 +139,7 @@ public:
 };
 
 // Input-output
-std::ostream& operator << (std::ostream& strm, Bint& a);
+std::ostream& operator << (std::ostream& strm, const Bint& a);
 std::istream& operator >> (std::istream& strm, Bint& a); 
 
 // Left side operators for int 
