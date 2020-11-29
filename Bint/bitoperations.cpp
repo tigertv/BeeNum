@@ -127,4 +127,19 @@ Bint Bint::operator ~ () const {
 	return a;
 }
 
+///////////////////////////////////////////////////////////////
+// Left side operators for int 
+///////////////////////////////////////////////////////////////
+
+Bint operator & (const int64_t a, const Bint& b) { 
+	return b & a;
+}
+
+Bint operator | (const int64_t a, const Bint& b) { 
+	return b | a;
+}
+
+Bint operator ^ (const int64_t a, const Bint& b) { 
+	return b ^ a;
+}
 } // namespace

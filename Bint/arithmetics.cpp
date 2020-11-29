@@ -475,4 +475,30 @@ Bint Bint::operator - () const { // prefix
 	return r;
 }
 
+///////////////////////////////////////////////////////////////
+// Left side operators for int 
+///////////////////////////////////////////////////////////////
+
+Bint operator + (const int64_t a, const Bint& b) { 
+	return b + a;
+}
+
+Bint operator - (const int64_t a, const Bint& b) { 
+	return -(b - a);
+}
+
+Bint operator * (const int64_t a, const Bint& b) { 
+	return b * a;
+}
+
+Bint operator / (const int64_t a, const Bint& b) { 
+	Bint aa(a);
+	return aa / b;
+}
+
+Bint operator % (const int64_t a, const Bint& b) { 
+	Bint aa(a);
+	return aa % b;
+}
+
 } // namespace

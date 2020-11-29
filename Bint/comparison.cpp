@@ -134,5 +134,32 @@ bool Bint::operator >= (const int64_t a) const {
 	return !(*this < a);
 }
 
+///////////////////////////////////////////////////////////////
+// Left side operators for int 
+///////////////////////////////////////////////////////////////
+
+bool operator <= (const int64_t a, const Bint &b) {
+	return b < a;
+}
+
+bool operator >= (const int64_t a, const Bint &b) {
+	return b > a;
+}
+
+bool operator == (const int64_t a, const Bint &b) {
+	return b == a;
+}
+
+bool operator != (const int64_t a, const Bint &b) {
+	return b != a;
+}
+
+bool operator < (const int64_t a, const Bint &b) {
+	return b > a;
+}
+
+bool operator > (const int64_t a, const Bint &b) {
+	return b < a;
+}
 
 } // namespace

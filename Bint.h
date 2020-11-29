@@ -142,6 +142,26 @@ public:
 std::ostream& operator << (std::ostream& strm, Bint& a);
 std::istream& operator >> (std::istream& strm, Bint& a); 
 
+// Left side operators for int 
+// Arithmetics
+Bint operator + (const int64_t a, const Bint& b);
+Bint operator - (const int64_t a, const Bint& b);
+Bint operator * (const int64_t a, const Bint& b);
+Bint operator / (const int64_t a, const Bint& b);
+Bint operator % (const int64_t a, const Bint& b);
+// Comparison
+bool operator <= (const int64_t a, const Bint &b);
+bool operator >= (const int64_t a, const Bint &b);
+bool operator == (const int64_t a, const Bint &b);
+bool operator != (const int64_t a, const Bint &b);
+bool operator < (const int64_t a, const Bint &b);
+bool operator > (const int64_t a, const Bint &b);
+// Bits
+Bint operator & (const int64_t a, const Bint &b);
+Bint operator | (const int64_t a, const Bint &b);
+Bint operator ^ (const int64_t a, const Bint &b);
+
+
 } // namespace
 
 #endif
