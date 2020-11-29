@@ -159,24 +159,35 @@ Bint Math::lcm(const Bint& a, const Bint& b) {
 	return c;
 }
 
-// Fibonnaci number
+// Fibonnaci number using Fast Doubling method
 Bint Math::fib(const uint64_t a) {
 	if (a < 2) return a;
-	Bint f1;
-	Bint f2(1);
-	Bint f;
 
-	for(uint64_t i = 2; i <= a; ++i) {
-		f = f1 + f2;
-		if (i & 1) {
-			f2 = f;
+	uint64_t c(a);
+	std::vector<int> bitc;
+
+	while (c != 1) {
+		bitc.push_back(c & 1);
+		c >>= 1;
+	}
+
+	Bint fn(1);
+	Bint fn1(1);
+	Bint temp;
+
+	for(int i = (int)bitc.size() - 1; i >= 0; --i) {
+		temp = fn * (fn1 * 2 - fn);
+		fn1 = fn1 * fn1 + fn * fn;
+		if (bitc[i]) {
+			fn = fn1;
+			fn1 += temp;
 		} else {
-			f1 = f;
+			fn = temp;
 		}
 	}
-	return f;
-}
 
+	return fn;
+}
 
 
 } // namespace
