@@ -7,7 +7,11 @@ An implementation of BigInteger library in C++
 ```cpp
 Bint a = "372542872459";
 Bint b = "-29351077";
+Bint c = "-SomeNumbersAreHere_b62";                // base 62
+Bint d = "-9:10:79:100:16:3:35:72:76:15:11_b101";  // base 101
+
 a *= b;
+
 std::cout << "a = " << a << std::endl;
 std::cout << "a bin = " << a.bin() << std::endl;
 std::cout << "a hex = " << a.hex() << std::endl;

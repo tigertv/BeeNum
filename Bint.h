@@ -50,6 +50,7 @@ private:
 	uint64_t div(const uint64_t& dividend, const uint64_t& divisor, uint64_t& prevRmd) const;
 	void div(Bint& rmdDividend, Bint& resQuot, const Bint& divisor) const;
 	void setDecimal(const std::string& s);
+	void setNumber(const std::string& num, int base);
 	bool isNegative() const;
 	std::string base2(const uint64_t base) const;
 	Bint& urshift(const uint64_t shift);
