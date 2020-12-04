@@ -70,8 +70,8 @@ void Bint::setNumber(const std::string& s, int base) {
 		for(; it != s.end(); ++it) {
 			(*this) *= base;
 			// find digit in the alphabet
-			int i = a.find(*it);
-			if (i == (int)std::string::npos) {
+			size_t i = a.find(*it);
+			if (i == std::string::npos) {
 				std::string err("Unexpected symbol! - '");
 				err.push_back(*it);
 				err.push_back('\'');
@@ -148,21 +148,17 @@ void Bint::setDecimal(const std::string& s) {
 
 void Bint::eraseLeadingSign() {
 	bool neg = isNegative();
-	// refactor
+	uint64_t comp = 0;
+
 	if (neg) {
-		for (size_t i = number.size() - 1; i != 0; i--) {
-			if (number[i] != (uint64_t)-1) break;
-			bool sign = number[i-1] >> 63;
-			// erase last
-			if (neg == sign) number.erase(number.end()-1);
-		}
-	} else {
-		for (size_t i = number.size() - 1; i != 0; i--) {
-			if (number[i] != 0) break;
-			bool sign = number[i-1] >> 63;
-			// erase last
-			if (neg == sign) number.erase(number.end()-1);
-		}
+		comp = -1;
+	}
+
+	for (size_t i = number.size() - 1; i != 0; i--) {
+		if (number[i] != comp) break;
+		bool sign = number[i-1] >> 63;
+		// erase last
+		if (neg == sign) number.erase(number.end()-1);
 	}
 }
 
