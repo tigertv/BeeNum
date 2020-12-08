@@ -24,13 +24,6 @@
  */
 
 #include <Bint/Bint.h>
-
-#include "Bint/arithmetics.cpp"
-#include "Bint/comparison.cpp"
-#include "Bint/bitoperations.cpp"
-#include "Bint/shifts.cpp"
-#include "Bint/io.cpp"
-
 #include <stdexcept>
 
 

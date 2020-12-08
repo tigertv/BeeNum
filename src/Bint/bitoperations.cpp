@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+#include <Bint/Bint.h>
 
 namespace TigerTV {
 
