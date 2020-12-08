@@ -2,7 +2,7 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include "../Bint.h"
+#include <Bint/Bint.h>
 #include <chrono>
 
 using namespace TigerTV;

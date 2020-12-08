@@ -2,8 +2,8 @@
 #include <string>
 #include <cassert>
 #include <vector>
-#include "../Bint.h"
-#include "../Math.h"
+#include <Bint/Bint.h>
+#include <Bint/Math.h>
 
 using namespace TigerTV;
 

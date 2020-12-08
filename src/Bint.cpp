@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include "Bint.h"
+#include <Bint/Bint.h>
 
 #include "Bint/arithmetics.cpp"
 #include "Bint/comparison.cpp"

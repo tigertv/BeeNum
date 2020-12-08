@@ -16,8 +16,9 @@ else()
 	add_compile_options(-Wall -Wextra -pedantic)
 endif()
 
-set(BINT_SRC Bint.cpp Bint.h)
-set(MATH_SRC Math.cpp Math.h)
+include_directories(include)
+set(BINT_SRC src/Bint.cpp)
+set(MATH_SRC src/Math.cpp)
 add_library(shareobjects OBJECT ${BINT_SRC} ${MATH_SRC})
 
 add_executable(test-main-fast tests/main.cpp ${BINT_SRC} ${MATH_SRC})

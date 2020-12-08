@@ -2,7 +2,7 @@
 #include <string>
 #include <cassert>
 #include <vector>
-#include "../Bint.h"
+#include <Bint/Bint.h>
 
 using namespace TigerTV;
 
