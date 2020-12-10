@@ -19,7 +19,8 @@ endif()
 # sources
 include_directories(include)
 aux_source_directory(src/Bint BINT_SRC)
-set(BINT_SRC ${BINT_SRC} src/Bint.cpp)
+aux_source_directory(src/Brat BRAT_SRC)
+set(BINT_SRC ${BINT_SRC} ${BRAT_SRC} src/Bint.cpp src/Brat.cpp)
 set(MATH_SRC src/Math.cpp)
 add_library(shareobjects OBJECT ${BINT_SRC} ${MATH_SRC})
 
