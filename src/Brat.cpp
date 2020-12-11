@@ -39,6 +39,11 @@ void Brat::simplify() {
 		numerator /= c;
 		denominator /= c;
 	}
+
+	if (denominator < 0) {
+		denominator = -denominator;
+		numerator = -numerator;
+	}
 }
 
 /*

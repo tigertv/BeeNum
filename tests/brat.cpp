@@ -21,6 +21,13 @@ int main() {
 	std::cout << "b = " << b.point(10) << std::endl;
 	std::cout << "c = " << c.point(50) << std::endl;
 	std::cout << std::endl;
+
+	Brat d("1", "3");
+	std::cout << "d = " << d << std::endl;
+	d = 7 / d;
+	std::cout << "d = " << d << std::endl;
+	//d = d / 5;
+	//std::cout << "d = " << d << std::endl;
 /*
 	Bint a;
 	Bint b;
