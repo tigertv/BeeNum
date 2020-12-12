@@ -41,7 +41,9 @@ private:
 
 public:
 	// Constructors
-	//Brat();
+	Brat();
+	Brat(const char* s);
+	Brat(const std::string& s);
 	Brat(const Bint& numerator, const Bint& denominator);
 
 	// String representation

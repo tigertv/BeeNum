@@ -29,8 +29,23 @@
 
 namespace TigerTV {
 
+Brat::Brat() {
+	//numerator = 0;
+	denominator = 1;
+}
+
 Brat::Brat(const Bint& numerator, const Bint& denominator) : numerator(numerator), denominator(denominator) {
 	simplify();
+}
+
+Brat::Brat(const std::string& s) {
+	auto end = s.find("/");	
+	numerator = s.substr(0, end);
+	denominator = s.substr(end + 1);
+}
+
+Brat::Brat(const char* s) : Brat((std::string)s) {
+
 }
 
 void Brat::simplify() {
@@ -46,18 +61,5 @@ void Brat::simplify() {
 	}
 }
 
-/*
-Bint::Bint() {
-	number.push_back(0);
-}
-
-Bint::Bint(const std::string& s) : Bint() {
-
-}
-
-Bint::Bint(const char* decimal) : Bint((std::string)decimal) {
-
-}
-//*/
 
 } // namespace
