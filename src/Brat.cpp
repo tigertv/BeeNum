@@ -38,10 +38,19 @@ Brat::Brat(const Bint& numerator, const Bint& denominator) : numerator(numerator
 	simplify();
 }
 
+Brat::Brat(const int64_t num) {
+	numerator = num;
+	denominator = 1;
+}
+
 Brat::Brat(const std::string& s) {
-	auto end = s.find("/");	
+	auto end = s.find('/');	
 	numerator = s.substr(0, end);
-	denominator = s.substr(end + 1);
+	if (end != std::string::npos) {
+		denominator = s.substr(end + 1);
+	} else {
+		denominator = 1;
+	}
 }
 
 Brat::Brat(const char* s) : Brat((std::string)s) {

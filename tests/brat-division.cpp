@@ -19,7 +19,7 @@ int main() {
 	};
 
 	///////////////////////////////////////////////////////////
-	std::cout << "product:" << std::endl;
+	std::cout << "division:" << std::endl;
 
 	std::cout << "positives:" << std::endl;
 	for (auto& s : data) {
