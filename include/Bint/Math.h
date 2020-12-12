@@ -38,7 +38,8 @@ private:
 	Math();
 	static Bint oddFact(const uint64_t a, const uint64_t begin); 
 public:
-	static Bint pow(const Bint& a, uint64_t pow);
+	static Bint pow(const Bint& a, uint64_t exp);
+	static Brat pow(const Brat& a, uint64_t exp);
 	static Bint modPow(const Bint& base, const uint64_t exp, const uint64_t mod);
 	static Bint fact(const uint64_t a);
 	static Bint gcd(const Bint& a, const Bint& b);

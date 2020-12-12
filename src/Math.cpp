@@ -203,4 +203,11 @@ Brat Math::lcm(const Brat& a, const Brat& b) {
 	return c;
 }
 
+Brat Math::pow(const Brat& a, uint64_t exp) {
+	Bint b = Math::pow(a.getNumerator(), exp);
+	Bint c = Math::pow(a.getDenominator(), exp);
+	Brat d(b, c);
+	return d;
+}
+
 } // namespace
