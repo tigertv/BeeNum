@@ -34,15 +34,15 @@ Brat::Brat(const Bint& numerator, const Bint& denominator) : numerator(numerator
 }
 
 void Brat::simplify() {
+	if (denominator < 0) {
+		denominator = -denominator;
+		numerator = -numerator;
+	}
+
 	Bint c = Math::gcd(numerator, denominator);
 	if (c != 1) {
 		numerator /= c;
 		denominator /= c;
-	}
-
-	if (denominator < 0) {
-		denominator = -denominator;
-		numerator = -numerator;
 	}
 }
 
