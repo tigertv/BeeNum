@@ -2,9 +2,8 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include <Bint/Brat.h>
-#include <Bint/Math.h>
-#include <chrono>
+#include <BeeNum/Brat.h>
+#include <BeeNum/Math.h>
 
 using namespace TigerTV;
 

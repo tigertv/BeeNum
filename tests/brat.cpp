@@ -3,8 +3,8 @@
 #include <cassert>
 #include <map>
 #include <chrono>
-#include <Bint/Brat.h>
-#include <Bint/Math.h>
+#include <BeeNum/Brat.h>
+#include <BeeNum/Math.h>
 
 
 using namespace TigerTV;

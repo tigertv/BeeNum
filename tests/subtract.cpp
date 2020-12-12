@@ -2,8 +2,7 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include "Bint/Bint.h"
-#include <chrono>
+#include <BeeNum/Bint.h>
 
 using namespace TigerTV;
 
@@ -13,8 +12,7 @@ int main() {
 	Bint b;
 	Bint c;
 
-	std::map<int, std::string> data;
-	data = {
+	std::map<int, std::string> data = {
 		{61, "2305843009213693952"}, {62, "4611686018427387904"}, {63, "9223372036854775808"},
 		{64, "18446744073709551616"}, {65, "36893488147419103232"}
 	};

@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include <Bint/Brat.h>
+#include <BeeNum/Brat.h>
 
 
 namespace TigerTV {

@@ -2,7 +2,7 @@
 #include <string>
 #include <cassert>
 #include <vector>
-#include <Bint/Brat.h>
+#include <BeeNum/Brat.h>
 #include <chrono>
 
 using namespace TigerTV;

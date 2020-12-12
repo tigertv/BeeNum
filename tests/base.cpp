@@ -2,8 +2,8 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include <Bint/Bint.h>
-#include <Bint/Math.h>
+#include <BeeNum/Bint.h>
+#include <BeeNum/Math.h>
 
 using namespace TigerTV;
 

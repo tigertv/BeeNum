@@ -1,4 +1,4 @@
-# Bint
+# BeeNum
 
 [![travis][travis-shield]][travis-link] [![github-actions][github-shield]][github-link]
 
@@ -51,7 +51,7 @@ Time difference = 90651[µs] (g++ -O0)
 Time difference = 15621[µs] (g++ -Ofast)
 ```
 
-[travis-shield]: https://img.shields.io/travis/tigertv/Bint/master.svg?style=for-the-badge&logo=travis
-[travis-link]: https://travis-ci.org/tigertv/Bint
-[github-shield]: https://img.shields.io/github/workflow/status/tigertv/Bint/Release.svg?style=for-the-badge&logo=github
-[github-link]: https://github.com/tigertv/Bint/actions
+[travis-shield]: https://img.shields.io/travis/tigertv/BeeNum/master.svg?style=for-the-badge&logo=travis
+[travis-link]: https://travis-ci.org/tigertv/BeeNum
+[github-shield]: https://img.shields.io/github/workflow/status/tigertv/BeeNum/Release.svg?style=for-the-badge&logo=github
+[github-link]: https://github.com/tigertv/BeeNum/actions

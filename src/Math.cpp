@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-#include <Bint/Math.h>
+#include <BeeNum/Math.h>
 
 
 namespace TigerTV {

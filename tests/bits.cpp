@@ -2,7 +2,7 @@
 #include <string>
 #include <cassert>
 #include <vector>
-#include <Bint/Bint.h>
+#include <BeeNum/Bint.h>
 
 using namespace TigerTV;
 
