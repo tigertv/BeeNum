@@ -28,6 +28,7 @@
 #define TIGERTV_MATH_H
 
 #include "Bint.h"
+#include "Brat.h"
 
 
 namespace TigerTV {
@@ -41,7 +42,9 @@ public:
 	static Bint modPow(const Bint& base, const uint64_t exp, const uint64_t mod);
 	static Bint fact(const uint64_t a);
 	static Bint gcd(const Bint& a, const Bint& b);
+	static Brat gcd(const Brat& a, const Brat& b);
 	static Bint lcm(const Bint& a, const Bint& b);
+	static Brat lcm(const Brat& a, const Brat& b);
 	static Bint fib(const uint64_t a);
 };
 

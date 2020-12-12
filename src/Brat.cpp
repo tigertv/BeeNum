@@ -70,5 +70,13 @@ void Brat::simplify() {
 	}
 }
 
+Bint Brat::getNumerator() const {
+	return numerator;
+}
+
+Bint Brat::getDenominator() const {
+	return denominator;
+}
+
 
 } // namespace

@@ -47,6 +47,10 @@ public:
 	Brat(const std::string& s);
 	Brat(const Bint& numerator, const Bint& denominator);
 
+	// getters
+	Bint getNumerator() const;
+	Bint getDenominator() const;
+
 	// String representation
 	std::string toString() const;
 	std::string base(const uint64_t base) const;

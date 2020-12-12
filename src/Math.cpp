@@ -189,5 +189,18 @@ Bint Math::fib(const uint64_t a) {
 	return fn;
 }
 
+Brat Math::gcd(const Brat& a, const Brat& b) {
+	Bint numerator = gcd(a.getNumerator(), b.getNumerator());
+	Bint denominator = lcm(a.getDenominator(), b.getDenominator());
+	Brat c(numerator, denominator);
+	return c;
+}
+
+Brat Math::lcm(const Brat& a, const Brat& b) {
+	Brat c = a * b / gcd(a, b);
+	Brat zero;
+	if (c < zero) return -c;
+	return c;
+}
 
 } // namespace
