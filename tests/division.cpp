@@ -4,7 +4,7 @@
 #include <map>
 #include <BeeNum/Bint.h>
 
-using namespace TigerTV;
+using namespace BeeNum;
 
 
 int main() {

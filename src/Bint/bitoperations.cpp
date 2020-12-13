@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * This file is part of the big-integer (https://github.com/tigertv/big-integer).
+ * This file is part of the BeeNum (https://github.com/tigertv/BeeNum).
  * Copyright (c) 2020 Max Vetrov(tigertv).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,8 +25,8 @@
 
 #include <BeeNum/Bint.h>
 
-namespace TigerTV {
 
+namespace BeeNum {
 
 Bint& Bint::bitOperation(const Bint& a, std::function<uint64_t(uint64_t&,const uint64_t&)>&& lambda) {
 	Bint aa(a);

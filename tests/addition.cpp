@@ -5,7 +5,7 @@
 #include <BeeNum/Bint.h>
 #include <chrono>
 
-using namespace TigerTV;
+using namespace BeeNum;
 
 
 int main() {
