@@ -3,7 +3,6 @@
 #include <cassert>
 #include <map>
 #include <BeeNum/Bint.h>
-#include <BeeNum/Math.h>
 
 using namespace BeeNum;
 

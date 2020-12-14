@@ -41,12 +41,15 @@ std::string Brat::base(const uint64_t base) const {
 }
 
 std::string Brat::point(const uint64_t num) const {
-	int base = 10;
+	return point(num, 10);
+}
+
+std::string Brat::point(const uint64_t num, const uint64_t base) const {
 	Bint a = numerator;
 	Bint t = a / denominator; 
 	a %= denominator;
-	std::string s = t.toString() + '.';
-	std::string temp;
+	std::string s = t.base(base);
+	s = s.substr(0, s.find('_')) + '.';
 	uint64_t i;
 
 	// get zeros
@@ -55,7 +58,7 @@ std::string Brat::point(const uint64_t num) const {
 		t = a / denominator; 
 		a %= denominator;
 		if (t != 0) break;
-		s += '0'; // wrong for alphabet beginning from not '0'
+		s += '0'; // TODO: replace, it's wrong for alphabet beginning from not '0'
 	}
 
 	// get rest
@@ -71,48 +74,6 @@ std::string Brat::point(const uint64_t num) const {
 
 	return s + b.base(base);
 }
-/*
-
-std::string Bint::bin() const {
-	return "0b" + base2(1);
-}
-
-std::string Bint::base2(const uint64_t base) const {
-	uint64_t mask = (1 << base) - 1;
-	std::string s = "";
-
-	Bint a(*this);
-	uint64_t j = a.number.size() << 6;
-	const uint64_t limit = j / base;
-	const uint64_t rmd = j % base;
-	j = 0;
-
-	for(uint64_t i = 0; i < limit; i++) {
-		j = a.number[0] & mask;
-		s.push_back(alphabet[j]);
-		a.urshift(base);
-	}
-
-	if (rmd) {
-		j = a.number[0] & mask;
-		s.push_back(alphabet[j]);
-	}
-
-	if (s.size() == 0) return "0";
-	std::reverse(s.begin(), s.end());
-	return s;
-}
-
-
-std::string Bint::hex() const {
-	return "0x" + base2(4);
-}
-
-std::string Bint::oct() const {
-	return "0" + base2(3);
-}
-
-//*/
 
 ////////////////////////////////////////////////////////////////////////
 //            INPUT-OUTPUT FUNCTIONS

@@ -55,6 +55,7 @@ public:
 	std::string toString() const;
 	std::string base(const uint64_t base) const;
 	std::string point(const uint64_t num) const;
+	std::string point(const uint64_t num, const uint64_t base) const;
 	operator std::string() const;
 
 	// Arithmetics

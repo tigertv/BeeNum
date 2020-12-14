@@ -51,6 +51,7 @@ Brat::Brat(const std::string& s) {
 	} else {
 		denominator = 1;
 	}
+	simplify();
 }
 
 Brat::Brat(const char* s) : Brat((std::string)s) {
