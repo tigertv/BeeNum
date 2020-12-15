@@ -54,7 +54,7 @@ Time difference = 15621[µs] (g++ -Ofast)
 ```
 
 Rationals(fractions):
-```
+```cpp
 Brat a(1, "34534534");
 Brat b("-SomeNumbersAreHere_b62", "-SomeNumbersAreHere_b62");  // base 62
 Brat c = "-9:10:79:100:16:3:35:72:76:15:11_b101 / 2";          // base 101
