@@ -28,9 +28,9 @@ add_library(shareobjects OBJECT ${BINT_SRC} ${MATH_SRC})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
-add_library(Bint SHARED ${BINT_SRC} ${MATH_SRC})
-add_library(Bint_static STATIC $<TARGET_OBJECTS:shareobjects>)
-set_target_properties(Bint_static PROPERTIES OUTPUT_NAME Bint)
+add_library(BeeNum SHARED ${BINT_SRC} ${MATH_SRC})
+add_library(BeeNum_static STATIC $<TARGET_OBJECTS:shareobjects>)
+set_target_properties(BeeNum_static PROPERTIES OUTPUT_NAME BeeNum)
 
 # tests
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
