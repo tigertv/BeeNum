@@ -48,10 +48,16 @@ std::string Brat::point(const uint64_t num, const uint64_t base) const {
 	Bint a = numerator;
 	Bint t = a / denominator; 
 	a %= denominator;
-	std::string s = t.base(base);
-	s = s.substr(0, s.find('_')) + '.';
-	uint64_t i;
 
+	if (a < 0) {
+		a = -a;
+	}
+
+	std::string s = (t == 0 && numerator < 0) ? "-" : "";
+	s += t.base(base);
+	s = s.substr(0, s.find('_')) + '.';
+
+	uint64_t i;
 	// get zeros
 	for (i = num; i != 0; --i) {
 		a *= base;
@@ -59,6 +65,7 @@ std::string Brat::point(const uint64_t num, const uint64_t base) const {
 		a %= denominator;
 		if (t != 0) break;
 		s += '0'; // TODO: replace, it's wrong for alphabet beginning from not '0'
+		if (base > 62) s += ':'; // TODO: replace, alphabet's size specific
 	}
 
 	// get rest

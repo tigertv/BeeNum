@@ -2,7 +2,9 @@
 
 [![travis][travis-shield]][travis-link] [![github-actions][github-shield]][github-link]
 
-An implementation of BigInteger library in C++
+BeeNum is an arbitrary-precision arithmetic library.
+
+Integers:   
 
 ```cpp
 Bint a = "372542872459";
@@ -49,6 +51,29 @@ Factorial of 4000 takes:
 ```
 Time difference = 90651[µs] (g++ -O0)
 Time difference = 15621[µs] (g++ -Ofast)
+```
+
+Rationals(fractions):
+```
+Brat a(1, "34534534");
+Brat b("-SomeNumbersAreHere_b62", "-SomeNumbersAreHere_b62");  // base 62
+Brat c = "-9:10:79:100:16:3:35:72:76:15:11_b101 / 2";          // base 101
+
+a += b;
+a *= c;
+
+std::cout << "a = " << a << std::endl;
+std::cout << "a b62 = " << a.base(62) << std::endl;
+std::cout << "a point = " << a.point(50) << std::endl;
+std::cout << "a point b62 = " << a.point(50, 62) << std::endl;
+```
+
+Output:
+```
+a = -8481309383972525015147919680/1364114093
+a b62 = -b1SuMDAel1Q1KSPK_b62/1ujGod_b62
+a point = -6217448692521150439.53872535792356189666607307751053342427421135073633
+a point b62 = -7phYORB5xyv.xoRkTP8foonNxN1XMIa36GVhBAE59zioI0aAFYKQVLym6m6QrT_b62
 ```
 
 [travis-shield]: https://img.shields.io/travis/tigertv/BeeNum/master.svg?style=for-the-badge&logo=travis
