@@ -120,7 +120,12 @@ std::string Bint::base(const uint64_t base) const {
 		current = res;
 	}
 
-	if (s.size() == 0) return "0";
+	if (s.size() == 0) {
+		s = "0";
+		if (base == 10) return s;
+		return s + "_b" + std::to_string(base);
+	}
+
 	if (isBaseBig) s.pop_back();
 	if (neg) s += '-';
 
