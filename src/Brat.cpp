@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * This file is part of the big-integer (https://github.com/tigertv/big-integer).
+ * This file is part of the BeeNum (https://github.com/tigertv/BeeNum).
  * Copyright (c) 2020 Max Vetrov(tigertv).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,29 +23,61 @@
  * SOFTWARE.
  */
 
-
-#ifndef TIGERTV_MATH_H
-#define TIGERTV_MATH_H
-
-#include "Bint.h"
+#include <BeeNum/Brat.h>
+#include <BeeNum/Math.h>
 
 
-namespace TigerTV {
+namespace BeeNum {
 
-class Math {
-private:
-	Math();
-	static Bint oddFact(const uint64_t a, const uint64_t begin); 
-public:
-	static Bint pow(const Bint& a, uint64_t pow);
-	static Bint modPow(const Bint& base, const uint64_t exp, const uint64_t mod);
-	static Bint fact(const uint64_t a);
-	static Bint gcd(const Bint& a, const Bint& b);
-	static Bint lcm(const Bint& a, const Bint& b);
-	static Bint fib(const uint64_t a);
-};
+Brat::Brat() {
+	//numerator = 0;
+	denominator = 1;
+}
+
+Brat::Brat(const Bint& numerator, const Bint& denominator) : numerator(numerator), denominator(denominator) {
+	simplify();
+}
+
+Brat::Brat(const int64_t num) {
+	numerator = num;
+	denominator = 1;
+}
+
+Brat::Brat(const std::string& s) {
+	auto end = s.find('/');	
+	numerator = s.substr(0, end);
+	if (end != std::string::npos) {
+		denominator = s.substr(end + 1);
+	} else {
+		denominator = 1;
+	}
+	simplify();
+}
+
+Brat::Brat(const char* s) : Brat((std::string)s) {
+
+}
+
+void Brat::simplify() {
+	if (denominator < 0) {
+		denominator = -denominator;
+		numerator = -numerator;
+	}
+
+	Bint c = Math::gcd(numerator, denominator);
+	if (c != 1) {
+		numerator /= c;
+		denominator /= c;
+	}
+}
+
+Bint Brat::getNumerator() const {
+	return numerator;
+}
+
+Bint Brat::getDenominator() const {
+	return denominator;
+}
 
 
 } // namespace
-
-#endif

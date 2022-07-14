@@ -2,11 +2,11 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include <Bint/Bint.h>
-#include <Bint/Math.h>
+#include <BeeNum/Bint.h>
+#include <BeeNum/Math.h>
 #include <chrono>
 
-using namespace TigerTV;
+using namespace BeeNum;
 
 
 int main() {
@@ -20,12 +20,17 @@ std::string s = "182880195151406501331474317557391904421737771073043921970645269
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	a = Math::fact(d);
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+	std::cout << "a = " << a << std::endl;
 	
-	assert(a.toString()==s);
+	assert(a.toString() == s);
 
-	//std::cout << "a b1000 = " << a.base(1000) << std::endl;
 	std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count() << "[µs]" << std::endl;
 	std::cout << "Time difference = " << std::chrono::duration_cast<std::chrono::nanoseconds> (end - begin).count() << "[ns]" << std::endl;
 	std::cout << std::endl;
+
+	a = Math::fact(22);
+	std::cout << "a = fact(22) " << std::endl;
+	std::cout << "a = " << a << std::endl;
+	assert(a.toString() == "1124000727777607680000");
 
 }

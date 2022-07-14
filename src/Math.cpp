@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * This file is part of the big-integer (https://github.com/tigertv/big-integer).
+ * This file is part of the BeeNum (https://github.com/tigertv/BeeNum).
  * Copyright (c) 2020 Max Vetrov(tigertv).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,10 +23,10 @@
  * SOFTWARE.
  */
 
-#include <Bint/Math.h>
+#include <BeeNum/Math.h>
 
 
-namespace TigerTV {
+namespace BeeNum {
 
 
 Bint Math::pow(const Bint& a, uint64_t exp) {
@@ -111,8 +111,8 @@ Bint Math::oddFact(const uint64_t a, const uint64_t begin) {
 	Bint last(n + 2);
 	last *= (begin - 2);
 	
-	for (uint64_t m = n - begin + 2; m >= 2; m -= 4) {
-		last += m << 1;
+	for (uint64_t m = (n - begin + 2) * 2; m >= 4; m -= 8) {
+		last += m;
 		ret *= last;
 	}
 
@@ -189,5 +189,25 @@ Bint Math::fib(const uint64_t a) {
 	return fn;
 }
 
+Brat Math::gcd(const Brat& a, const Brat& b) {
+	Bint numerator = gcd(a.getNumerator(), b.getNumerator());
+	Bint denominator = lcm(a.getDenominator(), b.getDenominator());
+	Brat c(numerator, denominator);
+	return c;
+}
+
+Brat Math::lcm(const Brat& a, const Brat& b) {
+	Brat c = a * b / gcd(a, b);
+	Brat zero;
+	if (c < zero) return -c;
+	return c;
+}
+
+Brat Math::pow(const Brat& a, uint64_t exp) {
+	Bint b = Math::pow(a.getNumerator(), exp);
+	Bint c = Math::pow(a.getDenominator(), exp);
+	Brat d(b, c);
+	return d;
+}
 
 } // namespace

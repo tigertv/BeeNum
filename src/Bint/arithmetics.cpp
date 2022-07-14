@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * This file is part of the big-integer (https://github.com/tigertv/big-integer).
+ * This file is part of the BeeNum (https://github.com/tigertv/BeeNum).
  * Copyright (c) 2020 Max Vetrov(tigertv).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,9 +23,10 @@
  * SOFTWARE.
  */
 
-#include <Bint/Bint.h>
+#include <BeeNum/Bint.h>
 
-namespace TigerTV {
+
+namespace BeeNum {
 
 Bint Bint::operator + (const Bint& a) const {
 	Bint b = *this;
@@ -80,16 +81,13 @@ Bint& Bint::operator += (const int64_t a) {
 	bool carry = false;
 	addUintWithCarry(number[0], a, carry);
 
-	if (carry) {
-		if (negA) {
-			for(int j = 1; j < (int)number.size(); j++) {
-				addUintWithCarry(number[j], -1, carry);
-			}
-		} else {
-			for(int j = 1; j < (int)number.size(); j++) {
-				addUintWithCarry(number[j], 0, carry);
-				if (!carry) break;
-			}
+	if (negA) {
+		for(int j = 1; j < (int)number.size(); j++) {
+			addUintWithCarry(number[j], -1, carry);
+		}
+	} else {
+		for(int j = 1; carry && j < (int)number.size(); j++) {
+			addUintWithCarry(number[j], 0, carry);
 		}
 	}
 

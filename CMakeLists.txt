@@ -19,7 +19,8 @@ endif()
 # sources
 include_directories(include)
 aux_source_directory(src/Bint BINT_SRC)
-set(BINT_SRC ${BINT_SRC} src/Bint.cpp)
+aux_source_directory(src/Brat BRAT_SRC)
+set(BINT_SRC ${BINT_SRC} ${BRAT_SRC} src/Bint.cpp src/Brat.cpp)
 set(MATH_SRC src/Math.cpp)
 add_library(shareobjects OBJECT ${BINT_SRC} ${MATH_SRC})
 
@@ -27,9 +28,9 @@ add_library(shareobjects OBJECT ${BINT_SRC} ${MATH_SRC})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
-add_library(Bint SHARED ${BINT_SRC} ${MATH_SRC})
-add_library(Bint_static STATIC $<TARGET_OBJECTS:shareobjects>)
-set_target_properties(Bint_static PROPERTIES OUTPUT_NAME Bint)
+add_library(BeeNum SHARED ${BINT_SRC} ${MATH_SRC})
+add_library(BeeNum_static STATIC $<TARGET_OBJECTS:shareobjects>)
+set_target_properties(BeeNum_static PROPERTIES OUTPUT_NAME BeeNum)
 
 # tests
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")

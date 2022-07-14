@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * This file is part of the big-integer (https://github.com/tigertv/big-integer).
+ * This file is part of the BeeNum (https://github.com/tigertv/BeeNum).
  * Copyright (c) 2020 Max Vetrov(tigertv).
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,9 +24,10 @@
  */
 
 #include <algorithm>
-#include <Bint/Bint.h>
+#include <BeeNum/Bint.h>
 
-namespace TigerTV {
+
+namespace BeeNum {
 
 Bint::operator std::string() const {
 	return this->toString();
@@ -119,7 +120,12 @@ std::string Bint::base(const uint64_t base) const {
 		current = res;
 	}
 
-	if (s.size() == 0) return "0";
+	if (s.size() == 0) {
+		s = "0";
+		if (base == 10) return s;
+		return s + "_b" + std::to_string(base);
+	}
+
 	if (isBaseBig) s.pop_back();
 	if (neg) s += '-';
 

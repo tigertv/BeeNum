@@ -2,10 +2,10 @@
 #include <string>
 #include <cassert>
 #include <vector>
-#include <Bint/Bint.h>
-#include <Bint/Math.h>
+#include <BeeNum/Bint.h>
+#include <BeeNum/Math.h>
 
-using namespace TigerTV;
+using namespace BeeNum;
 
 
 int main() {

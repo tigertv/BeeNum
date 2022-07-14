@@ -2,61 +2,45 @@
 #include <string>
 #include <cassert>
 #include <map>
-#include "Bint/Bint.h"
-#include <chrono>
+#include <BeeNum/Bint.h>
 
-using namespace TigerTV;
+using namespace BeeNum;
 
 
 int main() {
-	Bint a;
-	Bint b;
-	Bint c;
 
-	std::map<int, std::string> data;
-	data = {
-		{61, "2305843009213693952"}, {62, "4611686018427387904"}, {63, "9223372036854775808"},
-		{64, "18446744073709551616"}, {65, "36893488147419103232"}
+	std::string data[][3] = {
+		{"-500000000000000000000", "500000000000000000000", "-1000000000000000000000"},
+		{"500000000000000000000", "-500000000000000000000", "1000000000000000000000"},
+		{"18446744073709551616", "1", "18446744073709551615"}, // (1 << 64) - 1
+		{"115792089237316195423570985008687907853269984665640564039457584007913129639936", "1", "115792089237316195423570985008687907853269984665640564039457584007913129639935"}, // (1 << 256) - 1
 	};
 
 	///////////////////////////////////////////////////////////
 
-	std::cout << "subtraction:" << std::endl;
-	std::string s = "5000000000000000000";
+	Bint a;
+	Bint b;
+	Bint c;
+	std::string s;
 
-	a = "-" + s;
-	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.bin() << std::endl;
+	for (auto& item: data) {
+		a = item[0];
+		std::cout << "a = " << a << std::endl;
+		std::cout << "a = " << a.hex() << std::endl;
 
-	b = s;
-	std::cout << "b = " << b << std::endl;
-	std::cout << "b = " << b.bin() << std::endl;
+		b = item[1];
+		std::cout << "b = " << b << std::endl;
+		std::cout << "b = " << b.hex() << std::endl;
 
-	c = a - b;
-	std::cout << "c = " << c << std::endl;
-	std::cout << "c = " << c.bin() << std::endl;
-	assert(c.toString()=="-10000000000000000000");
-	std::cout << std::endl;
+		s = item[2];
+		std::cout << "s = " << s << std::endl;
 
-	///////////////////////////////////////////////////////////
+		c = a - b;
+		std::cout << "c = " << c << std::endl;
+		std::cout << "c = " << c.hex() << std::endl;
+		std::cout << std::endl;
 
-	s = "50000000000000000000";
-
-	b = s;
-	std::cout << "b = " << b << std::endl;
-	std::cout << "b = " << b.bin() << std::endl;
-
-	a = "-" + s;
-	std::cout << "a = " << a << std::endl;
-	std::cout << "a = " << a.bin() << std::endl;
-
-	c = b - a;
-	std::cout << "c = " << c << std::endl;
-	std::cout << "c = " << c.bin() << std::endl;
-	assert(c.toString()=="100000000000000000000");
-	std::cout << std::endl;
-
-	///////////////////////////////////////////////////////////
-
+		assert(c.toString() == s);
+	}
 
 }

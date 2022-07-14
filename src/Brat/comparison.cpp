@@ -23,66 +23,68 @@
  * SOFTWARE.
  */
 
-#include <BeeNum/Bint.h>
+#include <BeeNum/Brat.h>
 
 
 namespace BeeNum {
 
+bool Brat::operator == (const Brat& b) const {
+	return (numerator == b.numerator && denominator == b.denominator);
+}
+
+bool Brat::operator != (const Brat& b) const {
+	return (numerator != b.numerator || denominator != b.denominator);
+}
+
+bool Brat::operator > (const Brat& b) const {
+	Brat a(*this);
+	Brat bb(b);
+
+	a.numerator *= bb.denominator;
+	bb.numerator *= a.denominator;
+	a.denominator *= bb.denominator;
+	bb.denominator = a.denominator;
+
+	if (a.denominator > 0) {
+		return (a.numerator > bb.numerator);
+	}
+
+	return (a.numerator < bb.numerator);
+}
+
+bool Brat::operator < (const Brat& b) const {
+	Brat a(*this);
+	Brat bb(b);
+
+	a.numerator *= bb.denominator;
+	bb.numerator *= a.denominator;
+	a.denominator *= bb.denominator;
+	bb.denominator = a.denominator;
+
+	if (a.denominator > 0) {
+		return (a.numerator < bb.numerator);
+	}
+
+	return (a.numerator > bb.numerator);
+}
+
+bool Brat::operator <= (const Brat& b) const {
+	return !(*this > b);
+}
+
+bool Brat::operator >= (const Brat& b) const {
+	return !(*this < b);
+}
+
+/*
 bool Bint::operator == (const int64_t a) const {
 	if (number.size() != 1) return false;
 	return (number[0] == (uint64_t)a); 
 }
 
-bool Bint::operator == (const Bint &b) const {
-	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return false;
-	if (number.size() > n.size()) return false;
-
-	for(int i = (int)n.size() - 1; i >= 0; i--) {
-		if(number[i] != n[i]) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 bool Bint::operator != (const int64_t a) const {
 	if (number.size() != 1) return true;
 	return (number[0] != (uint64_t)a); 
-}
-
-bool Bint::operator != (const Bint &b) const {
-	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return true;
-	if (number.size() > n.size()) return true;
-
-	for(int i = (int)n.size() - 1; i >= 0; i--) {
-		if(number[i] != n[i]) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool Bint::operator > (const Bint& b) const {
-	bool neg = isNegative();
-	bool negB = b.isNegative();
-	if (neg != negB) return negB;
-
-	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return neg;
-	if (number.size() > n.size()) return !neg;
-
-	for(int i = (int)n.size() - 1; i >= 0; i--) {
-		if(number[i] > n[i]) {
-			return true;
-		}
-		if(number[i] != n[i]) return false;
-	}
-
-	return false;
 }
 
 bool Bint::operator > (const int64_t a) const {
@@ -101,32 +103,6 @@ bool Bint::operator < (const int64_t a) const {
 	return (number[0] < (uint64_t)a);
 }
 
-bool Bint::operator < (const Bint &b) const {
-	bool neg = isNegative();
-	bool negB = b.isNegative();
-	if (neg != negB) return neg;
-
-	const std::vector<uint64_t>& n = b.number;
-	if (number.size() < n.size()) return !neg;
-	if (number.size() > n.size()) return neg;
-
-	for(int i = (int)n.size() - 1; i >= 0; i--) {
-		if(number[i] < n[i]) {
-			return true;
-		}
-		if(number[i] != n[i]) return false;
-	}
-
-	return false;
-}
-
-bool Bint::operator <= (const Bint &b) const {
-	return !(*this > b);
-}
-
-bool Bint::operator >= (const Bint &b) const {
-	return !(*this < b);
-}
 
 bool Bint::operator <= (const int64_t a) const {
 	return !(*this > a);
@@ -163,5 +139,6 @@ bool operator < (const int64_t a, const Bint &b) {
 bool operator > (const int64_t a, const Bint &b) {
 	return b < a;
 }
+//*/
 
 } // namespace
