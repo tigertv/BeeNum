@@ -81,16 +81,13 @@ Bint& Bint::operator += (const int64_t a) {
 	bool carry = false;
 	addUintWithCarry(number[0], a, carry);
 
-	if (carry) {
-		if (negA) {
-			for(int j = 1; j < (int)number.size(); j++) {
-				addUintWithCarry(number[j], -1, carry);
-			}
-		} else {
-			for(int j = 1; j < (int)number.size(); j++) {
-				addUintWithCarry(number[j], 0, carry);
-				if (!carry) break;
-			}
+	if (negA) {
+		for(int j = 1; j < (int)number.size(); j++) {
+			addUintWithCarry(number[j], -1, carry);
+		}
+	} else {
+		for(int j = 1; carry && j < (int)number.size(); j++) {
+			addUintWithCarry(number[j], 0, carry);
 		}
 	}
 
