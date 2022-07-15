@@ -1,6 +1,6 @@
 # BeeNum
 
-[![travis][travis-shield]][travis-link] [![github-actions][github-shield]][github-link]
+[![github-actions][github-shield]][github-link]
 
 BeeNum is an arbitrary-precision arithmetic library.
 
@@ -76,7 +76,5 @@ a point = -6217448692521150439.5387253579235618966660730775105334242742113507363
 a point b62 = -7phYORB5xyv.xoRkTP8foonNxN1XMIa36GVhBAE59zioI0aAFYKQVLym6m6QrT_b62
 ```
 
-[travis-shield]: https://img.shields.io/travis/tigertv/BeeNum/master.svg?style=for-the-badge&logo=travis
-[travis-link]: https://travis-ci.org/tigertv/BeeNum
 [github-shield]: https://img.shields.io/github/workflow/status/tigertv/BeeNum/Release.svg?style=for-the-badge&logo=github
 [github-link]: https://github.com/tigertv/BeeNum/actions
