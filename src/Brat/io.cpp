@@ -55,7 +55,7 @@ std::string Brat::point(const uint64_t num, const uint64_t base) const {
 
 	std::string s = (t == 0 && numerator < 0) ? "-" : "";
 	s += t.base(base);
-	s = s.substr(0, s.find('_')) + '.';
+	s = s.substr(0, s.find("::")) + '.';
 
 	uint64_t i;
 	// get zeros

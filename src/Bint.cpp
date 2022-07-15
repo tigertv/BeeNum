@@ -36,7 +36,7 @@ Bint::Bint() {
 }
 
 Bint::Bint(const std::string& s) : Bint() {
-	std::string::size_type n = s.rfind("_b");
+	std::string::size_type n = s.rfind("::");
 	int base;
 	if (n == std::string::npos) {
 		base = 10;

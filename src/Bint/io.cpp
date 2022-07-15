@@ -123,7 +123,7 @@ std::string Bint::base(const uint64_t base) const {
 	if (s.size() == 0) {
 		s = "0";
 		if (base == 10) return s;
-		return s + "_b" + std::to_string(base);
+		return s + "::" + std::to_string(base);
 	}
 
 	if (isBaseBig) s.pop_back();
@@ -132,7 +132,7 @@ std::string Bint::base(const uint64_t base) const {
 	std::reverse(s.begin(), s.end());
 
 	if (base == 10) return s;
-	return s + "_b" + std::to_string(base);
+	return s + "::" + std::to_string(base);
 }
 
 ////////////////////////////////////////////////////////////////////////
